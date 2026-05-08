@@ -1,0 +1,13 @@
+{
+    "name": "plugin68/flycart",
+    "description": "Plugin helps display a mini cart and related product suggestions every time an item is added to the cart, the quantity is changed, or a product is removed directly from the mini cart",
+    "autoload": {
+        "psr-4": {
+            "plugin68\\flycart\\": "classes/src/"
+        }
+    },
+    "authors": [{
+        "name": "Plugin68.com"
+    }],
+    "require": {}
+}

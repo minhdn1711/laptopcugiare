@@ -1,0 +1,46 @@
+jQuery(document).ready(function(){
+
+	jQuery('#view_kp_logs').click(function(){
+		jQuery('#kp-logs-wrapper').toggleClass('open');
+	});
+
+	jQuery('#buy_other_point').click(function(){
+		jQuery('#other-amount-block').slideToggle();
+		return false;
+	});
+
+	jQuery('.popup-charge .buy-point a').click(function(){
+		jQuery('#other-amount-block').show();
+		jQuery('#kp-custom-amount').val(jQuery(this).text());
+		onCustomAmountChange();
+		return false;
+	});
+	jQuery('.popup-charge .buy-point a').first().click();
+
+	jQuery('#kp-custom-amount').change(function(){
+		onCustomAmountChange();
+	});
+
+	if(jQuery.modalLink){
+		jQuery('body').on('click','.charge-kpoint',function(){
+			jQuery.modalLink.open(jQuery(this).attr("href"), {
+		        title: jQuery(this).text(),
+		    });
+			
+			return false;	
+		});
+		
+	}
+	
+
+	function onCustomAmountChange(){
+		var point = jQuery('#kp-custom-amount').val().trim();
+		point = point.replaceAll(".","");
+		point = point.replaceAll(",","");
+		point = parseInt(point);
+		if(rate_point_to_currency){
+			var price = point * rate_point_to_currency;
+			jQuery('#process-charge-point').val("Nạp " + point.toLocaleString() + " " + point_label + " với " + price.toLocaleString() + " " + currency_symbol )	;
+		}
+	}
+});

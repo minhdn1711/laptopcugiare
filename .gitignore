@@ -1,0 +1,62 @@
+# WordPress .gitignore
+# Ignore core WordPress files (optional - uncomment if you want to track core)
+# /wp-admin/
+# /wp-includes/
+
+# Ignore wp-config.php (contains sensitive database info)
+wp-config.php
+
+# Ignore uploads directory (media files can be large and are often environment-specific)
+wp-content/uploads/
+
+# Ignore plugins and themes if they are installed via Composer or are third-party
+# Uncomment the following lines if you manage plugins/themes via Composer or don't want to track them
+# wp-content/plugins/
+# wp-content/themes/
+
+# Ignore cache and temp files
+wp-content/cache/
+wp-content/w3tc-config/
+wp-content/advanced-cache.php
+wp-content/db.php
+wp-content/object-cache.php
+
+# Ignore logs
+*.log
+wp-content/debug.log
+
+# Ignore environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore node_modules if using npm for front-end assets
+node_modules/
+
+# Ignore build directories
+build/
+dist/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Composer
+/vendor/
+
+# PHP
+composer.lock

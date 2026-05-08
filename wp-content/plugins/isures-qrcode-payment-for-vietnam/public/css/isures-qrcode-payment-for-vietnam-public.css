@@ -1,0 +1,109 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+.vicweb-payment--bacs_wrap {
+    display: block;
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-shadow: 0 0 20px 0 rgba(76, 87, 125, .02);
+    margin-bottom: 25px;
+}
+
+.vicweb-payment--logo_wrap {
+    display: block;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.vicweb-payment--logo_wrap .vicweb-payment--logo {
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    overflow: hidden;
+    opacity: .5;
+    transition: all 200ms ease-in-out;
+    padding: 5px;
+}
+
+.vicweb-payment--logo_wrap .vicweb-payment--logo img {
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+    min-height: 45px;
+    max-height: 45px;
+    object-fit: contain;
+}
+
+.payment_info_wrap:not(.active) {
+    display: none;
+}
+
+span.vicweb-payment--logo.active {
+    border-color: red;
+    opacity: 1;
+}
+
+.payment_info_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px auto;
+}
+
+.payment-info {
+    flex-basis: calc(100% - 150px);
+    padding: 10px 15px;
+    font-size: 15px;
+}
+
+.payment_info_wrap .qr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.select_bank_title {
+    margin-bottom: 10px;
+}
+
+.payment-info .note {
+    margin: 10px auto;
+    background: #f3f5f7;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.note strong {
+    color: #1e427e;
+}
+
+@media screen and (max-width: 768px) {
+    .vicweb-payment--logo_wrap {
+        display: block;
+        white-space: nowrap;
+        overflow-x: auto;
+        padding: 8px 0;
+    }
+    .vicweb-payment--logo_wrap .vicweb-payment--logo {
+        display: inline-block;
+        margin-bottom: 0 !important;
+    }
+    .payment_info_wrap {
+        flex-wrap: wrap;
+    }
+    .payment-info {
+        flex-basis: 100%;
+        text-align: center;
+    }
+    .payment_info_wrap .qr {
+        padding: 0 50px;
+    }
+}

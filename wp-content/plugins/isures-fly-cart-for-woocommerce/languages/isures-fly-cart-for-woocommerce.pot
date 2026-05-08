@@ -1,0 +1,223 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: iSures Fly Cart For Woocommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-13 11:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.6; wp-6.4.2\n"
+"X-Domain: isures-fly-cart-for-woocommerce"
+
+#: admin/partials/inc/about-us.php:15
+msgid ""
+"A plugin to filter products, widget options like: <strong> filter by "
+"attribute, filter by price, category... </strong> Supports screen shapes "
+"like <strong> images, colors , text </strong>."
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:52
+#: admin/partials/inc/about-us.php:2
+msgid "About us"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:27
+msgid ""
+"Appointment booking plugin for salons can choose service + technician + date "
+"and time, send notification when someone book an appointment via email & "
+"telegram..."
+msgstr ""
+
+#: admin/partials/inc/about-us.php:73
+msgid ""
+"Build PC for Woocommerce is an extension for woocommerce plugin. The Build "
+"PC feature make shoppers easy to build PCs according to their needs. A "
+"greatest sales solution if you are in the computer parts business. This "
+"plugin includes features such as product options, attribute filters, ajax "
+"pagination, add to cart multi product ajax."
+msgstr ""
+
+#: admin/class-isures-fly-cart-for-woocommerce-admin.php:86
+msgid "Contact Support"
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:30
+msgid "Contact us"
+msgstr ""
+
+#: classes/src/Helpers.php:138
+msgid "Continue shopping"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:84
+msgid ""
+"Create flash sale campaigns quickly, centrally manage and can create "
+"unlimited campaigns. Run at preset intervals or repeat at daily intervals."
+msgstr ""
+
+#: admin/class-isures-fly-cart-for-woocommerce-admin.php:80
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:31
+msgid "Document"
+msgstr ""
+
+#: admin/class-isures-fly-cart-for-woocommerce-admin.php:62
+msgid "FlyCart Settings"
+msgstr ""
+
+#: classes/src/Helpers.php:169
+msgid "Frequently Bought Together"
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:49
+msgid "General"
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:51
+#: admin/partials/inc/how-to-use.php:2
+msgid "How to use"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://plugin68.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://plugin68.com/sanpham/isures-fly-cart-for-woocommerce/"
+msgstr ""
+
+#. In ra ID của sản phẩm
+#: classes/src/Cart.php:104
+msgid "ID of the product just added to the shopping cart"
+msgstr ""
+
+#. Name of the plugin
+msgid "iSures Fly Cart For Woocommerce"
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:50
+msgid "Library & Style"
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:25
+msgid "Options Updated"
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:32
+msgid "Others Plugin"
+msgstr ""
+
+#: classes/src/Helpers.php:137
+msgid "Pay Now"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:62
+msgid ""
+"Plugin Compare products in the same category, Search for products quickly "
+"and accurately according to the category of products being compared."
+msgstr ""
+
+#: admin/partials/inc/about-us.php:39
+msgid ""
+"Plugin for ordering food and drink products, with many outstanding features: "
+"create extra topping, [ Apply discount code, add to cart, edit order, quick "
+"order ] => use AJAX , and More features…"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Plugin helps display a mini cart and related product suggestions every time "
+"an item is added to the cart, the quantity is changed, or a product is "
+"removed directly from the mini cart... When combined with the <code><a "
+"href=\"https://plugin68.com/sanpham/isures-increase-average-order-value/\">"
+"iSures Increase Average Order Value</a></code> plugin, it will enhance the "
+"value of your orders."
+msgstr ""
+
+#. Author of the plugin
+msgid "Plugin68.com"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:5
+msgid ""
+"Plugins with high compatibility can use <strong>all wordpress themes</strong>"
+"."
+msgstr ""
+
+#: admin/partials/inc/about-us.php:95
+msgid ""
+"Reward your customers for purchases and other actions with points that can "
+"be redeemed for discounts. Easily set how many points customers should earn "
+"for each dollar spent and how many points can be redeemed for a specific "
+"discount amount. Points can be awarded by create account, write a review "
+"products, wheel of future, or event buy minimum order to get points..."
+msgstr ""
+
+#: admin/partials/isures-fly-cart-for-woocommerce-admin-display.php:81
+msgid "Save Settings"
+msgstr ""
+
+#: includes/class-isures-update-en-free.php:54
+msgid "Settings"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:10
+msgid "Some of our featured plugins"
+msgstr ""
+
+#: classes/src/Helpers.php:133
+msgid "Subtotal"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:51
+msgid ""
+"The Combo Offers feature is used to create bundled product combos with "
+"discount, timer feature and countdown display combo time. Increase single "
+"closing rate with just a few simple steps. Be logical and calculate a "
+"reasonable discount to convince your customers."
+msgstr ""
+
+#: classes/src/Helpers.php:18
+msgid "View Cart"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:17 admin/partials/inc/about-us.php:29
+#: admin/partials/inc/about-us.php:41 admin/partials/inc/about-us.php:53
+#: admin/partials/inc/about-us.php:64 admin/partials/inc/about-us.php:75
+#: admin/partials/inc/about-us.php:86 admin/partials/inc/about-us.php:97
+msgid "View Demo"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:18 admin/partials/inc/about-us.php:30
+#: admin/partials/inc/about-us.php:42 admin/partials/inc/about-us.php:54
+#: admin/partials/inc/about-us.php:65 admin/partials/inc/about-us.php:76
+#: admin/partials/inc/about-us.php:87
+msgid "View Detail"
+msgstr ""
+
+#: admin/partials/inc/about-us.php:4
+msgid ""
+"We are a unit specializing in developing <strong>wordpress plugins</strong>, "
+"with the desire to provide customers with the best products."
+msgstr ""
+
+#: admin/partials/inc/about-us.php:6
+msgid ""
+"With many plugins to help increase conversions when selling, increasing the "
+"experience on your website."
+msgstr ""
+
+#: classes/src/Helpers.php:47
+#, php-format
+msgid "You have %s product(s) in your cart"
+msgstr ""
+
+#: classes/src/Helpers.php:17
+msgid "Your Cart"
+msgstr ""
