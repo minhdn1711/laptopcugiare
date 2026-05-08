@@ -4,7 +4,7 @@
 # /wp-includes/
 
 # Ignore wp-config.php (contains sensitive database info)
-wp-config.php
+#wp-config.php
 
 # Ignore uploads directory (media files can be large and are often environment-specific)
 wp-content/uploads/
