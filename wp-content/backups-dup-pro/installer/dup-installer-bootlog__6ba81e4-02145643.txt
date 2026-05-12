@@ -1,0 +1,35 @@
+[May 8 15:34:07] 
+[May 8 15:34:07] ==DUPLICATOR INSTALLER BOOTSTRAP v4.5.5==
+[May 8 15:34:07] ----------------------------------------------------
+[May 8 15:34:07] Installer bootstrap start
+[May 8 15:34:07] Manual extract found so not going to extract dup-installer dir
+[May 8 15:34:07] EXTRACT dup-installer dir
+[May 8 15:34:07] Successfully deleted the file /var/www/html/dup-installer/dup-installer-log__[HASH].txt
+[May 8 15:34:07] NOTICE: Didn't need to extract the installer.
+[May 8 15:34:07] [PHP ERR][ISSUE] MSG:Creation of dynamic property Duplicator\Installer\Bootstrap\BootstrapRunner::$archive is deprecated [CODE:8192|FILE:/var/www/html/installer.php|LINE:234]
+[May 8 15:34:07] [PHP ERR][ISSUE] MSG:Creation of dynamic property Duplicator\Installer\Bootstrap\BootstrapRunner::$bootloader is deprecated [CODE:8192|FILE:/var/www/html/installer.php|LINE:235]
+[May 8 15:34:07] Set permissions of dup-installer<br/>
+[May 8 15:34:07] Set permissions of dup-installer/addons<br/>
+[May 8 15:34:07] Set permissions of dup-installer/api<br/>
+[May 8 15:34:07] Set permissions of dup-installer/assets<br/>
+[May 8 15:34:07] Set permissions of dup-installer/classes<br/>
+[May 8 15:34:07] Set permissions of dup-installer/ctrls<br/>
+[May 8 15:34:07] Set permissions of dup-installer/favicon<br/>
+[May 8 15:34:07] Set permissions of dup-installer/libs<br/>
+[May 8 15:34:07] Set permissions of dup-installer/original_files_[HASH]<br/>
+[May 8 15:34:07] Set permissions of dup-installer/src<br/>
+[May 8 15:34:07] Set permissions of dup-installer/templates<br/>
+[May 8 15:34:07] Set permissions of dup-installer/vendor<br/>
+[May 8 15:34:07] Set permissions of dup-installer/dup-archive__[HASH].txt<br/>
+[May 8 15:34:07] Set permissions of dup-installer/dup-database__[HASH].sql<br/>
+[May 8 15:34:07] Set permissions of dup-installer/dup-installer-csrf__[HASH].txt<br/>
+[May 8 15:34:07] Set permissions of dup-installer/dup-installer-notices__[HASH].json<br/>
+[May 8 15:34:08] Set permissions of dup-installer/dup-params__[HASH].json<br/>
+[May 8 15:34:08] Set permissions of dup-installer/dup-scan__[HASH].json<br/>
+[May 8 15:34:08] Set permissions of dup-installer/dup-scanned-dirs__[HASH].txt<br/>
+[May 8 15:34:08] Set permissions of dup-installer/dup-scanned-files__[HASH].txt<br/>
+[May 8 15:34:08] Set permissions of dup-installer/index.php<br/>
+[May 8 15:34:08] Set permissions of dup-installer/main.installer.php<br/>
+[May 8 15:34:08] Set permissions of dup-installer/php_error__[HASH].log<br/>
+[May 8 15:34:08] DONE: No detected errors so redirecting to the main installer. Main Installer URI = http://localhost:8088/dup-installer/main.installer.php
+[May 8 15:34:08] [PHP ERR][ISSUE] MSG:Creation of dynamic property Duplicator\Installer\Bootstrap\BootstrapRunner::$extractionTmpFolder is deprecated [CODE:8192|FILE:/var/www/html/installer.php|LINE:77]

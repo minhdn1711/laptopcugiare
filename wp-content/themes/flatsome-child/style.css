@@ -336,7 +336,7 @@ label, legend {
 		display: flex;
 		align-items: center;
         margin-right: 10px;
-		color: #000;
+		color: #ff9300;
 	}
 	.ant-badge .size-xxl {
 		font-size: 26px;
@@ -1679,3 +1679,165 @@ span.wpcf7-spinner {
     }
 }
 
+/*************** LAPTOP88.VN FULL STYLE TRANSFORMATION ***************/
+:root {
+    --primary-color: #10B981;
+    --dark-bg: #0b1a33; /* Dark Navy Blue like Laptop88 */
+}
+
+/* 1. HEADER & NAVIGATION */
+#header, .header-main, .header-bottom, .top-bar, .header-inner {
+    background-color: var(--dark-bg) !important;
+}
+
+.header-main, .header-bottom {
+    border-bottom: 1px solid #1a2c4d !important;
+}
+
+.nav > li > a, .header-nav a, .btn_hotline, .btn_hotline span, .btn_hotline .span_hotline a, .icon-search:before {
+/*     color: #ffffff !important; */
+}
+
+.header-nav li.active > a, .nav > li > a:hover, .header-nav a:hover {
+    color: var(--primary-color) !important;
+}
+
+#header .searchform-wrap input[type="search"] {
+    background-color: #ffffff !important;
+    color: #333 !important;
+}
+
+/* 2. PRIMARY BUTTONS & ACCENTS */
+.button.primary, .bg-primary, .badge-inner.secondary.on-sale, 
+.single_add_to_cart_button, .button.checkout, .is-form, button.is-form, 
+input[type=submit].is-form {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
+}
+
+.price-wrapper .price ins, .price-wrapper .price span.amount, 
+.product-small .title-wrapper p.category, .custom-product-page .product_categories {
+    color: var(--primary-color) !important;
+}
+
+/* 3. FOOTER */
+.footer-wrapper, .footer-primary, .footer-secondary {
+    background-color: var(--dark-bg) !important;
+    color: #ffffff !important;
+}
+
+.footer-wrapper a {
+    color: #cccccc !important;
+}
+
+.footer-wrapper a:hover {
+    color: var(--primary-color) !important;
+}
+
+/* 4. PRODUCT CARDS & SECTIONS */
+.product-small.box {
+    border: 1px solid #eee;
+    transition: all 0.3s;
+}
+
+.product-small.box:hover {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.css-sanphambanchay .col-inner {
+    background: #111 !important; /* Very dark section for contrast */
+}
+
+/* Clear Cache Warning */
+/* NHẤN CTRL + F5 NẾU CHƯA THẤY THAY ĐỔI */
+body .header-main .social-icons,
+body .header-main .cart-icon strong,
+body .header-main .menu-title,
+body .header-main .header-button > .button.is-outline,
+body .header-main .nav > li > a > i:not(.icon-angle-down),
+body .header:not(.transparent) .header-nav-main.nav > li > a {
+	color: #10B981 !important;
+}
+
+/*************** LAPTOP88 STYLE CATEGORY MENU ***************/
+/* 1. Header */
+.ux-menu-title, .widget-title, .nav-vertical-header {
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    padding: 12px 15px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    border-radius: 4px 4px 0 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 14px !important;
+}
+
+/* 2. Menu Items List */
+.nav-vertical {
+    background-color: #f1f1f1 !important;
+    border: 1px solid #e1e1e1 !important;
+    border-top: none !important;
+    border-radius: 0 0 4px 4px !important;
+    padding: 0 !important;
+}
+
+.nav-vertical > li {
+    border-bottom: 1px solid #e1e1e1 !important;
+    margin: 0 !important;
+}
+
+.nav-vertical > li:last-child {
+    border-bottom: none !important;
+}
+
+/* 3. Item Links */
+.nav-vertical > li > a {
+    color: #333333 !important;
+    padding: 10px 15px !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.2s ease !important;
+}
+
+/* 4. Hover State */
+.nav-vertical > li > a:hover {
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    padding-left: 20px !important; /* Subtle shift on hover */
+}
+
+/* 5. Mega Menu Pop-out Styling */
+.nav-vertical > li > .nav-dropdown {
+    top: 0 !important;
+    left: 100% !important;
+    min-width: 250px !important;
+    border: 1px solid #e1e1e1 !important;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1) !important;
+    background-color: #ffffff !important;
+}
+
+.nav-vertical .nav-dropdown .ux-menu-title, 
+.nav-vertical .nav-dropdown h5,
+.nav-vertical .nav-dropdown .nav-column > li > a {
+    color: var(--primary-color) !important;
+    background: none !important;
+    padding: 10px 0 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+.nav-vertical .nav-dropdown .nav-column > li > ul > li > a {
+    font-weight: 400 !important;
+    color: #666 !important;
+    padding: 5px 0 !important;
+}
+
+.nav-vertical .nav-dropdown .nav-column > li > ul > li > a:hover {
+    color: var(--primary-color) !important;
+    text-decoration: underline !important;
+}

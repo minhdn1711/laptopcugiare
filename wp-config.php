@@ -93,8 +93,7 @@ define( 'WP_DEBUG', false );
 
 
 define( 'DUPLICATOR_AUTH_KEY', 'FQ.Oy70y^k?dkq!<53K#fb];?YME#`;n8BO.rvD8_l:W`UNL5tw2ZuY$kB|#g Z6' );
-define( 'WP_PLUGIN_DIR', '/var/www/html/wp-content/plugins' );
-define( 'WPMU_PLUGIN_DIR', '/var/www/html/wp-content/mu-plugins' );
+define( 'FS_METHOD', 'direct' );
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
