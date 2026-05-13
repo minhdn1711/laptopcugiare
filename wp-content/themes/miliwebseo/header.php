@@ -52,11 +52,6 @@
             <!-- Mega Menu Content -->
             <div x-show="open" 
                  x-cloak
-                 @mouseenter="open = true"
-                 @mouseleave="open = false"
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 transform -translate-y-2"
-                 x-transition:enter-end="opacity-100 transform translate-y-0"
                  class="absolute top-full left-0 w-[800px] bg-white text-black shadow-xl rounded-b-lg border-t-4 border-primary grid grid-cols-4 p-6 gap-6 mt-0 z-[100]">
                 
                 <?php if ( ! miliwebseo_render_mega_menu() ) : ?>

@@ -125,20 +125,74 @@ get_header(); ?>
             </div>
         </div>
 
-        <!-- Tabs: Description, Specs, Reviews -->
-        <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Tabs & Details Section -->
+        <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left: Description & Reviews -->
             <div class="lg:col-span-8">
-                <div class="bg-white border rounded-lg p-6">
-                    <h2 class="text-xl font-bold mb-6 border-b pb-2">Đặc điểm nổi bật</h2>
-                    <div class="prose max-w-none">
+                <!-- Description -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+                    <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-secondary uppercase tracking-wider">Đặc điểm nổi bật</h2>
+                    </div>
+                    <div class="p-6 prose prose-blue max-w-none prose-img:rounded-lg">
                         <?php the_content(); ?>
                     </div>
                 </div>
+
+                <!-- Reviews Section -->
+                <div id="reviews" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
+                        <h2 class="text-lg font-bold text-secondary uppercase tracking-wider">Đánh giá từ khách hàng</h2>
+                    </div>
+                    <div class="p-6">
+                        <?php
+                        if ( comments_open() || get_comments_number() ) :
+                            comments_template();
+                        endif;
+                        ?>
+                    </div>
+                </div>
             </div>
+
+            <!-- Right: Related Products Sidebar -->
             <div class="lg:col-span-4">
-                <div class="bg-white border rounded-lg p-6 sticky top-24">
-                    <h2 class="text-xl font-bold mb-6 border-b pb-2">Sản phẩm liên quan</h2>
-                    <?php woocommerce_output_related_products(); ?>
+                <div class="sticky top-24">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-primary px-6 py-4">
+                            <h2 class="text-lg font-bold text-black uppercase tracking-wider text-center">Sản phẩm tương tự</h2>
+                        </div>
+                        <div class="p-4 space-y-6">
+                            <?php 
+                            // Custom related products query to match theme style
+                            $related = wc_get_related_products( get_the_ID(), 4 );
+                            if ( $related ) :
+                                foreach ( $related as $related_id ) :
+                                    $rel_product = wc_get_product( $related_id );
+                                    ?>
+                                    <a href="<?php echo get_permalink( $related_id ); ?>" class="flex gap-4 group">
+                                        <div class="w-20 h-20 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
+                                            <?php echo $rel_product->get_image( 'thumbnail', ['class' => 'w-full h-full object-cover group-hover:scale-110 transition-transform'] ); ?>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h4 class="text-sm font-semibold line-clamp-2 group-hover:text-primary transition-colors"><?php echo $rel_product->get_name(); ?></h4>
+                                            <p class="text-primary font-bold mt-1"><?php echo $rel_product->get_price_html(); ?></p>
+                                        </div>
+                                    </a>
+                                <?php endforeach; 
+                            else:
+                                echo '<p class="text-sm text-gray-500 text-center py-4 italic">Đang cập nhật sản phẩm liên quan...</p>';
+                            endif;
+                            ?>
+                        </div>
+                        <div class="p-4 bg-gray-50 border-t border-gray-100 text-center">
+                            <a href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ); ?>" class="text-sm font-bold text-blue-600 hover:underline">Xem thêm sản phẩm khác ></a>
+                        </div>
+                    </div>
+
+                    <!-- Side Banner / Promo -->
+                    <div class="mt-6 rounded-xl overflow-hidden shadow-lg transform hover:-translate-y-1 transition-transform cursor-pointer">
+                        <img src="https://placehold.co/400x200?text=Khuyến+Mãi+Tháng+5" alt="Promo" class="w-full h-auto">
+                    </div>
                 </div>
             </div>
         </div>
