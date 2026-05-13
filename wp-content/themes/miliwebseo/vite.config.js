@@ -9,6 +9,11 @@ export default defineConfig({
         main: path.resolve(__dirname, 'src/main.js'),
         style: path.resolve(__dirname, 'src/main.css'),
       },
+      output: {
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames: 'assets/[name].js',
+        entryFileNames: 'assets/[name].js',
+      },
     },
   },
   server: {

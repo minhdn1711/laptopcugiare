@@ -2,7 +2,40 @@
 
 <main class="container mx-auto px-4 py-6">
     <!-- Hero Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8">
+        <!-- Sidebar Category Menu (Desktop) -->
+        <div class="hidden lg:block lg:col-span-1 bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg-primary text-black font-bold px-4 py-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                DANH MỤC
+            </div>
+            <ul class="divide-y divide-gray-100">
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Laptop Dell <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Laptop HP <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Laptop Asus <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Laptop Lenovo <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Laptop Gaming <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Macbook <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+                <li><a href="#" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">
+                    Máy trạm Workstation <span class="text-gray-300 group-hover:text-primary">></span>
+                </a></li>
+            </ul>
+        </div>
+
         <div class="lg:col-span-3">
             <div id="hero-slider" class="splide bg-white rounded-lg shadow overflow-hidden h-[400px]">
                 <div class="splide__track h-full">
@@ -17,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="hidden lg:flex flex-col gap-4">
+        <div class="hidden lg:flex flex-col gap-4 lg:col-span-1">
             <div class="bg-white rounded-lg shadow overflow-hidden flex-1">
                 <img src="https://placehold.co/400x190?text=Side+Banner+1" class="w-full h-full object-cover">
             </div>

@@ -3,28 +3,9 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Tailwind CSS Play CDN (Fallback) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            DEFAULT: '#f59e0b',
-                            dark: '#d97706',
-                        },
-                        secondary: '#000000',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         [x-cloak] { display: none !important; }
     </style>
-    <!-- AlpineJS CDN (Fallback) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'bg-gray-100' ); ?> x-data="{ mobileMenuOpen: false }">
@@ -52,9 +33,16 @@
             <h1 class="text-2xl font-bold text-primary">MILIWEBSEO</h1>
         </a>
 
+        <!-- Mobile Menu Toggle -->
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+
         <!-- Category Toggle & Mega Menu -->
-        <div class="relative group hidden lg:block" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-            <button class="bg-primary hover:bg-primary-dark text-black px-4 py-2 rounded font-bold flex items-center gap-2">
+        <div class="relative group hidden md:block flex-shrink-0" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+            <button class="bg-primary hover:bg-primary-dark text-black px-4 py-2 rounded font-bold flex items-center gap-2 whitespace-nowrap min-w-[200px] justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -64,6 +52,8 @@
             <!-- Mega Menu Content -->
             <div x-show="open" 
                  x-cloak
+                 @mouseenter="open = true"
+                 @mouseleave="open = false"
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 transform -translate-y-2"
                  x-transition:enter-end="opacity-100 transform translate-y-0"
@@ -148,3 +138,63 @@
         </div>
     </div>
 </header>
+
+<!-- Mobile Menu Drawer -->
+<div x-show="mobileMenuOpen" 
+     x-cloak
+     class="fixed inset-0 z-[100] lg:hidden" 
+     role="dialog" aria-modal="true">
+    <!-- Background backdrop -->
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition-opacity ease-linear duration-300" 
+         x-transition:enter-start="opacity-0" 
+         x-transition:enter-end="opacity-100" 
+         x-transition:leave="transition-opacity ease-linear duration-300" 
+         x-transition:leave-start="opacity-100" 
+         x-transition:leave-end="opacity-0" 
+         @click="mobileMenuOpen = false"
+         class="fixed inset-0 bg-black bg-opacity-50"></div>
+
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition ease-in-out duration-300 transform" 
+         x-transition:enter-start="-translate-x-full" 
+         x-transition:enter-end="translate-x-0" 
+         x-transition:leave="transition ease-in-out duration-300 transform" 
+         x-transition:leave-start="translate-x-0" 
+         x-transition:leave-end="-translate-x-full" 
+         class="fixed inset-y-0 left-0 w-64 bg-white shadow-xl flex flex-col p-6 overflow-y-auto">
+        
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-xl font-bold text-primary uppercase">Menu</h2>
+            <button @click="mobileMenuOpen = false" class="text-gray-500">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <nav class="flex flex-col space-y-4">
+            <a href="<?php echo home_url(); ?>" class="font-bold border-b pb-2">Trang chủ</a>
+            
+            <div x-data="{ open: true }">
+                <button @click="open = !open" class="flex items-center justify-between w-full font-bold text-secondary">
+                    DANH MỤC
+                    <svg :class="{'rotate-180': open}" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="open" class="mt-2 pl-4 space-y-2 text-sm">
+                    <a href="#" class="block hover:text-primary">Laptop Dell</a>
+                    <a href="#" class="block hover:text-primary">Laptop HP</a>
+                    <a href="#" class="block hover:text-primary">Laptop Asus</a>
+                    <a href="#" class="block hover:text-primary">Laptop Lenovo</a>
+                    <a href="#" class="block hover:text-primary">Macbook</a>
+                </div>
+            </div>
+
+            <a href="#" class="font-bold text-secondary">Tin tức</a>
+            <a href="#" class="font-bold text-secondary">Khuyến mãi</a>
+            <a href="#" class="font-bold text-secondary">Liên hệ</a>
+        </nav>
+    </div>
+</div>
