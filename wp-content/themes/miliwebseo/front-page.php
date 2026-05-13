@@ -137,6 +137,45 @@
             ?>
         </div>
     </section>
+
+    <!-- Office Laptops Section -->
+    <section class="mb-12">
+        <div class="flex items-center justify-between mb-6 border-b-2 border-primary pb-2">
+            <h2 class="text-xl font-bold uppercase">Laptop học tập - văn phòng</h2>
+            <div class="flex gap-4 text-sm">
+                <a href="#" class="hover:text-primary font-medium">Dell Latitude</a>
+                <a href="#" class="hover:text-primary font-medium">HP Elitebook</a>
+                <a href="#" class="hover:text-primary font-medium">Lenovo Thinkpad</a>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <?php
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => 10,
+                'tax_query'      => array(
+                    array(
+                        'taxonomy' => 'usage_needs',
+                        'field'    => 'slug',
+                        'terms'    => 'office', // Ensure this slug exists in usage_needs taxonomy
+                    ),
+                ),
+            );
+            $loop = new WP_Query( $args );
+            if ( $loop->have_posts() ) {
+                while ( $loop->have_posts() ) : $loop->the_post();
+                    wc_get_template_part( 'content', 'product' );
+                endwhile;
+            } else {
+                // Demo cards
+                for($i=0; $i<10; $i++) {
+                   include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
+                }
+            }
+            wp_reset_postdata();
+            ?>
+        </div>
+    </section>
 </main>
 
 <script>
