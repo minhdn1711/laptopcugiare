@@ -36,7 +36,7 @@
             </ul>
         </div>
 
-        <div class="lg:col-span-3">
+        <div class="lg:col-span-4">
             <div id="hero-slider" class="splide bg-white rounded-lg shadow overflow-hidden h-[400px]">
                 <div class="splide__track h-full">
                     <ul class="splide__list h-full">
@@ -48,14 +48,6 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-        </div>
-        <div class="hidden lg:flex flex-col gap-4 lg:col-span-1">
-            <div class="bg-white rounded-lg shadow overflow-hidden flex-1">
-                <img src="https://placehold.co/400x190?text=Side+Banner+1" class="w-full h-full object-cover">
-            </div>
-            <div class="bg-white rounded-lg shadow overflow-hidden flex-1">
-                <img src="https://placehold.co/400x190?text=Side+Banner+2" class="w-full h-full object-cover">
             </div>
         </div>
     </div>
@@ -108,21 +100,52 @@
     </section>
 
     <?php
-    $sections = [
-        ['title' => 'Laptop Gaming Nổi Bật', 'slug' => 'gaming', 'brands' => ['Dell', 'Asus', 'MSI', 'Acer']],
-        ['title' => 'Laptop học tập - văn phòng', 'slug' => 'office', 'brands' => ['Dell', 'HP', 'Lenovo', 'Asus']],
-    ];
+    // Get all terms from usage_needs taxonomy
+    $usage_terms = get_terms([
+        'taxonomy'   => 'usage_needs',
+        'hide_empty' => true, // Only show terms that have products
+    ]);
 
-    foreach ($sections as $section) :
+    if ( ! empty( $usage_terms ) && ! is_wp_error( $usage_terms ) ) :
+        foreach ( $usage_terms as $term ) :
+            // Skip 'office' or other slugs if you want a specific order, 
+            // but here we loop through all for maximum flexibility.
+            
+            // Custom titles based on slug if needed
+            $title = $term->name;
+            if ($term->slug === 'gaming') $title = 'Laptop Gaming Nổi Bật';
+            if ($term->slug === 'office') $title = 'Laptop học tập - văn phòng';
     ?>
     <section class="mb-12">
         <div class="flex flex-col md:flex-row items-baseline justify-between mb-6 border-b-2 border-primary pb-2 gap-4">
-            <h2 class="text-xl font-black uppercase text-secondary"><?php echo $section['title']; ?></h2>
+            <h2 class="text-xl font-black uppercase text-secondary"><?php echo esc_html($title); ?></h2>
             <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs">
-                <?php foreach ($section['brands'] as $brand) : ?>
-                    <a href="#" class="text-gray-500 hover:text-primary font-bold transition-colors">Laptop <?php echo $brand; ?></a>
-                <?php endforeach; ?>
-                <a href="#" class="text-blue-600 hover:underline font-bold">Xem tất cả ></a>
+                <?php 
+                // Get all products IDs in this usage_need term
+                $product_ids = get_posts([
+                    'post_type' => 'product',
+                    'numberposts' => -1,
+                    'fields' => 'ids',
+                    'tax_query' => [
+                        [
+                            'taxonomy' => 'usage_needs',
+                            'field' => 'slug',
+                            'terms' => $term->slug,
+                        ]
+                    ]
+                ]);
+
+                if (!empty($product_ids)) {
+                    // Get unique brands from these products using the correct 'brand' taxonomy
+                    $brands = wp_get_object_terms($product_ids, 'brand');
+                    if (!is_wp_error($brands) && !empty($brands)) {
+                        foreach ($brands as $brand) : ?>
+                            <a href="<?php echo get_term_link($brand); ?>" class="text-gray-500 hover:text-primary font-bold transition-colors">Laptop <?php echo esc_html($brand->name); ?></a>
+                        <?php endforeach;
+                    }
+                }
+                ?>
+                <a href="<?php echo get_term_link($term); ?>" class="text-blue-600 hover:underline font-bold">Xem tất cả ></a>
             </div>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -134,7 +157,7 @@
                     array(
                         'taxonomy' => 'usage_needs',
                         'field'    => 'slug',
-                        'terms'    => $section['slug'],
+                        'terms'    => $term->slug,
                     ),
                 ),
             );
@@ -144,13 +167,16 @@
                     wc_get_template_part( 'woocommerce/content', 'product' );
                 endwhile;
             } else {
-                for($i=0; $i<10; $i++) include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
+                for($i=0; $i<5; $i++) include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
             }
             wp_reset_postdata();
             ?>
         </div>
     </section>
-    <?php endforeach; ?>
+    <?php 
+        endforeach; 
+    endif;
+    ?>
 </main>
 
 <script>

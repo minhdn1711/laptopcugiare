@@ -61,17 +61,25 @@ if ( empty( $product ) || ! $product->is_visible() ) {
         </h3>
         
         <!-- Price -->
-        <div class="flex flex-col mb-2">
-            <span class="text-primary font-bold text-lg leading-none"><?php echo $product->get_price_html(); ?></span>
-            <?php if ($product->is_on_sale()) : ?>
-                <span class="text-xs text-gray-400 line-through mt-1"><?php echo wc_price($product->get_regular_price()); ?></span>
+        <div class="flex items-baseline gap-2 mb-2">
+            <?php if ( $product->is_on_sale() ) : ?>
+                <span class="text-primary font-bold text-lg leading-none">
+                    <?php echo wc_price( $product->get_sale_price() ); ?>
+                </span>
+                <span class="text-xs text-gray-400 line-through">
+                    <?php echo wc_price( $product->get_regular_price() ); ?>
+                </span>
+            <?php else : ?>
+                <span class="text-primary font-bold text-lg leading-none">
+                    <?php echo $product->get_price_html(); ?>
+                </span>
             <?php endif; ?>
         </div>
-        
+
         <!-- Tags -->
         <div class="flex flex-wrap gap-1 mb-3">
-            <span class="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded border border-blue-100">Trả góp 0%</span>
-            <span class="text-[9px] bg-green-50 text-green-600 px-1.5 py-0.5 rounded border border-green-100 font-bold">SẴN HÀNG</span>
+            <span class="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded border border-blue-100 font-bold uppercase tracking-tighter">Trả góp 0%</span>
+            <span class="text-[9px] bg-green-50 text-green-600 px-1.5 py-0.5 rounded border border-green-100 font-bold uppercase tracking-tighter italic">Có sẵn</span>
         </div>
     </div>
 

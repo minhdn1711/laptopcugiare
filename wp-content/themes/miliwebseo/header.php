@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         [x-cloak] { display: none !important; }
+        /* Force container width like Laptop88 */
+        .container {
+            max-width: 1230px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
     </style>
     <?php wp_head(); ?>
 </head>
@@ -12,8 +18,8 @@
 
 <header class="sticky top-0 z-50 bg-secondary text-white shadow-md">
     <!-- Top Bar -->
-    <div class="bg-gray-900 text-xs py-1 px-4 hidden md:block">
-        <div class="container mx-auto flex justify-between items-center">
+    <div class="bg-gray-900 text-xs py-1 hidden md:block border-b border-gray-800">
+        <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="flex space-x-4">
                 <span>📍 Hệ thống cửa hàng</span>
                 <span>📞 Hotline: 1900.xxxx</span>
