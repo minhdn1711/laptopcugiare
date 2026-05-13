@@ -60,17 +60,32 @@ if ( empty( $product ) || ! $product->is_visible() ) {
             <?php the_title(); ?>
         </h3>
         
+        <!-- Rating -->
+        <div class="flex items-center gap-1 mb-1">
+            <div class="flex text-yellow-400 text-[10px]">
+                <?php 
+                $rating = $product->get_average_rating();
+                for ($i = 1; $i <= 5; $i++) {
+                    echo ($i <= $rating) ? '★' : '☆';
+                }
+                ?>
+            </div>
+            <?php if ( $product->get_review_count() > 0 ) : ?>
+                <span class="text-[9px] text-gray-400">(<?php echo $product->get_review_count(); ?>)</span>
+            <?php endif; ?>
+        </div>
+
         <!-- Price -->
-        <div class="flex items-baseline gap-2 mb-2">
+        <div class="flex items-center flex-wrap gap-x-2 gap-y-1 mb-2">
             <?php if ( $product->is_on_sale() ) : ?>
-                <span class="text-primary font-bold text-lg leading-none">
+                <span class="text-primary font-black text-lg leading-none">
                     <?php echo wc_price( $product->get_sale_price() ); ?>
                 </span>
-                <span class="text-xs text-gray-400 line-through">
+                <span class="text-[11px] text-gray-400 line-through">
                     <?php echo wc_price( $product->get_regular_price() ); ?>
                 </span>
             <?php else : ?>
-                <span class="text-primary font-bold text-lg leading-none">
+                <span class="text-primary font-black text-lg leading-none">
                     <?php echo $product->get_price_html(); ?>
                 </span>
             <?php endif; ?>

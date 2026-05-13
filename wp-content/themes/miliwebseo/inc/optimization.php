@@ -28,7 +28,9 @@ add_action('init', 'miliwebseo_cleanup_head');
  */
 function miliwebseo_disable_embeds_init() {
     global $wp;
-    $wp->publicly_queryable_post_types = array_diff($wp->publicly_queryable_post_types, array('oembed_cache'));
+    if (isset($wp->publicly_queryable_post_types) && is_array($wp->publicly_queryable_post_types)) {
+        $wp->publicly_queryable_post_types = array_diff($wp->publicly_queryable_post_types, array('oembed_cache'));
+    }
     remove_action('rest_api_init', 'wp_oembed_register_route');
     add_filter('embed_oembed_discover', '__return_false');
     remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);

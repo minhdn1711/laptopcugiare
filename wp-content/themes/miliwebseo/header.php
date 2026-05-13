@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="scroll-smooth">
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,68 @@
             max-width: 1230px !important;
             margin-left: auto !important;
             margin-right: auto !important;
+        }
+        /* Price Styling */
+        .price del {
+            opacity: 0.5;
+            text-decoration: line-through;
+            font-size: 0.8em;
+            margin-right: 0.5rem;
+            font-weight: normal;
+        }
+        .price ins {
+            text-decoration: none;
+            font-weight: 900;
+        }
+        /* Pagination Styling */
+        .pagination-list {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+        }
+        .pagination-list li a, .pagination-list li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .pagination-list li span.current {
+            background: #ff9300;
+            color: black;
+            border-color: #ff9300;
+        }
+        .pagination-list li a:hover {
+            border-color: #ff9300;
+            color: #ff9300;
+        }
+        /* Ordering Select Styling */
+        .wc-ordering-wrapper select {
+            background-color: transparent;
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #1f2937;
+            padding-right: 2rem;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 1.25rem;
+        }
+        /* Fix woocommerce result count p tag */
+        .wc-result-count {
+            margin: 0 !important;
+            display: inline-block !important;
         }
     </style>
     <?php wp_head(); ?>
@@ -100,15 +162,72 @@
         </div>
 
         <!-- Search Bar -->
-        <div class="flex-grow max-w-2xl relative">
+        <div class="flex-grow max-w-2xl relative" 
+             x-data="{ 
+                query: '', 
+                results: [], 
+                loading: false,
+                search() {
+                    if (this.query.length < 2) {
+                        this.results = [];
+                        return;
+                    }
+                    this.loading = true;
+                    let formData = new FormData();
+                    formData.append('action', 'miliwebseo_search');
+                    formData.append('query', this.query);
+
+                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.results = data.success ? data.data : [];
+                        this.loading = false;
+                    });
+                }
+             }"
+             @click.away="results = []">
             <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative">
-                <input type="text" name="s" placeholder="Bạn tìm laptop gì?..." class="w-full py-2 px-4 rounded-full bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary">
+                <input type="text" 
+                       name="s" 
+                       x-model="query"
+                       @input.debounce.300ms="search()"
+                       placeholder="Bạn tìm laptop gì?..." 
+                       class="w-full py-2 px-4 rounded-full bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary">
                 <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg x-show="!loading" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <svg x-show="loading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </button>
             </form>
+
+            <!-- Search Results Dropdown -->
+            <div x-show="results.length > 0" 
+                 x-cloak
+                 class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-[110] text-black">
+                <div class="p-2 space-y-1">
+                    <template x-for="item in results" :key="item.url">
+                        <a :href="item.url" class="flex items-center gap-4 p-2 hover:bg-gray-50 rounded-lg transition-colors group">
+                            <div class="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                                <img :src="item.image" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <h4 class="text-sm font-bold truncate group-hover:text-primary transition-colors" x-text="item.title"></h4>
+                                <p class="text-xs text-primary font-bold" x-html="item.price"></p>
+                            </div>
+                        </a>
+                    </template>
+                </div>
+                <div class="bg-gray-50 p-2 text-center">
+                    <a :href="'<?php echo home_url('/?s='); ?>' + query" class="text-xs font-bold text-blue-600 hover:underline">Xem tất cả kết quả cho "<span x-text="query"></span>"</a>
+                </div>
+            </div>
         </div>
 
         <!-- Header Icons -->
@@ -129,13 +248,17 @@
             </a>
             <?php endif; ?>
 
+            <?php if ( class_exists( 'WooCommerce' ) ) : ?>
             <a href="<?php echo wc_get_cart_url(); ?>" class="relative flex flex-col items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
                 <span class="text-xs">Giỏ hàng</span>
-                <span class="absolute -top-1 -right-2 bg-primary text-black rounded-full text-[10px] w-4 h-4 flex items-center justify-center font-bold"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                <?php if ( WC()->cart ) : ?>
+                <span class="absolute -top-1 -right-2 bg-primary text-black rounded-full text-[10px] w-4 h-4 flex items-center justify-center font-bold cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                <?php endif; ?>
             </a>
+            <?php endif; ?>
         </div>
     </div>
 </header>
@@ -199,3 +322,67 @@
         </nav>
     </div>
 </div>
+
+<!-- Mobile Bottom Navigation -->
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 flex justify-between items-center z-[100] md:hidden shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+    <a href="<?php echo home_url(); ?>" class="flex flex-col items-center text-gray-600 hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a11 11 0 0022 0V10M5 10a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 01-2 2" />
+        </svg>
+        <span class="text-[10px] mt-1 font-medium">Trang chủ</span>
+    </a>
+    <a href="javascript:void(0)" @click="mobileMenuOpen = true" class="flex flex-col items-center text-gray-600 hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="text-[10px] mt-1 font-medium">Danh mục</span>
+    </a>
+    <?php if ( class_exists( 'WooCommerce' ) ) : ?>
+    <a href="<?php echo wc_get_cart_url(); ?>" class="flex flex-col items-center text-gray-600 hover:text-primary relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <span class="text-[10px] mt-1 font-medium">Giỏ hàng</span>
+        <?php if ( WC()->cart ) : ?>
+        <span class="absolute -top-1 -right-1 bg-primary text-black rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-bold cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+        <?php endif; ?>
+    </a>
+    <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="flex flex-col items-center text-gray-600 hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span class="text-[10px] mt-1 font-medium">Tài khoản</span>
+    </a>
+    <?php else : ?>
+    <a href="#" class="flex flex-col items-center text-gray-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <span class="text-[10px] mt-1 font-medium">Giỏ hàng</span>
+    </a>
+    <a href="#" class="flex flex-col items-center text-gray-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span class="text-[10px] mt-1 font-medium">Tài khoản</span>
+    </a>
+    <?php endif; ?>
+</div>
+
+<script>
+    // Sticky Header Scroll Effect
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+            header.classList.add('shadow-xl');
+            header.style.paddingTop = '5px';
+            header.style.paddingBottom = '5px';
+        } else {
+            header.classList.remove('shadow-xl');
+            header.style.paddingTop = '';
+            header.style.paddingBottom = '';
+        }
+    });
+</script>
+
+<main class="min-h-[70vh] pb-12">

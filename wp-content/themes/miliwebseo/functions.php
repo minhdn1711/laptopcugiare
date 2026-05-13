@@ -45,5 +45,17 @@ require MILIWEBSEO_DIR . '/inc/enqueue.php';
 require MILIWEBSEO_DIR . '/inc/ajax-search.php';
 require MILIWEBSEO_DIR . '/inc/helpers.php';
 require MILIWEBSEO_DIR . '/inc/icons.php';
+require MILIWEBSEO_DIR . '/inc/ajax-filters.php';
+require MILIWEBSEO_DIR . '/inc/seo.php';
+require MILIWEBSEO_DIR . '/inc/ajax-cart.php';
 // require MILIWEBSEO_DIR . '/inc/optimization.php';
 // require MILIWEBSEO_DIR . '/inc/cache-helper.php';
+
+/**
+ * Enable Guest Checkout
+ */
+add_action('init', function() {
+    update_option('woocommerce_enable_guest_checkout', 'yes');
+    update_option('woocommerce_enable_checkout_login_reminder', 'no');
+    update_option('woocommerce_require_login_to_checkout', 'no');
+});
