@@ -11,7 +11,7 @@ function miliwebseo_scripts() {
         wp_enqueue_script( 'miliwebseo-vite', 'http://localhost:5173/@vite/client', array(), null );
         wp_enqueue_script( 'miliwebseo-main', 'http://localhost:5173/src/main.js', array(), null, true );
     } else {
-        // Production Assets - Only enqueue if they exist
+        // Production Assets
         $style_path = MILIWEBSEO_DIR . '/dist/assets/style.css';
         $script_path = MILIWEBSEO_DIR . '/dist/assets/main.js';
 

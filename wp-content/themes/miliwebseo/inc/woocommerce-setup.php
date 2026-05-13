@@ -14,19 +14,8 @@ function miliwebseo_add_woocommerce_support() {
 }
 add_action( 'after_setup_theme', 'miliwebseo_add_woocommerce_support' );
 
-// Remove default WooCommerce styles if needed for performance
-// add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
-
 /**
- * Tối ưu hóa truy vấn metadata
- */
-add_filter( 'woocommerce_product_get_meta_data', function( $meta_data, $product ) {
-    // Logic để preload meta data nếu cần
-    return $meta_data;
-}, 10, 2 );
-
-/**
- * Hiển thị Gift/Quà tặng (Dùng Custom Field hoặc Attribute)
+ * Hiển thị Gift/Quà tặng
  */
 function miliwebseo_display_product_gifts() {
     $gifts = get_post_meta( get_the_ID(), '_product_gifts', true );
