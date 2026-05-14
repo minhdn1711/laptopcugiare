@@ -1,15 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-[x-cloak] { display: none !important; }
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    body {
+        @apply font-sans text-secondary bg-gray-50 antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply tracking-tight font-black;
+    }
+}
 
 @layer components {
-    .btn-primary {
-        @apply bg-primary text-white px-4 py-2 rounded font-bold hover:bg-primary-dark transition-colors;
+    .btn-premium {
+        @apply bg-primary text-black px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-premium active:scale-95 flex items-center justify-center gap-2;
     }
-    
-    .product-card {
-        @apply border rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white;
+
+    .btn-outline {
+        @apply border-2 border-gray-200 text-secondary px-6 py-3 rounded-xl font-bold transition-all hover:bg-gray-50 hover:border-secondary flex items-center justify-center gap-2;
     }
+
+    .card-premium {
+        @apply bg-white rounded-2xl border border-gray-100 shadow-premium hover:shadow-premium-hover transition-all duration-500 overflow-hidden;
+    }
+
+    .input-premium {
+        @apply w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all;
+    }
+}
+
+/* Custom Animations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
 }

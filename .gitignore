@@ -60,3 +60,4 @@ Thumbs.db
 
 # PHP
 composer.lock
+package-lock.json

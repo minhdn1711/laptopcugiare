@@ -22,7 +22,10 @@
                 <li>Màn: 15.6" FHD 144Hz</li>
             </ul>
             <div class="mt-4 p-2 bg-gray-800 rounded border border-gray-700">
-                <p class="text-primary font-bold">🎁 Quà tặng:</p>
+                <p class="text-primary font-bold flex items-center gap-1">
+                    <?php echo miliwebseo_icon('gift', 'h-4 w-4'); ?>
+                    Quà tặng:
+                </p>
                 <p>Balo + Chuột + Lót chuột</p>
             </div>
         </div>
