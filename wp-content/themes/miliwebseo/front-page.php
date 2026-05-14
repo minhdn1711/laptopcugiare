@@ -103,10 +103,19 @@
     <section class="mb-12">
         <div class="flex items-center justify-between mb-6 border-b-2 border-primary pb-2">
             <h2 class="text-xl font-bold uppercase">Laptop Gaming Nổi Bật</h2>
-            <div class="flex gap-4 text-sm">
-                <a href="#" class="hover:text-primary font-medium">Asus ROG</a>
-                <a href="#" class="hover:text-primary font-medium">MSI Katana</a>
-                <a href="#" class="hover:text-primary font-medium">Acer Predator</a>
+            <div class="flex gap-4 text-sm overflow-x-auto pb-2">
+                <?php
+                $brands = get_terms( array(
+                    'taxonomy' => 'brand',
+                    'hide_empty' => true,
+                    'number' => 6
+                ) );
+                if ( ! empty( $brands ) && ! is_wp_error( $brands ) ) {
+                    foreach ( $brands as $brand ) {
+                        echo '<a href="' . esc_url( get_term_link( $brand ) ) . '" class="hover:text-primary font-medium whitespace-nowrap">' . esc_html( $brand->name ) . '</a>';
+                    }
+                }
+                ?>
             </div>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">

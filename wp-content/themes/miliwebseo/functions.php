@@ -46,3 +46,4 @@ require MILIWEBSEO_DIR . '/inc/woocommerce-setup.php';
 require MILIWEBSEO_DIR . '/inc/enqueue.php';
 require MILIWEBSEO_DIR . '/inc/ajax-search.php';
 require MILIWEBSEO_DIR . '/inc/helpers.php';
+require MILIWEBSEO_DIR . '/inc/product-logic.php';
