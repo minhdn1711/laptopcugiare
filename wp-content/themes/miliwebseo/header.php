@@ -73,6 +73,14 @@
             margin: 0 !important;
             display: inline-block !important;
         }
+        /* Mega Menu Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
     </style>
     <?php wp_head(); ?>
 </head>
@@ -168,15 +176,22 @@
         <div class="container mx-auto px-4 flex items-center justify-between">
             <div class="flex items-center space-x-8">
                 <!-- Vertical Menu Toggle (Flatsome Style) -->
-                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                    <button class="bg-primary hover:bg-yellow-400 text-black px-6 py-2.5 rounded-t-xl font-black text-sm flex items-center gap-3 transition-all min-w-[240px]">
+                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @click.away="open = false">
+                    <button @click="open = !open" class="bg-primary hover:bg-yellow-400 text-black px-6 py-2.5 rounded-t-xl font-black text-sm flex items-center gap-3 transition-all min-w-[240px]">
                         <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
                         DANH MỤC SẢN PHẨM
-                        <div class="ml-auto"><?php echo miliwebseo_icon('chevron-down', 'h-4 w-4'); ?></div>
+                        <div class="ml-auto" :class="open ? 'rotate-180' : ''" class="transition-transform duration-200">
+                            <?php echo miliwebseo_icon('chevron-down', 'h-4 w-4'); ?>
+                        </div>
                     </button>
-                    <!-- Small shadow to blend with body -->
-                    <div x-show="open" x-cloak class="absolute top-full left-0 w-full bg-white shadow-xl rounded-b-xl border-x border-b border-gray-100 z-[100] overflow-hidden">
-                        <?php miliwebseo_render_vertical_menu(); ?>
+                    <!-- Dropdown Content (Mega Menu) -->
+                    <div x-show="open" 
+                         x-cloak 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         class="absolute top-full left-0 w-[950px] bg-white shadow-2xl rounded-b-xl border border-gray-100 z-[100] overflow-hidden">
+                        <?php miliwebseo_render_header_mega_menu(); ?>
                     </div>
                 </div>
 
