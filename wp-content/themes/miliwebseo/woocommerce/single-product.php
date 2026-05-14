@@ -111,12 +111,13 @@ get_header(); ?>
                         <div class="flex text-yellow-400">
                             <?php 
                             $rating = $product->get_average_rating();
-                            $count = $product->get_review_count();
                             for ($i = 1; $i <= 5; $i++) {
-                                if ($i <= $rating) {
-                                    echo '★';
+                                if ($i <= floor($rating)) {
+                                    echo miliwebseo_icon('star', 'h-3 w-3 fill-yellow-400 text-yellow-400');
+                                } elseif ($i == ceil($rating) && $rating > floor($rating)) {
+                                    echo miliwebseo_icon('star-half', 'h-3 w-3 fill-yellow-400 text-yellow-400');
                                 } else {
-                                    echo '☆';
+                                    echo miliwebseo_icon('star', 'h-3 w-3 text-gray-300');
                                 }
                             }
                             ?>
@@ -146,9 +147,7 @@ get_header(); ?>
                     </div>
                     <?php if ( $product->is_on_sale() ) : ?>
                         <p class="text-xs text-green-600 font-bold mt-2 italic flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                            </svg>
+                            <?php echo miliwebseo_icon('check-circle', 'h-3 w-3'); ?>
                             Tiết kiệm ngay <?php echo wc_price( $product->get_regular_price() - $product->get_sale_price() ); ?>
                         </p>
                     <?php endif; ?>
@@ -161,15 +160,28 @@ get_header(); ?>
                 </div>
 
                 <!-- Gifts Section -->
-                <div class="border-2 border-primary rounded-lg overflow-hidden mb-6">
-                    <div class="bg-primary px-4 py-2 text-black font-bold flex items-center gap-2">
-                        🎁 QUÀ TẶNG ƯU ĐÃI
+                <div class="border-2 border-primary rounded-xl overflow-hidden mb-6 shadow-sm">
+                    <div class="bg-primary px-4 py-2.5 text-black font-bold flex items-center gap-2">
+                        <?php echo miliwebseo_icon('gift', 'h-5 w-5'); ?>
+                        QUÀ TẶNG ƯU ĐÃI
                     </div>
-                    <div class="p-4 bg-yellow-50 text-sm space-y-2">
-                        <p>✅ Balo Laptop cao cấp</p>
-                        <p>✅ Chuột không dây chính hãng</p>
-                        <p>✅ Bộ vệ sinh laptop 4 món</p>
-                        <p>✅ Miễn phí cài đặt phần mềm trọn đời</p>
+                    <div class="p-4 bg-yellow-50/50 text-sm space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-green-600"><?php echo miliwebseo_icon('check-circle', 'h-4 w-4'); ?></span>
+                            <span class="font-medium">Balo Laptop cao cấp</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-green-600"><?php echo miliwebseo_icon('check-circle', 'h-4 w-4'); ?></span>
+                            <span class="font-medium">Chuột không dây chính hãng</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-green-600"><?php echo miliwebseo_icon('check-circle', 'h-4 w-4'); ?></span>
+                            <span class="font-medium">Bộ vệ sinh laptop 4 món</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-green-600"><?php echo miliwebseo_icon('check-circle', 'h-4 w-4'); ?></span>
+                            <span class="font-medium">Miễn phí cài đặt phần mềm trọn đời</span>
+                        </div>
                     </div>
                 </div>
 
@@ -220,19 +232,23 @@ get_header(); ?>
                     </div>
                 </div>
 
-                <div class="bg-white border rounded-lg p-4 space-y-4">
-                    <div class="flex items-start gap-3">
-                        <span class="text-xl">🚚</span>
+                <div class="bg-white border rounded-xl p-4 space-y-5 shadow-sm">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <?php echo miliwebseo_icon('truck', 'h-6 w-6'); ?>
+                        </div>
                         <div class="text-xs">
-                            <p class="font-bold">MIỄN PHÍ VẬN CHUYỂN</p>
-                            <p class="text-gray-500">Cho đơn hàng từ 10 triệu đồng</p>
+                            <p class="font-bold text-secondary uppercase">MIỄN PHÍ VẬN CHUYỂN</p>
+                            <p class="text-gray-500 mt-1">Cho đơn hàng từ 10 triệu đồng</p>
                         </div>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <span class="text-xl">🛡️</span>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-green-50 text-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <?php echo miliwebseo_icon('shield-check', 'h-6 w-6'); ?>
+                        </div>
                         <div class="text-xs">
-                            <p class="font-bold">BẢO HÀNH CHÍNH HÃNG</p>
-                            <p class="text-gray-500">12 tháng, lỗi 1 đổi 1 trong 15 ngày</p>
+                            <p class="font-bold text-secondary uppercase">BẢO HÀNH CHÍNH HÃNG</p>
+                            <p class="text-gray-500 mt-1">12 tháng, lỗi 1 đổi 1 trong 15 ngày</p>
                         </div>
                     </div>
                 </div>

@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="bg-gray-50 min-h-screen py-12">
     <div class="container mx-auto px-4">
         <h1 class="text-3xl font-black text-secondary uppercase mb-8 italic flex items-center gap-3">
-            <?php echo miliwebseo_icon('cart', 'h-8 w-8 text-primary'); ?>
+            <?php echo miliwebseo_icon('shopping-cart', 'h-8 w-8 text-primary'); ?>
             GIỎ HÀNG CỦA BẠN
         </h1>
 

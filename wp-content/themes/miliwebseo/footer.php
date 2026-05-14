@@ -8,9 +8,15 @@
             </p>
             <div class="flex space-x-4">
                 <!-- Social Icons -->
-                <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">FB</a>
-                <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">YT</a>
-                <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">TT</a>
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary hover:text-black transition-all transform hover:-translate-y-1">
+                    <?php echo miliwebseo_icon('chevron-right', 'h-5 w-5'); ?>
+                </a>
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary hover:text-black transition-all transform hover:-translate-y-1">
+                    <?php echo miliwebseo_icon('flame', 'h-5 w-5'); ?>
+                </a>
+                <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary hover:text-black transition-all transform hover:-translate-y-1">
+                    <?php echo miliwebseo_icon('zap', 'h-5 w-5'); ?>
+                </a>
             </div>
         </div>
         <div>
@@ -34,17 +40,17 @@
         </div>
         <div>
             <h3 class="text-white font-bold text-lg mb-4">LIÊN HỆ</h3>
-            <ul class="space-y-2 text-sm">
-                <li class="flex items-start gap-2">
-                    <span>📍</span>
+            <ul class="space-y-4 text-sm">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-0.5"><?php echo miliwebseo_icon('map-pin', 'h-4 w-4'); ?></span>
                     <span>Địa chỉ: 123 Đường ABC, Quận XYZ, TP. HCM</span>
                 </li>
-                <li class="flex items-center gap-2">
-                    <span>📞</span>
+                <li class="flex items-center gap-3">
+                    <span class="text-primary"><?php echo miliwebseo_icon('phone', 'h-4 w-4'); ?></span>
                     <span>Hotline: 1900.xxxx</span>
                 </li>
-                <li class="flex items-center gap-2">
-                    <span>✉️</span>
+                <li class="flex items-center gap-3">
+                    <span class="text-primary"><?php echo miliwebseo_icon('mail', 'h-4 w-4'); ?></span>
                     <span>Email: contact@miliweb.vn</span>
                 </li>
             </ul>
@@ -91,9 +97,10 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
          class="text-white p-4 rounded-xl shadow-2xl flex items-center gap-4 border border-white/20 backdrop-blur-md bg-opacity-90">
         <div class="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
             <template x-if="type === 'success'">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
+                <?php echo miliwebseo_icon('check-circle', 'h-6 w-6'); ?>
+            </template>
+            <template x-if="type === 'error'">
+                <?php echo miliwebseo_icon('x-circle', 'h-6 w-6'); ?>
             </template>
         </div>
         <div class="flex-grow">

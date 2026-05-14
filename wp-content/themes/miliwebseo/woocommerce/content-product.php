@@ -60,18 +60,15 @@ if ( empty( $product ) || ! $product->is_visible() ) {
             <?php the_title(); ?>
         </h3>
         
-        <!-- Rating -->
-        <div class="flex items-center gap-1 mb-1">
-            <div class="flex text-yellow-400 text-[10px]">
-                <?php 
-                $rating = $product->get_average_rating();
-                for ($i = 1; $i <= 5; $i++) {
-                    echo ($i <= $rating) ? '★' : '☆';
-                }
-                ?>
-            </div>
-            <?php if ( $product->get_review_count() > 0 ) : ?>
-                <span class="text-[9px] text-gray-400">(<?php echo $product->get_review_count(); ?>)</span>
+        <!-- Rating (Compact) -->
+        <?php $rating = $product->get_average_rating(); ?>
+        <div class="flex items-center gap-1.5 mb-1.5 h-4">
+            <?php if ( $rating > 0 ) : ?>
+                <div class="flex items-center gap-0.5 text-yellow-500 font-bold text-[10px]">
+                    <span><?php echo number_format($rating, 1); ?></span>
+                    <?php echo miliwebseo_icon('star', 'h-2.5 w-2.5 fill-current'); ?>
+                </div>
+                <span class="text-[9px] text-gray-400 font-medium">(<?php echo $product->get_review_count(); ?>)</span>
             <?php endif; ?>
         </div>
 
