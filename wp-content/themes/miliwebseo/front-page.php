@@ -156,13 +156,15 @@
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             <?php
             $args = miliwebseo_get_flash_sale_args();
-            $loop = new WP_Query( $args );
-            if ( $loop->have_posts() ) {
-                while ( $loop->have_posts() ) : $loop->the_post();
-                    wc_get_template_part( 'woocommerce/content', 'product' );
+            $loop = new WP_Query($args);
+            if ($loop->have_posts()) {
+                while ($loop->have_posts()):
+                    $loop->the_post();
+                    wc_get_template_part('woocommerce/content', 'product');
                 endwhile;
             } else {
-                for($i=0; $i<5; $i++) include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
+                for ($i = 0; $i < 5; $i++)
+                    include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
             }
             wp_reset_postdata();
             ?>
@@ -172,85 +174,86 @@
     <?php
     // Get all terms from usage_needs taxonomy
     $usage_terms = get_terms([
-        'taxonomy'   => 'usage_needs',
-        'hide_empty' => true, // Only show terms that have products
+        'taxonomy' => 'usage_needs',
+        'hide_empty' => true, 
     ]);
 
-    if ( ! empty( $usage_terms ) && ! is_wp_error( $usage_terms ) ) :
-        foreach ( $usage_terms as $term ) :
-            // Skip 'office' or other slugs if you want a specific order, 
-            // but here we loop through all for maximum flexibility.
-            
-            // Custom titles based on slug if needed
+    if (!empty($usage_terms) && !is_wp_error($usage_terms)):
+        foreach ($usage_terms as $term):
             $title = $term->name;
-            if ($term->slug === 'gaming') $title = 'Laptop Gaming Nổi Bật';
-            if ($term->slug === 'office') $title = 'Laptop học tập - văn phòng';
-    ?>
-    <section class="mb-12">
-        <div class="flex flex-col md:flex-row items-baseline justify-between mb-6 border-b-2 border-primary pb-2 gap-4">
-            <h2 class="text-xl font-black uppercase text-secondary"><?php echo esc_html($title); ?></h2>
-            <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs">
-                <?php 
-                // Get all products IDs in this usage_need term
-                $product_ids = get_posts([
-                    'post_type' => 'product',
-                    'numberposts' => -1,
-                    'fields' => 'ids',
-                    'tax_query' => [
-                        [
-                            'taxonomy' => 'usage_needs',
-                            'field' => 'slug',
-                            'terms' => $term->slug,
-                        ]
-                    ]
-                ]);
-
-                if (!empty($product_ids)) {
-                    // Get unique brands from these products using the correct 'brand' taxonomy
-                    $brands = wp_get_object_terms($product_ids, 'brand');
-                    if (!is_wp_error($brands) && !empty($brands)) {
-                        foreach ($brands as $brand) : ?>
-                            <a href="<?php echo get_term_link($brand); ?>" class="text-gray-500 hover:text-primary font-bold transition-colors">Laptop <?php echo esc_html($brand->name); ?></a>
-                        <?php endforeach;
-                    }
-                }
-                ?>
-                <a href="<?php echo get_term_link($term); ?>" class="text-blue-600 hover:underline font-bold">Xem tất cả ></a>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            <?php
-            $args = array(
-                'post_type'      => 'product',
-                'posts_per_page' => 10,
-                'tax_query'      => array(
-                    array(
-                        'taxonomy' => 'usage_needs',
-                        'field'    => 'slug',
-                        'terms'    => $term->slug,
-                    ),
-                ),
-            );
-            $loop = new WP_Query( $args );
-            if ( $loop->have_posts() ) {
-                while ( $loop->have_posts() ) : $loop->the_post();
-                    wc_get_template_part( 'woocommerce/content', 'product' );
-                endwhile;
-            } else {
-                for($i=0; $i<5; $i++) include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
-            }
-            wp_reset_postdata();
+            if ($term->slug === 'gaming')
+                $title = 'Laptop Gaming Nổi Bật';
+            if ($term->slug === 'office')
+                $title = 'Laptop học tập - văn phòng';
             ?>
-        </div>
-    </section>
-    <?php 
-        endforeach; 
+            <section class="mb-12">
+                <div class="flex flex-col md:flex-row items-baseline justify-between mb-6 border-b-2 border-primary pb-2 gap-4">
+                    <h2 class="text-xl font-black uppercase text-secondary"><?php echo esc_html($title); ?></h2>
+                    <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs">
+                        <?php
+                        $product_ids = get_posts([
+                            'post_type' => 'product',
+                            'numberposts' => -1,
+                            'fields' => 'ids',
+                            'tax_query' => [
+                                [
+                                    'taxonomy' => 'usage_needs',
+                                    'field' => 'slug',
+                                    'terms' => $term->slug,
+                                ]
+                            ]
+                        ]);
+
+                        if (!empty($product_ids)) {
+                            // Using 'product_brand' as established in our new architecture
+                            $brands = wp_get_object_terms($product_ids, 'product_brand');
+                            if (!is_wp_error($brands) && !empty($brands)) {
+                                foreach ($brands as $brand): ?>
+                                    <a href="<?php echo get_term_link($brand); ?>"
+                                        class="text-gray-500 hover:text-primary font-bold transition-colors">Laptop <?php echo esc_html($brand->name); ?></a>
+                                <?php endforeach;
+                            }
+                        }
+                        ?>
+                        <a href="<?php echo get_term_link($term); ?>"
+                            class="text-blue-600 hover:underline font-bold">Xem tất cả ></a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <?php
+                    $args = array(
+                        'post_type' => 'product',
+                        'posts_per_page' => 10,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'usage_needs',
+                                'field' => 'slug',
+                                'terms' => $term->slug,
+                            ),
+                        ),
+                    );
+                    $loop = new WP_Query($args);
+                    if ($loop->have_posts()) {
+                        while ($loop->have_posts()):
+                            $loop->the_post();
+                            wc_get_template_part('woocommerce/content', 'product');
+                        endwhile;
+                    } else {
+                        for ($i = 0; $i < 5; $i++)
+                            include MILIWEBSEO_DIR . '/template-parts/product-card-demo.php';
+                    }
+                    wp_reset_postdata();
+                    ?>
+                </div>
+            </section>
+        <?php
+        endforeach;
     endif;
     ?>
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Hero Slider
         if (typeof Splide !== 'undefined' && document.querySelector('#hero-slider')) {
             new Splide('#hero-slider', { type: 'loop', autoplay: true, arrows: false }).mount();
@@ -259,15 +262,15 @@
         // Flash Sale Countdown
         const flashSaleTime = "<?php echo miliwebseo_get_flash_sale_time(); ?>";
         const countdownDate = new Date(flashSaleTime).getTime();
-        
-        const timer = setInterval(function() {
+
+        const timer = setInterval(function () {
             const now = new Date().getTime();
             const distance = countdownDate - now;
-            
+
             if (distance < 0) {
                 clearInterval(timer);
                 const countdownEl = document.getElementById("flash-sale-countdown");
-                if(countdownEl) countdownEl.innerHTML = "<span class='text-xs uppercase bg-white/20 px-3 py-1 rounded'>Đã kết thúc</span>";
+                if (countdownEl) countdownEl.innerHTML = "<span class='text-xs uppercase bg-white/20 px-3 py-1 rounded'>Đã kết thúc</span>";
                 return;
             }
 
@@ -279,9 +282,9 @@
             const minutesEl = document.getElementById("minutes");
             const secondsEl = document.getElementById("seconds");
 
-            if(hoursEl) hoursEl.innerHTML = hours.toString().padStart(2, '0');
-            if(minutesEl) minutesEl.innerHTML = minutes.toString().padStart(2, '0');
-            if(secondsEl) secondsEl.innerHTML = seconds.toString().padStart(2, '0');
+            if (hoursEl) hoursEl.innerHTML = hours.toString().padStart(2, '0');
+            if (minutesEl) minutesEl.innerHTML = minutes.toString().padStart(2, '0');
+            if (secondsEl) secondsEl.innerHTML = seconds.toString().padStart(2, '0');
         }, 1000);
     });
 </script>
