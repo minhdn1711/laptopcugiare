@@ -40,12 +40,21 @@
             <div id="hero-slider" class="splide bg-white rounded-lg shadow overflow-hidden h-[400px]">
                 <div class="splide__track h-full">
                     <ul class="splide__list h-full">
-                        <li class="splide__slide h-full">
-                            <img src="https://placehold.co/1200x400?text=Banner+1" class="w-full h-full object-cover">
-                        </li>
-                        <li class="splide__slide h-full">
-                            <img src="https://placehold.co/1200x400?text=Banner+2" class="w-full h-full object-cover">
-                        </li>
+                        <?php 
+                        $banners = miliwebseo_get_hero_banners();
+                        if ( ! empty( $banners ) ) :
+                            foreach ( $banners as $banner ) : ?>
+                                <li class="splide__slide h-full">
+                                    <a href="<?php echo esc_url( $banner['link'] ); ?>">
+                                        <img src="<?php echo esc_url( $banner['image'] ); ?>" class="w-full h-full object-cover">
+                                    </a>
+                                </li>
+                            <?php endforeach;
+                        else : ?>
+                            <li class="splide__slide h-full">
+                                <img src="https://placehold.co/1200x400?text=Vui+lòng+cài+đặt+banner+trong+Customizer" class="w-full h-full object-cover">
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -74,18 +83,7 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             <?php
-            $args = array(
-                'post_type'      => 'product',
-                'posts_per_page' => 5,
-                'meta_query'     => array(
-                    array(
-                        'key'     => '_sale_price',
-                        'value'   => 0,
-                        'compare' => '>',
-                        'type'    => 'NUMERIC',
-                    ),
-                ),
-            );
+            $args = miliwebseo_get_flash_sale_args();
             $loop = new WP_Query( $args );
             if ( $loop->have_posts() ) {
                 while ( $loop->have_posts() ) : $loop->the_post();
@@ -187,22 +185,31 @@
         }
 
         // Flash Sale Countdown
-        const countdownDate = new Date().getTime() + (5 * 60 * 60 * 1000); // 5 hours from now
+        const flashSaleTime = "<?php echo miliwebseo_get_flash_sale_time(); ?>";
+        const countdownDate = new Date(flashSaleTime).getTime();
+        
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = countdownDate - now;
+            
+            if (distance < 0) {
+                clearInterval(timer);
+                const countdownEl = document.getElementById("flash-sale-countdown");
+                if(countdownEl) countdownEl.innerHTML = "<span class='text-xs uppercase bg-white/20 px-3 py-1 rounded'>Đã kết thúc</span>";
+                return;
+            }
+
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
 
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("flash-sale-countdown").innerHTML = "HẾT HẠN";
-            }
+            if(hoursEl) hoursEl.innerHTML = hours.toString().padStart(2, '0');
+            if(minutesEl) minutesEl.innerHTML = minutes.toString().padStart(2, '0');
+            if(secondsEl) secondsEl.innerHTML = seconds.toString().padStart(2, '0');
         }, 1000);
     });
 </script>
