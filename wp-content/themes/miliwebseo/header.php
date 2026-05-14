@@ -78,238 +78,274 @@
 </head>
 <body <?php body_class( 'bg-gray-100' ); ?> x-data="{ mobileMenuOpen: false }">
 
-<header class="sticky top-0 z-50 bg-secondary text-white shadow-md">
+<header class="sticky top-0 z-50 bg-white shadow-sm">
     <!-- Top Bar -->
-    <div class="bg-gray-900 text-xs py-1 hidden md:block border-b border-gray-800">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex space-x-4">
-                <span class="flex items-center gap-1"><?php echo miliwebseo_icon('map-pin', 'h-3 w-3'); ?> Hệ thống cửa hàng</span>
-                <span class="flex items-center gap-1"><?php echo miliwebseo_icon('phone', 'h-3 w-3'); ?> Hotline: 1900.xxxx</span>
+    <div class="bg-gray-900 text-white text-[11px] py-1.5 hidden md:block">
+        <div class="container mx-auto px-4 flex justify-between items-center opacity-80">
+            <div class="flex space-x-6">
+                <span class="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors"><?php echo miliwebseo_icon('map-pin', 'h-3.5 w-3.5'); ?> Hệ thống 15 cửa hàng</span>
+                <span class="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors"><?php echo miliwebseo_icon('phone', 'h-3.5 w-3.5'); ?> Hotline: 1900.xxxx</span>
             </div>
-            <div class="flex space-x-4">
-                <span>Góp ý</span>
-                <span>Liên hệ</span>
-                <span>Bảo hành</span>
+            <div class="flex space-x-6 font-medium">
+                <a href="#" class="hover:text-primary transition-colors">Góp ý / Khiếu nại</a>
+                <a href="#" class="hover:text-primary transition-colors">Tra cứu bảo hành</a>
+                <a href="#" class="hover:text-primary transition-colors">Tin công nghệ</a>
             </div>
         </div>
     </div>
 
-    <!-- Main Header -->
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <!-- Logo -->
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex-shrink-0">
-            <h1 class="text-2xl font-bold text-primary">MILIWEBSEO</h1>
-        </a>
+    <!-- Main Header (Desktop) -->
+    <div class="hidden md:block bg-secondary text-white py-4 border-b border-white/5">
+        <div class="container mx-auto px-4 flex items-center justify-between gap-8">
+            <!-- Logo Area -->
+            <div class="flex-shrink-0 min-w-[200px]">
+                <?php if ( has_custom_logo() ) : ?>
+                    <?php the_custom_logo(); ?>
+                <?php else : ?>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center gap-2">
+                        <div class="bg-primary text-black p-1.5 rounded-lg font-black text-xl italic tracking-tighter">MILI</div>
+                        <span class="text-2xl font-black text-white italic tracking-tighter">WEBSEO</span>
+                    </a>
+                <?php endif; ?>
+            </div>
 
-        <!-- Mobile Menu Toggle -->
-        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-primary">
-            <?php echo miliwebseo_icon('menu', 'h-8 w-8'); ?>
-        </button>
+            <!-- Search Center -->
+            <div class="flex-grow max-w-2xl relative" x-data="searchComponent()" @click.away="results = []">
+                <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative group">
+                    <input type="text" name="s" x-model="query" @input.debounce.300ms="search()" placeholder="Tìm kiếm sản phẩm..." 
+                           class="w-full py-2.5 px-6 rounded-full bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white focus:text-black transition-all">
+                    <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-black rounded-full hover:bg-yellow-400 transition-all shadow-lg">
+                        <div x-show="!loading"><?php echo miliwebseo_icon('search', 'h-4 w-4'); ?></div>
+                        <div x-show="loading" class="animate-spin text-black"><?php echo miliwebseo_icon('refresh-cw', 'h-4 w-4'); ?></div>
+                    </button>
+                </form>
+                <!-- Results Dropdown -->
+                <div x-show="results.length > 0" x-cloak class="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-[110] text-black">
+                    <div class="p-3 space-y-1">
+                        <template x-for="item in results" :key="item.url">
+                            <a :href="item.url" class="flex items-center gap-4 p-2.5 hover:bg-gray-50 rounded-xl transition-colors group">
+                                <div class="w-14 h-14 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0"><img :src="item.image" class="w-full h-full object-cover"></div>
+                                <div class="flex-grow min-w-0">
+                                    <h4 class="text-sm font-bold truncate group-hover:text-primary transition-colors" x-text="item.title"></h4>
+                                    <p class="text-xs text-primary font-black" x-html="item.price"></p>
+                                </div>
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Category Toggle & Mega Menu -->
-        <div class="relative group hidden md:block flex-shrink-0" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-            <button class="bg-primary hover:bg-primary-dark text-black px-4 py-2 rounded font-bold flex items-center gap-2 whitespace-nowrap min-w-[200px] justify-center">
-                <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
-                DANH MỤC SẢN PHẨM
-            </button>
-            
-            <!-- Mega Menu Content -->
-            <div x-show="open" 
-                 x-cloak
-                 class="absolute top-full left-0 w-[800px] bg-white text-black shadow-xl rounded-b-lg border-t-4 border-primary grid grid-cols-4 p-6 gap-6 mt-0 z-[100]">
+            <!-- Header Action Icons -->
+            <div class="flex items-center space-x-5">
+                <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="flex items-center gap-2.5 hover:text-primary transition-all group">
+                    <div class="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary group-hover:text-black transition-all">
+                        <?php echo miliwebseo_icon('user', 'h-5 w-5'); ?>
+                    </div>
+                    <div class="hidden lg:block text-left leading-tight">
+                        <p class="text-[10px] text-white/50 uppercase font-bold">Tài khoản</p>
+                        <p class="text-xs font-black">Đăng nhập</p>
+                    </div>
+                </a>
                 
-                <?php if ( ! miliwebseo_render_mega_menu() ) : ?>
-                    <!-- Fallback hardcoded if menu not set in admin -->
-                    <div>
-                        <h3 class="font-bold border-b pb-2 mb-3 text-secondary uppercase text-xs">Laptop theo thương hiệu</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#" class="hover:text-primary transition-colors">Laptop Dell</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Laptop HP</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Laptop Asus</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Laptop Lenovo</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Laptop MSI</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Macbook</a></li>
-                        </ul>
+                <a href="<?php echo wc_get_cart_url(); ?>" class="relative group flex items-center gap-2.5">
+                    <div class="p-2.5 bg-primary text-black rounded-xl hover:scale-105 transition-all shadow-lg shadow-primary/20">
+                        <?php echo miliwebseo_icon('shopping-cart', 'h-5 w-5'); ?>
                     </div>
-                    <div>
-                        <h3 class="font-bold border-b pb-2 mb-3 text-secondary uppercase text-xs">Laptop theo nhu cầu</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#" class="hover:text-primary transition-colors">Laptop Gaming</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Văn phòng / Sinh viên</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Đồ họa chuyên nghiệp</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Mỏng nhẹ cao cấp</a></li>
-                        </ul>
+                    <div class="hidden lg:block text-left leading-tight">
+                        <p class="text-[10px] text-white/50 uppercase font-bold">Giỏ hàng</p>
+                        <p class="text-xs font-black"><?php echo WC()->cart->get_cart_total(); ?></p>
                     </div>
-                    <div>
-                        <h3 class="font-bold border-b pb-2 mb-3 text-secondary uppercase text-xs">Laptop theo giá</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#" class="hover:text-primary transition-colors">Dưới 10 triệu</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">10 - 15 triệu</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">15 - 20 triệu</a></li>
-                            <li><a href="#" class="hover:text-primary transition-colors">Trên 20 triệu</a></li>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-
-                <div class="bg-gray-100 p-4 rounded">
-                    <img src="https://placehold.co/200x250?text=Mega+Menu+Banner" alt="Banner" class="w-full h-auto rounded">
-                </div>
+                    <span class="absolute -top-2 -left-2 bg-red-600 text-white rounded-full text-[10px] w-5 h-5 flex items-center justify-center font-bold border-2 border-secondary shadow-lg cart-count">
+                        <?php echo WC()->cart->get_cart_contents_count(); ?>
+                    </span>
+                </a>
             </div>
         </div>
+    </div>
 
-        <!-- Search Bar -->
-        <div class="flex-grow max-w-2xl relative" 
-             x-data="{ 
-                query: '', 
-                results: [], 
-                loading: false,
-                search() {
-                    if (this.query.length < 2) {
-                        this.results = [];
-                        return;
-                    }
-                    this.loading = true;
-                    let formData = new FormData();
-                    formData.append('action', 'miliwebseo_search');
-                    formData.append('query', this.query);
-
-                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        this.results = data.success ? data.data : [];
-                        this.loading = false;
-                    });
-                }
-             }"
-             @click.away="results = []">
-            <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative">
-                <input type="text" 
-                       name="s" 
-                       x-model="query"
-                       @input.debounce.300ms="search()"
-                       placeholder="Bạn tìm laptop gì?..." 
-                       class="w-full py-2 px-4 rounded-full bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary">
-                <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    <div x-show="!loading">
-                        <?php echo miliwebseo_icon('search', 'h-5 w-5'); ?>
+    <!-- Bottom Header / Nav Bar (Desktop) -->
+    <div class="hidden md:block bg-white border-b border-gray-100 py-1">
+        <div class="container mx-auto px-4 flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <!-- Vertical Menu Toggle (Flatsome Style) -->
+                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                    <button class="bg-primary hover:bg-yellow-400 text-black px-6 py-2.5 rounded-t-xl font-black text-sm flex items-center gap-3 transition-all min-w-[240px]">
+                        <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
+                        DANH MỤC SẢN PHẨM
+                        <div class="ml-auto"><?php echo miliwebseo_icon('chevron-down', 'h-4 w-4'); ?></div>
+                    </button>
+                    <!-- Small shadow to blend with body -->
+                    <div x-show="open" x-cloak class="absolute top-full left-0 w-full bg-white shadow-xl rounded-b-xl border-x border-b border-gray-100 z-[100] overflow-hidden">
+                        <?php miliwebseo_render_vertical_menu(); ?>
                     </div>
-                    <div x-show="loading" class="animate-spin text-primary">
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </div>
-                </button>
-            </form>
-
-            <!-- Search Results Dropdown -->
-            <div x-show="results.length > 0" 
-                 x-cloak
-                 class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-[110] text-black">
-                <div class="p-2 space-y-1">
-                    <template x-for="item in results" :key="item.url">
-                        <a :href="item.url" class="flex items-center gap-4 p-2 hover:bg-gray-50 rounded-lg transition-colors group">
-                            <div class="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
-                                <img :src="item.image" class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex-grow min-w-0">
-                                <h4 class="text-sm font-bold truncate group-hover:text-primary transition-colors" x-text="item.title"></h4>
-                                <p class="text-xs text-primary font-bold" x-html="item.price"></p>
-                            </div>
-                        </a>
-                    </template>
                 </div>
-                <div class="bg-gray-50 p-2 text-center">
-                    <a :href="'<?php echo home_url('/?s='); ?>' + query" class="text-xs font-bold text-blue-600 hover:underline">Xem tất cả kết quả cho "<span x-text="query"></span>"</a>
-                </div>
-            </div>
-        </div>
 
-        <!-- Header Icons -->
-        <div class="flex items-center space-x-6 text-sm font-medium">
-            <div class="hidden xl:flex items-center gap-2 group cursor-pointer hover:text-primary transition-colors">
-                <?php echo miliwebseo_icon('newspaper', 'h-6 w-6 text-primary group-hover:scale-110 transition-transform'); ?>
-                <div class="leading-tight">Tin tức<br>Công nghệ</div>
+                <!-- Primary Menu -->
+                <nav class="flex items-center space-x-6 text-sm font-bold text-gray-700 uppercase tracking-tight">
+                    <a href="<?php echo home_url(); ?>" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('home', 'h-4 w-4 text-primary'); ?> Trang chủ</a>
+                    <a href="#" class="hover:text-primary transition-colors">Sản phẩm mới</a>
+                    <a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('flame', 'h-4 w-4 text-orange-500'); ?> Khuyến mãi</a>
+                    <a href="#" class="hover:text-primary transition-colors">Tin tức</a>
+                    <a href="#" class="hover:text-primary transition-colors">Liên hệ</a>
+                </nav>
             </div>
             
-            <?php if ( function_exists( 'YITH_WCWL' ) ) : ?>
-            <a href="<?php echo esc_url( YITH_WCWL()->get_wishlist_url() ); ?>" class="relative flex flex-col items-center hover:text-primary transition-colors group">
-                <?php echo miliwebseo_icon('heart', 'h-6 w-6 group-hover:scale-110 transition-transform'); ?>
-                <span class="text-xs mt-1">Yêu thích</span>
-            </a>
-            <?php endif; ?>
+            <div class="flex items-center gap-4">
+                 <span class="text-xs font-bold text-secondary flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    250+ Laptop đang sẵn hàng
+                 </span>
+            </div>
+        </div>
+    </div>
 
-            <?php if ( class_exists( 'WooCommerce' ) ) : ?>
-            <a href="<?php echo wc_get_cart_url(); ?>" class="relative flex flex-col items-center hover:text-primary transition-colors group">
-                <?php echo miliwebseo_icon('shopping-cart', 'h-6 w-6 group-hover:scale-110 transition-transform'); ?>
-                <span class="text-xs mt-1">Giỏ hàng</span>
-                <?php if ( WC()->cart ) : ?>
-                <span class="absolute -top-1 -right-2 bg-primary text-black rounded-full text-[10px] w-4 h-4 flex items-center justify-center font-bold cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+    <!-- Mobile Header Redesign -->
+    <div class="md:hidden bg-secondary text-white">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <button @click="mobileMenuOpen = true" class="p-2 -ml-2 text-primary bg-white/5 rounded-lg">
+                <?php echo miliwebseo_icon('menu', 'h-6 w-6'); ?>
+            </button>
+
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex-grow flex justify-center">
+                <?php if ( has_custom_logo() ) : the_custom_logo(); else : ?>
+                    <h1 class="text-xl font-black text-primary italic tracking-tighter">MILIWEBSEO</h1>
                 <?php endif; ?>
             </a>
-            <?php endif; ?>
+
+            <a href="<?php echo wc_get_cart_url(); ?>" class="relative p-2 bg-primary text-black rounded-lg">
+                <?php echo miliwebseo_icon('shopping-cart', 'h-6 w-6'); ?>
+                <span class="absolute -top-1 -right-1 bg-red-600 text-white rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-bold"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+            </a>
+        </div>
+        
+        <!-- Mobile Search -->
+        <div class="container mx-auto px-4 pb-3" x-data="searchComponent()" @click.away="results = []">
+            <div class="relative">
+                <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
+                    <input type="text" name="s" x-model="query" @input.debounce.300ms="search()" placeholder="Bạn tìm gì hôm nay?..." 
+                           class="w-full py-2.5 px-5 rounded-full bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                </form>
+            </div>
         </div>
     </div>
 </header>
 
-<!-- Mobile Menu Drawer -->
-<div x-show="mobileMenuOpen" 
-     x-cloak
-     class="fixed inset-0 z-[100] lg:hidden" 
-     role="dialog" aria-modal="true">
-    <!-- Background backdrop -->
-    <div x-show="mobileMenuOpen" 
-         x-transition:enter="transition-opacity ease-linear duration-300" 
-         x-transition:enter-start="opacity-0" 
-         x-transition:enter-end="opacity-100" 
-         x-transition:leave="transition-opacity ease-linear duration-300" 
-         x-transition:leave-start="opacity-100" 
-         x-transition:leave-end="opacity-0" 
-         @click="mobileMenuOpen = false"
-         class="fixed inset-0 bg-black bg-opacity-50"></div>
+<!-- Mobile Menu Drawer (Premium Redesign) -->
+<div x-show="mobileMenuOpen" x-cloak class="fixed inset-0 z-[100]" role="dialog" aria-modal="true">
+    <div x-show="mobileMenuOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="mobileMenuOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 
-    <div x-show="mobileMenuOpen" 
-         x-transition:enter="transition ease-in-out duration-300 transform" 
-         x-transition:enter-start="-translate-x-full" 
-         x-transition:enter-end="translate-x-0" 
-         x-transition:leave="transition ease-in-out duration-300 transform" 
-         x-transition:leave-start="translate-x-0" 
-         x-transition:leave-end="-translate-x-full" 
-         class="fixed inset-y-0 left-0 w-64 bg-white shadow-xl flex flex-col p-6 overflow-y-auto">
+    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="fixed inset-y-0 left-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col overflow-hidden">
         
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-xl font-bold text-primary uppercase">Menu</h2>
-            <button @click="mobileMenuOpen = false" class="text-gray-500 hover:text-red-500 transition-colors">
-                <?php echo miliwebseo_icon('x-circle', 'h-7 w-7'); ?>
+        <!-- Drawer Header -->
+        <div class="bg-secondary p-6 flex items-center justify-between text-white">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black">
+                    <?php echo miliwebseo_icon('user', 'h-6 w-6'); ?>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400">Xin chào!</p>
+                    <p class="font-bold">Khách hàng</p>
+                </div>
+            </div>
+            <button @click="mobileMenuOpen = false" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all">
+                <?php echo miliwebseo_icon('x', 'h-5 w-5'); ?>
             </button>
         </div>
 
-        <nav class="flex flex-col space-y-4">
-            <a href="<?php echo home_url(); ?>" class="font-bold border-b pb-2">Trang chủ</a>
-            
-            <div x-data="{ open: true }">
-                <button @click="open = !open" class="flex items-center justify-between w-full font-bold text-secondary">
-                    DANH MỤC
-                    <?php echo miliwebseo_icon('chevron-down', 'h-4 w-4 transform transition-transform', 3); ?>
-                </button>
-                <div x-show="open" class="mt-2 pl-4 space-y-2 text-sm">
-                    <a href="#" class="block hover:text-primary">Laptop Dell</a>
-                    <a href="#" class="block hover:text-primary">Laptop HP</a>
-                    <a href="#" class="block hover:text-primary">Laptop Asus</a>
-                    <a href="#" class="block hover:text-primary">Laptop Lenovo</a>
-                    <a href="#" class="block hover:text-primary">Macbook</a>
+        <div class="flex-grow overflow-y-auto p-6">
+            <nav class="space-y-6">
+                <!-- Main Links -->
+                <div class="space-y-3">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Khám phá</p>
+                    <a href="<?php echo home_url(); ?>" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl font-bold text-secondary">
+                        <?php echo miliwebseo_icon('home', 'h-5 w-5 text-primary'); ?> Trang chủ
+                    </a>
+                    <a href="#" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl font-bold text-secondary transition-all">
+                        <?php echo miliwebseo_icon('flame', 'h-5 w-5 text-orange-500'); ?> Khuyến mãi hot
+                    </a>
                 </div>
-            </div>
 
-            <a href="#" class="font-bold text-secondary">Tin tức</a>
-            <a href="#" class="font-bold text-secondary">Khuyến mãi</a>
-            <a href="#" class="font-bold text-secondary">Liên hệ</a>
-        </nav>
+                <!-- Categories -->
+                <div x-data="{ open: true }" class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Danh mục sản phẩm</p>
+                        <button @click="open = !open" class="text-xs text-primary font-bold" x-text="open ? 'Thu gọn' : 'Mở rộng'"></button>
+                    </div>
+                    <div x-show="open" x-transition class="grid grid-cols-2 gap-2">
+                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
+                            <p class="text-xs font-bold">Laptop Gaming</p>
+                        </a>
+                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
+                            <p class="text-xs font-bold">Laptop Văn phòng</p>
+                        </a>
+                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
+                            <p class="text-xs font-bold">Macbook</p>
+                        </a>
+                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
+                            <p class="text-xs font-bold">Linh kiện</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Support -->
+                <div class="space-y-3">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Hỗ trợ</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <a href="#" class="flex items-center gap-3 text-sm font-medium text-gray-600 hover:text-primary">
+                            <?php echo miliwebseo_icon('help-circle', 'h-4 w-4'); ?> Hướng dẫn mua hàng
+                        </a>
+                        <a href="#" class="flex items-center gap-3 text-sm font-medium text-gray-600 hover:text-primary">
+                            <?php echo miliwebseo_icon('shield-check', 'h-4 w-4'); ?> Chính sách bảo hành
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Drawer Footer -->
+        <div class="p-6 border-t border-gray-100 bg-gray-50">
+            <div class="flex items-center gap-4">
+                <div class="flex-grow">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase">Hotline hỗ trợ</p>
+                    <p class="text-lg font-black text-secondary tracking-tighter">1900.xxxx</p>
+                </div>
+                <a href="tel:1900xxxx" class="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-primary/30">
+                    <?php echo miliwebseo_icon('phone', 'h-6 w-6 text-black'); ?>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    function searchComponent() {
+        return {
+            query: '',
+            results: [],
+            loading: false,
+            search() {
+                if (this.query.length < 2) {
+                    this.results = [];
+                    return;
+                }
+                this.loading = true;
+                let formData = new FormData();
+                formData.append('action', 'miliwebseo_search');
+                formData.append('query', this.query);
+
+                fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    this.results = data.success ? data.data : [];
+                    this.loading = false;
+                });
+            }
+        }
+    }
+</script>
 
 <!-- Mobile Bottom Navigation -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 flex justify-between items-center z-[100] md:hidden shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">

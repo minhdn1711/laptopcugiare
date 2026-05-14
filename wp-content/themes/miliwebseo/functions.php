@@ -25,6 +25,7 @@ function miliwebseo_setup() {
 	add_theme_support( 'wc-product-gallery-zoom' );
 	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
+	add_theme_support( 'custom-logo' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
 
 	register_nav_menus( array(
@@ -32,6 +33,7 @@ function miliwebseo_setup() {
 		'footer'    => __( 'Footer Menu', 'miliwebseo' ),
 		'mobile'    => __( 'Mobile Menu', 'miliwebseo' ),
 		'mega_menu' => __( 'Mega Menu', 'miliwebseo' ),
+		'vertical'  => __( 'Vertical Menu', 'miliwebseo' ),
 	) );
 }
 add_action( 'after_setup_theme', 'miliwebseo_setup' );

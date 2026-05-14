@@ -49,3 +49,43 @@ function miliwebseo_render_mega_menu() {
     <?php endforeach;
     return true;
 }
+
+/**
+ * Render Vertical Menu (Flatsome Style)
+ */
+function miliwebseo_render_vertical_menu() {
+    $menu_name = 'vertical';
+    $locations = get_nav_menu_locations();
+    
+    // Fallback: If no menu assigned, show product categories
+    if ( ! isset( $locations[ $menu_name ] ) ) {
+        $categories = get_terms( 'product_cat', array( 'hide_empty' => false, 'parent' => 0 ) );
+        if ( empty( $categories ) ) return false;
+        
+        echo '<ul class="divide-y divide-gray-100">';
+        foreach ( $categories as $cat ) {
+            echo '<li><a href="' . esc_url( get_term_link( $cat ) ) . '" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">';
+            echo esc_html( $cat->name ) . ' <span class="text-gray-300 group-hover:text-primary">' . miliwebseo_icon('chevron-right', 'h-3 w-3') . '</span>';
+            echo '</a></li>';
+        }
+        echo '</ul>';
+        return true;
+    }
+
+    $menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
+    $menu_items = wp_get_nav_menu_items( $menu->term_id );
+
+    if ( empty( $menu_items ) ) return false;
+
+    echo '<ul class="divide-y divide-gray-100">';
+    foreach ( $menu_items as $item ) {
+        if ( ! $item->menu_item_parent ) {
+            echo '<li><a href="' . esc_url( $item->url ) . '" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">';
+            echo '<span class="flex items-center gap-3">' . esc_html( $item->title ) . '</span>';
+            echo '<span class="text-gray-300 group-hover:text-primary">' . miliwebseo_icon('chevron-right', 'h-3 w-3') . '</span>';
+            echo '</a></li>';
+        }
+    }
+    echo '</ul>';
+    return true;
+}
