@@ -35,23 +35,6 @@ if ( empty( $product ) || ! $product->is_visible() ) {
     <!-- Product Image -->
     <div class="relative mb-4 aspect-[4/3] overflow-hidden z-10">
         <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' ) ); ?>
-        
-        <!-- Hover Specs Overlay (Desktop) -->
-        <div class="absolute inset-0 bg-black bg-opacity-80 text-white p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-xs flex flex-col justify-center z-20 hidden md:flex">
-            <p class="font-bold mb-2 text-primary">Thông số kỹ thuật:</p>
-            <ul class="space-y-1">
-                <?php
-                $cpu = get_the_terms( get_the_ID(), 'cpu' );
-                $ram = get_the_terms( get_the_ID(), 'ram' );
-                $vga = get_the_terms( get_the_ID(), 'vga' );
-                $ssd = get_the_terms( get_the_ID(), 'ssd' );
-                if($cpu) echo "<li>CPU: {$cpu[0]->name}</li>";
-                if($ram) echo "<li>RAM: {$ram[0]->name}</li>";
-                if($ssd) echo "<li>SSD: {$ssd[0]->name}</li>";
-                if($vga) echo "<li>VGA: {$vga[0]->name}</li>";
-                ?>
-            </ul>
-        </div>
     </div>
 
     <!-- Product Info -->
@@ -99,6 +82,33 @@ if ( empty( $product ) || ! $product->is_visible() ) {
     <div class="mt-auto z-10">
         <div class="w-full bg-gray-50 border border-gray-200 group-hover:bg-primary group-hover:border-primary group-hover:text-black text-gray-600 font-bold py-2 rounded text-xs transition-colors uppercase text-center">
             Xem chi tiết
+        </div>
+    </div>
+
+    <!-- Hover Specs Overlay (Desktop - Full Height) -->
+    <div class="absolute inset-0 bg-black bg-opacity-80 text-white p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-xs flex flex-col justify-center z-20 hidden md:flex">
+        <p class="font-bold mb-2 text-primary text-sm">Thông số kỹ thuật:</p>
+        <ul class="space-y-1.5">
+            <?php
+            $cpu = get_the_terms( get_the_ID(), 'cpu' );
+            $ram = get_the_terms( get_the_ID(), 'ram' );
+            $ssd = get_the_terms( get_the_ID(), 'ssd' );
+            $vga = get_the_terms( get_the_ID(), 'vga' );
+            $screen = get_the_terms( get_the_ID(), 'screen_size' );
+            
+            if($cpu) echo '<li class="flex items-start gap-1"><span class="text-gray-400">CPU:</span> ' . esc_html($cpu[0]->name) . '</li>';
+            if($ram) echo '<li class="flex items-start gap-1"><span class="text-gray-400">RAM:</span> ' . esc_html($ram[0]->name) . '</li>';
+            if($ssd) echo '<li class="flex items-start gap-1"><span class="text-gray-400">SSD:</span> ' . esc_html($ssd[0]->name) . '</li>';
+            if($vga) echo '<li class="flex items-start gap-1"><span class="text-gray-400">VGA:</span> ' . esc_html($vga[0]->name) . '</li>';
+            if($screen) echo '<li class="flex items-start gap-1"><span class="text-gray-400">Màn:</span> ' . esc_html($screen[0]->name) . '</li>';
+            ?>
+        </ul>
+        <div class="mt-4 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 backdrop-blur-sm">
+            <p class="text-primary font-bold flex items-center gap-1.5 mb-1">
+                <?php echo miliwebseo_icon('gift', 'h-4 w-4'); ?>
+                Quà tặng:
+            </p>
+            <p class="text-[11px] text-gray-200">Balo + Chuột + Lót chuột</p>
         </div>
     </div>
 </div>
