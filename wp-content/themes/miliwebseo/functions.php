@@ -64,32 +64,7 @@ add_action('init', function() {
     update_option('woocommerce_require_login_to_checkout', 'no');
 });
 
-/**
- * Register Brand & Series Taxonomies
- */
-add_action( 'init', function() {
-    // Brand Taxonomy
-    register_taxonomy( 'product_brand', 'product', array(
-        'hierarchical'      => true,
-        'label'             => 'Thương hiệu',
-        'singular_label'    => 'Thương hiệu',
-        'show_ui'           => true,
-        'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'brand' ),
-        'show_in_rest'      => true,
-    ) );
 
-    // Series Taxonomy
-    register_taxonomy( 'product_series', 'product', array(
-        'hierarchical'      => true,
-        'label'             => 'Dòng sản phẩm (Series)',
-        'singular_label'    => 'Dòng sản phẩm',
-        'show_ui'           => true,
-        'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'series' ),
-        'show_in_rest'      => true,
-    ) );
-});
 
 /**
  * Temporary Seeder for Product Categories

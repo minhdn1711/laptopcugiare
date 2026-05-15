@@ -50,7 +50,7 @@ get_header(); ?>
                     
                     // If we are on a specific brand page and no other brands are selected, 
                     // we should ensure the current brand is preserved.
-                    if (this.current_tax === 'brand' && this.brands.length === 0) {
+                    if (this.current_tax === 'product_brand' && this.brands.length === 0) {
                         formData.append('brands[]', this.current_term);
                     } else {
                         this.brands.forEach(b => formData.append('brands[]', b));
@@ -60,7 +60,7 @@ get_header(); ?>
                     formData.append('price', this.price);
                     
                     // Always send current context if not shop page
-                    if (this.current_tax && this.current_tax !== 'brand') {
+                    if (this.current_tax && this.current_tax !== 'product_brand') {
                         formData.append('current_tax', this.current_tax);
                         formData.append('current_term', this.current_term);
                     }
@@ -93,7 +93,7 @@ get_header(); ?>
                         <h3 class="font-bold text-sm uppercase text-gray-400 mb-4 tracking-wider">Thương hiệu</h3>
                         <div class="grid grid-cols-2 gap-2">
                             <?php
-                            $brands = get_terms(['taxonomy' => 'brand', 'hide_empty' => true]);
+                            $brands = get_terms(['taxonomy' => 'product_brand', 'hide_empty' => true]);
                             foreach ($brands as $brand) :
                             ?>
                                 <label class="flex items-center gap-2 p-2 border border-gray-100 rounded-lg cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-yellow-50">

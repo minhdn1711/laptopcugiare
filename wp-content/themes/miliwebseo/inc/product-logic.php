@@ -25,7 +25,7 @@ function miliwebseo_custom_product_sorting( $query ) {
         return;
     }
 
-    if ( is_post_type_archive( 'product' ) || is_tax( 'product_cat' ) || is_tax( 'brand' ) ) {
+    if ( is_post_type_archive( 'product' ) || is_tax( 'product_cat' ) || is_tax( 'product_brand' ) ) {
         $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : '';
 
         switch ( $orderby ) {

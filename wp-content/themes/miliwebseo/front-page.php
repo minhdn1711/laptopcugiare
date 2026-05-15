@@ -175,7 +175,7 @@
     // Get all terms from usage_needs taxonomy
     $usage_terms = get_terms([
         'taxonomy' => 'usage_needs',
-        'hide_empty' => true, 
+        'hide_empty' => false, 
     ]);
 
     if (!empty($usage_terms) && !is_wp_error($usage_terms)):

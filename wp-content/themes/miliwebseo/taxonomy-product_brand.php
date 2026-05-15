@@ -24,7 +24,7 @@ $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) :
                     <h3 class="font-bold text-lg mb-4 border-b pb-2">Danh mục thương hiệu</h3>
                     <ul class="space-y-2">
                         <?php
-                        $brands = get_terms( array( 'taxonomy' => 'brand', 'hide_empty' => true ) );
+                        $brands = get_terms( array( 'taxonomy' => 'product_brand', 'hide_empty' => true ) );
                         foreach ( $brands as $brand ) :
                             $active_class = ( $brand->term_id == $current_term->term_id ) ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary';
                         ?>

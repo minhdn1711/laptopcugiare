@@ -39,7 +39,7 @@ function miliwebseo_add_product_schema() {
       "sku": "<?php echo esc_js( $sku ); ?>",
       "brand": {
         "@type": "Brand",
-        "name": "<?php echo esc_js( strip_tags( get_the_term_list( get_the_ID(), 'brand', '', ', ' ) ) ?: $shop_name ); ?>"
+        "name": "<?php echo esc_js( strip_tags( get_the_term_list( get_the_ID(), 'product_brand', '', ', ' ) ) ?: $shop_name ); ?>"
       },
       "offers": {
         "@type": "Offer",

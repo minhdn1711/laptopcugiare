@@ -34,7 +34,7 @@ function miliwebseo_filter_products() {
 
     if (!empty($brands)) {
         $args['tax_query'][] = array(
-            'taxonomy' => 'brand',
+            'taxonomy' => 'product_brand',
             'field'    => 'slug',
             'terms'    => $brands,
         );

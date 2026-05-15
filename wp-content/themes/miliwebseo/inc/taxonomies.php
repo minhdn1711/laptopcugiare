@@ -5,13 +5,14 @@
 
 function miliwebseo_register_taxonomies() {
 	$taxonomies = array(
-		'brand'       => array( 'name' => 'Thương hiệu', 'plural' => 'Thương hiệu' ),
+		'product_brand' => array( 'name' => 'Thương hiệu', 'plural' => 'Thương hiệu' ),
 		'cpu'         => array( 'name' => 'CPU', 'plural' => 'Dòng CPU' ),
 		'ram'         => array( 'name' => 'RAM', 'plural' => 'Dung lượng RAM' ),
 		'ssd'         => array( 'name' => 'Ổ cứng (SSD)', 'plural' => 'Dung lượng ổ cứng' ),
 		'vga'         => array( 'name' => 'Card đồ họa (VGA)', 'plural' => 'Dòng VGA' ),
 		'screen_size' => array( 'name' => 'Kích thước màn hình', 'plural' => 'Kích thước màn hình' ),
 		'usage_needs' => array( 'name' => 'Nhu cầu sử dụng', 'plural' => 'Nhu cầu' ),
+		'product_series' => array( 'name' => 'Dòng sản phẩm (Series)', 'plural' => 'Dòng sản phẩm' ),
 	);
 
 	foreach ( $taxonomies as $slug => $args ) {
@@ -29,13 +30,17 @@ function miliwebseo_register_taxonomies() {
 			'menu_name'         => $args['name'],
 		);
 
+		$rewrite_slug = $slug;
+		if ($slug === 'product_brand') $rewrite_slug = 'brand';
+		if ($slug === 'product_series') $rewrite_slug = 'series';
+
 		register_taxonomy( $slug, array( 'product' ), array(
 			'hierarchical'      => true,
 			'labels'            => $labels,
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => $slug ),
+			'rewrite'           => array( 'slug' => $rewrite_slug ),
 			'show_in_rest'      => true,
 		) );
 	}

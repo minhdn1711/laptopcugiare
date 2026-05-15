@@ -14,7 +14,7 @@ echo "Starting Seeding...\n";
 
 // 1. Create Terms
 $taxonomies_data = array(
-    'brand' => array( 'Dell', 'HP', 'Apple', 'Asus', 'Acer', 'Lenovo', 'MSI' ),
+    'product_brand' => array( 'Dell', 'HP', 'Apple', 'Asus', 'Acer', 'Lenovo', 'MSI' ),
     'cpu'   => array( 'Core i3', 'Core i5', 'Core i7', 'Core i9', 'Ryzen 5', 'Ryzen 7', 'Apple M1', 'Apple M2', 'Apple M3' ),
     'ram'   => array( '8GB', '16GB', '32GB', '64GB' ),
     'ssd'   => array( '256GB', '512GB', '1TB', '2TB' ),
@@ -67,7 +67,7 @@ for ( $i = 1; $i <= 50; $i++ ) {
         update_post_meta( $product_id, '_product_gifts', 'Chuột không dây + Balo laptop + Lót chuột' );
         
         // Set Taxonomies
-        wp_set_object_terms( $product_id, $brand, 'brand' );
+        wp_set_object_terms( $product_id, $brand, 'product_brand' );
         wp_set_object_terms( $product_id, $cpu, 'cpu' );
         wp_set_object_terms( $product_id, $ram, 'ram' );
         wp_set_object_terms( $product_id, $ssd, 'ssd' );
