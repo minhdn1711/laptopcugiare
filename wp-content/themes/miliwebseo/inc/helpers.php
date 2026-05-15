@@ -196,3 +196,93 @@ function miliwebseo_render_vertical_menu() {
     echo '</ul>';
     return true;
 }
+/**
+ * Render Primary Menu (Top Navigation)
+ */
+function miliwebseo_render_primary_menu() {
+    $menu_name = 'primary';
+    $locations = get_nav_menu_locations();
+    
+    if ( ! isset( $locations[ $menu_name ] ) ) {
+        // Fallback to hardcoded menu if no menu assigned
+        ?>
+        <a href="<?php echo home_url(); ?>" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('home', 'h-4 w-4 text-primary'); ?> Trang chủ</a>
+        <a href="#" class="hover:text-primary transition-colors">Sản phẩm mới</a>
+        <a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('flame', 'h-4 w-4 text-orange-500'); ?> Khuyến mãi</a>
+        <a href="#" class="hover:text-primary transition-colors">Tin tức</a>
+        <a href="#" class="hover:text-primary transition-colors">Liên hệ</a>
+        <?php
+        return;
+    }
+
+    $menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
+    if ( ! $menu ) return;
+
+    $menu_items = wp_get_nav_menu_items( $menu->term_id );
+    if ( empty( $menu_items ) ) return;
+
+    foreach ( $menu_items as $item ) {
+        $classes = 'hover:text-primary transition-colors flex items-center gap-2';
+        $icon = '';
+
+        // Simple logic to add icons based on menu title or custom classes
+        // In a real scenario, you might use a custom field or specific CSS class
+        $title_lower = mb_strtolower($item->title);
+        if (strpos($title_lower, 'trang chủ') !== false) {
+            $icon = miliwebseo_icon('home', 'h-4 w-4 text-primary');
+        } elseif (strpos($title_lower, 'khuyến mãi') !== false || strpos($title_lower, 'hot') !== false) {
+            $icon = miliwebseo_icon('flame', 'h-4 w-4 text-orange-500');
+        } elseif (strpos($title_lower, 'tin tức') !== false || strpos($title_lower, 'blog') !== false) {
+            $icon = miliwebseo_icon('book-open', 'h-4 w-4 text-blue-500');
+        } elseif (strpos($title_lower, 'liên hệ') !== false) {
+            $icon = miliwebseo_icon('phone', 'h-4 w-4 text-green-500');
+        }
+
+        echo '<a href="' . esc_url( $item->url ) . '" class="' . esc_attr( $classes ) . '">';
+        if ($icon) echo $icon . ' ';
+        echo esc_html( $item->title );
+        echo '</a>';
+    }
+}
+
+/**
+ * Render Mobile Menu Links
+ */
+function miliwebseo_render_mobile_menu() {
+    $menu_name = 'mobile';
+    $locations = get_nav_menu_locations();
+    
+    if ( ! isset( $locations[ $menu_name ] ) ) {
+        // Fallback to hardcoded menu if no menu assigned
+        ?>
+        <a href="<?php echo home_url(); ?>" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl font-bold text-secondary">
+            <?php echo miliwebseo_icon('home', 'h-5 w-5 text-primary'); ?> Trang chủ
+        </a>
+        <a href="#" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl font-bold text-secondary transition-all">
+            <?php echo miliwebseo_icon('flame', 'h-5 w-5 text-orange-500'); ?> Khuyến mãi hot
+        </a>
+        <?php
+        return;
+    }
+
+    $menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
+    if ( ! $menu ) return;
+
+    $menu_items = wp_get_nav_menu_items( $menu->term_id );
+    if ( empty( $menu_items ) ) return;
+
+    foreach ( $menu_items as $item ) {
+        $icon = miliwebseo_icon('chevron-right', 'h-5 w-5 text-gray-400');
+        $title_lower = mb_strtolower($item->title);
+        if (strpos($title_lower, 'trang chủ') !== false) {
+            $icon = miliwebseo_icon('home', 'h-5 w-5 text-primary');
+        } elseif (strpos($title_lower, 'khuyến mãi') !== false || strpos($title_lower, 'hot') !== false) {
+            $icon = miliwebseo_icon('flame', 'h-5 w-5 text-orange-500');
+        }
+
+        echo '<a href="' . esc_url( $item->url ) . '" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl font-bold text-secondary transition-all">';
+        echo $icon . ' ' . esc_html( $item->title );
+        echo '</a>';
+    }
+}
+

@@ -197,11 +197,7 @@
 
                 <!-- Primary Menu -->
                 <nav class="flex items-center space-x-6 text-sm font-bold text-gray-700 uppercase tracking-tight">
-                    <a href="<?php echo home_url(); ?>" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('home', 'h-4 w-4 text-primary'); ?> Trang chủ</a>
-                    <a href="#" class="hover:text-primary transition-colors">Sản phẩm mới</a>
-                    <a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('flame', 'h-4 w-4 text-orange-500'); ?> Khuyến mãi</a>
-                    <a href="#" class="hover:text-primary transition-colors">Tin tức</a>
-                    <a href="#" class="hover:text-primary transition-colors">Liên hệ</a>
+                    <?php miliwebseo_render_primary_menu(); ?>
                 </nav>
             </div>
             
@@ -272,12 +268,7 @@
                 <!-- Main Links -->
                 <div class="space-y-3">
                     <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Khám phá</p>
-                    <a href="<?php echo home_url(); ?>" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl font-bold text-secondary">
-                        <?php echo miliwebseo_icon('home', 'h-5 w-5 text-primary'); ?> Trang chủ
-                    </a>
-                    <a href="#" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl font-bold text-secondary transition-all">
-                        <?php echo miliwebseo_icon('flame', 'h-5 w-5 text-orange-500'); ?> Khuyến mãi hot
-                    </a>
+                    <?php miliwebseo_render_mobile_menu(); ?>
                 </div>
 
                 <!-- Categories -->
