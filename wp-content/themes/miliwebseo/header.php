@@ -123,6 +123,10 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'bg-gray-100' ); ?> x-data="{ mobileMenuOpen: false }">
+    <div x-data="{ active: true }" x-show="active" class="bg-red-500 text-white text-[10px] py-1 text-center font-bold fixed top-0 left-0 w-full z-[9999]">
+        ALPINE JS ĐANG HOẠT ĐỘNG
+    </div>
+    <?php wp_body_open(); ?>
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
     <!-- Top Bar -->
