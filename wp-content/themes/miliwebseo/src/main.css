@@ -21,6 +21,10 @@
     h6 {
         @apply tracking-tight font-black;
     }
+
+    textarea {
+        border: 1px solid #f1f1f1;
+    }
 }
 
 @layer components {

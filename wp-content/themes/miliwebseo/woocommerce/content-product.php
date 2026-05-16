@@ -16,8 +16,8 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 ?>
 
 <div <?php wc_product_class( 'product-card group relative bg-white p-4 flex flex-col h-full hover:shadow-2xl transition-all duration-300 border border-gray-100 rounded-xl overflow-hidden', $product ); ?>>
-    <!-- Link wrapper -->
-    <a href="<?php echo esc_url( get_permalink() ); ?>" class="absolute inset-0 z-30" aria-label="<?php the_title(); ?>"></a>
+    <!-- Link wrapper (Invisible but covers whole card for easy clicking) -->
+    <a href="<?php echo esc_url( get_permalink() ); ?>" class="absolute inset-0 z-[35]" aria-label="<?php echo esc_attr(get_the_title()); ?>"></a>
     
     <!-- Discount Badge -->
     <?php if ( $product->is_on_sale() ) : ?>
@@ -78,11 +78,11 @@ if ( empty( $product ) || ! $product->is_visible() ) {
         </div>
     </div>
 
-    <!-- Action Button (Visual only) -->
-    <div class="mt-auto z-10">
-        <div class="w-full bg-gray-50 border border-gray-200 group-hover:bg-primary group-hover:border-primary group-hover:text-black text-gray-600 font-bold py-2 rounded text-xs transition-colors uppercase text-center">
+    <!-- Action Button -->
+    <div class="mt-auto z-40 relative">
+        <a href="<?php echo esc_url( get_permalink() ); ?>" class="block w-full bg-gray-50 border border-gray-200 group-hover:bg-primary group-hover:border-primary group-hover:text-black text-gray-600 font-bold py-2 rounded text-xs transition-colors uppercase text-center">
             Xem chi tiết
-        </div>
+        </a>
     </div>
 
     <!-- Hover Specs Overlay (Desktop - Full Height) -->

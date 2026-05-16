@@ -1,6 +1,6 @@
 <div class="product-card group relative bg-white p-4 flex flex-col h-full hover:shadow-2xl transition-all duration-300 border border-gray-100 rounded-xl overflow-hidden">
-    <!-- Link Overlay -->
-    <a href="#" class="absolute inset-0 z-30"></a>
+    <!-- Link Overlay (Invisible but covers whole card) -->
+    <a href="#" class="absolute inset-0 z-[35]"></a>
     
     <!-- Discount Badge -->
     <div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-sm z-40">
@@ -31,11 +31,11 @@
         </div>
     </div>
 
-    <!-- Action Button (Visual only) -->
-    <div class="mt-auto z-10">
-        <div class="w-full bg-gray-50 border border-gray-200 group-hover:bg-primary group-hover:border-primary group-hover:text-black text-gray-600 font-bold py-2 rounded text-xs transition-colors uppercase text-center">
+    <!-- Action Button -->
+    <div class="mt-auto z-40 relative">
+        <a href="#" class="block w-full bg-gray-50 border border-gray-200 group-hover:bg-primary group-hover:border-primary group-hover:text-black text-gray-600 font-bold py-2 rounded text-xs transition-colors uppercase text-center">
             Xem chi tiết
-        </div>
+        </a>
     </div>
 
     <!-- Hover Specs Overlay (Desktop - Full Height) -->

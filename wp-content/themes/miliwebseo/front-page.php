@@ -250,6 +250,89 @@
         endforeach;
     endif;
     ?>
+    <?php
+    // News Section
+    $news_args = array(
+        'post_type' => 'post',
+        'posts_per_page' => 4,
+        'post_status' => 'publish'
+    );
+    $news_query = new WP_Query($news_args);
+    ?>
+    <section class="mb-12">
+        <div class="flex items-center justify-between mb-8 border-b-2 border-primary pb-2">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-secondary text-primary rounded-xl flex items-center justify-center shadow-lg">
+                    <?php echo miliwebseo_icon('book-open', 'h-6 w-6'); ?>
+                </div>
+                <div>
+                    <h2 class="text-xl font-black uppercase text-secondary">TIN TỨC CÔNG NGHỆ</h2>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Cập nhật xu hướng mới nhất</p>
+                </div>
+            </div>
+            <a href="<?php echo get_permalink(get_option('page_for_posts')); ?>" class="text-blue-600 hover:underline font-bold text-xs uppercase tracking-wider">Xem tất cả ></a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <?php
+            if ($news_query->have_posts()) :
+                while ($news_query->have_posts()) : $news_query->the_post(); ?>
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group hover:shadow-xl transition-all duration-500">
+                        <a href="<?php the_permalink(); ?>" class="block relative h-48 overflow-hidden">
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('medium_large', ['class' => 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-700']); ?>
+                            <?php else : ?>
+                                <img src="https://placehold.co/600x400?text=News" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <?php endif; ?>
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-primary text-black text-[10px] font-black px-2 py-1 rounded uppercase tracking-tighter">
+                                    <?php echo get_the_date('d M, Y'); ?>
+                                </span>
+                            </div>
+                        </a>
+                        <div class="p-5">
+                            <h3 class="font-black text-secondary leading-tight mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+                            <p class="text-gray-500 text-xs line-clamp-2 mb-4 leading-relaxed">
+                                <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                            </p>
+                            <a href="<?php the_permalink(); ?>" class="text-[10px] font-black uppercase tracking-widest text-secondary flex items-center gap-2 group/btn">
+                                Đọc tiếp 
+                                <span class="group-hover/btn:translate-x-1 transition-transform"><?php echo miliwebseo_icon('arrow-right', 'h-3 w-3'); ?></span>
+                            </a>
+                        </div>
+                    </article>
+                <?php endwhile;
+                wp_reset_postdata();
+            else :
+                // Demo News Cards
+                for ($i = 1; $i <= 4; $i++) : ?>
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group hover:shadow-xl transition-all duration-500">
+                        <div class="block relative h-48 overflow-hidden bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-primary text-black text-[10px] font-black px-2 py-1 rounded uppercase tracking-tighter">
+                                    <?php echo date('d M, Y'); ?>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-black text-secondary leading-tight mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                                Hướng dẫn chọn mua Laptop cũ giá rẻ mà vẫn cực ngon cho sinh viên
+                            </h3>
+                            <p class="text-gray-500 text-xs line-clamp-2 mb-4 leading-relaxed">
+                                Bạn đang tìm kiếm một chiếc laptop để phục vụ nhu cầu học tập nhưng kinh phí lại hạn hẹp? Đừng lo...
+                            </p>
+                            <div class="text-[10px] font-black uppercase tracking-widest text-secondary flex items-center gap-2">
+                                Đọc tiếp <?php echo miliwebseo_icon('arrow-right', 'h-3 w-3'); ?>
+                            </div>
+                        </div>
+                    </article>
+                <?php endfor;
+            endif; ?>
+        </div>
+    </section>
 </main>
 
 <script>
