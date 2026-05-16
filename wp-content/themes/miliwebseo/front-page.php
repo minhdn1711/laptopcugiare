@@ -160,7 +160,7 @@
             if ($loop->have_posts()) {
                 while ($loop->have_posts()):
                     $loop->the_post();
-                    wc_get_template_part('woocommerce/content', 'product');
+                    wc_get_template_part('content', 'product');
                 endwhile;
             } else {
                 for ($i = 0; $i < 5; $i++)
@@ -236,7 +236,7 @@
                     if ($loop->have_posts()) {
                         while ($loop->have_posts()):
                             $loop->the_post();
-                            wc_get_template_part('woocommerce/content', 'product');
+                            wc_get_template_part('content', 'product');
                         endwhile;
                     } else {
                         for ($i = 0; $i < 5; $i++)

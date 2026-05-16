@@ -23,34 +23,65 @@
             text-decoration: none;
             font-weight: 900;
         }
-        /* Pagination Styling */
-        .pagination-list {
-            display: flex;
-            gap: 0.5rem;
-            list-style: none;
-            padding: 0;
+        /* Premium WooCommerce Pagination Reset */
+        .woocommerce nav.woocommerce-pagination ul, 
+        nav.woocommerce-pagination ul, .pagination-list, .page-numbers {
+            display: flex !important;
+            gap: 1rem !important;
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 3rem 0 0 0 !important;
+            justify-content: center !important;
+            align-items: center !important;
+            border: none !important;
         }
-        .pagination-list li a, .pagination-list li span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: white;
-            border: 1px solid #e5e7eb;
-            color: #374151;
-            font-weight: bold;
-            transition: all 0.3s ease;
+        .woocommerce nav.woocommerce-pagination ul li,
+        nav.woocommerce-pagination ul li, .pagination-list li, .page-numbers li {
+            border: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: none !important;
         }
-        .pagination-list li span.current {
-            background: #ff9300;
-            color: black;
-            border-color: #ff9300;
+        nav.woocommerce-pagination ul li a, nav.woocommerce-pagination ul li span,
+        .pagination-list li a, .pagination-list li span, 
+        .page-numbers li a, .page-numbers li span.page-numbers {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 44px !important;
+            height: 44px !important;
+            padding: 0 14px !important;
+            border-radius: 12px !important;
+            background: white !important;
+            border: 1px solid #f1f1f1 !important;
+            color: #4b5563 !important;
+            font-size: 14px !important;
+            font-weight: 900 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
+            text-decoration: none !important;
         }
-        .pagination-list li a:hover {
-            border-color: #ff9300;
-            color: #ff9300;
+        nav.woocommerce-pagination ul li span.current, 
+        .pagination-list li span.current, 
+        .page-numbers li span.current {
+            background: #10B981 !important;
+            color: white !important;
+            border-color: #10B981 !important;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25) !important;
+            transform: translateY(-2px) !important;
+        }
+        nav.woocommerce-pagination ul li a:hover,
+        .pagination-list li a:hover, 
+        .page-numbers li a:hover {
+            border-color: #10B981 !important;
+            color: #10B981 !important;
+            background: white !important;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.1) !important;
+            transform: translateY(-2px) !important;
+        }
+        .page-numbers .prev, .page-numbers .next {
+            background: #f9fafb !important;
+            font-size: 18px !important;
         }
         /* Ordering Select Styling */
         .wc-ordering-wrapper select {
@@ -69,7 +100,7 @@
             background-size: 1.25rem;
         }
         /* Fix woocommerce result count p tag */
-        .wc-result-count {
+        .woocommerce-result-count, .woocommerce-ordering {
             margin: 0 !important;
             display: inline-block !important;
         }
@@ -80,6 +111,13 @@
         }
         .animate-fade-in {
             animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        /* Dynamic Customizer Settings */
+        :root {
+            --logo-width: <?php echo get_theme_mod('logo_width', '246'); ?>px;
+            --menu-height: <?php echo get_theme_mod('menu_height', '50'); ?>px;
+            --header-padding: 10px;
         }
     </style>
     <?php wp_head(); ?>
@@ -103,16 +141,21 @@
     </div>
 
     <!-- Main Header (Desktop) -->
-    <div class="hidden md:block bg-secondary text-white py-4 border-b border-white/5">
+    <div class="hidden md:block bg-secondary text-white border-b border-white/5" style="padding: var(--header-padding) 0;">
         <div class="container mx-auto px-4 flex items-center justify-between gap-8">
-            <!-- Logo Area -->
-            <div class="flex-shrink-0 min-w-[200px]">
-                <?php if ( has_custom_logo() ) : ?>
+            <!-- Logo Area (Fixed Width from Customizer) -->
+            <div class="flex-shrink-0 w-[var(--logo-width)] flex items-center">
+                <?php 
+                $dark_logo = get_theme_mod('dark_logo');
+                if ( $dark_logo ) : ?>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center">
+                        <img src="<?php echo esc_url($dark_logo); ?>" alt="<?php bloginfo('name'); ?>" class="h-10 w-auto object-contain">
+                    </a>
+                <?php elseif ( has_custom_logo() ) : ?>
                     <?php the_custom_logo(); ?>
                 <?php else : ?>
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center gap-2">
-                        <div class="bg-primary text-black p-1.5 rounded-lg font-black text-xl italic tracking-tighter">MILI</div>
-                        <span class="text-2xl font-black text-white italic tracking-tighter">WEBSEO</span>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-footer.svg" alt="<?php bloginfo('name'); ?>" class="h-10 w-auto object-contain">
                     </a>
                 <?php endif; ?>
             </div>
@@ -172,12 +215,12 @@
     </div>
 
     <!-- Bottom Header / Nav Bar (Desktop) -->
-    <div class="hidden md:block bg-white border-b border-gray-100 py-1">
-        <div class="container mx-auto px-4 flex items-center justify-between">
-            <div class="flex items-center space-x-8">
-                <!-- Vertical Menu Toggle (Flatsome Style) -->
-                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @click.away="open = false">
-                    <button @click="open = !open" class="bg-primary hover:bg-yellow-400 text-black px-6 py-2.5 rounded-t-xl font-black text-sm flex items-center gap-3 transition-all min-w-[240px]">
+    <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm h-[var(--menu-height)]">
+        <div class="container mx-auto px-4 flex items-center justify-between h-full">
+            <div class="flex items-center space-x-8 h-full">
+                <!-- Mega Menu Button -->
+                <div class="relative h-full" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                    <button class="bg-primary text-black w-[var(--logo-width)] h-full font-black text-xs flex items-center justify-center gap-3 hover:bg-yellow-400 transition-all uppercase tracking-wider">
                         <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
                         DANH MỤC SẢN PHẨM
                         <div class="ml-auto" :class="open ? 'rotate-180' : ''" class="transition-transform duration-200">
@@ -218,8 +261,14 @@
             </button>
 
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex-grow flex justify-center">
-                <?php if ( has_custom_logo() ) : the_custom_logo(); else : ?>
-                    <h1 class="text-xl font-black text-primary italic tracking-tighter">MILIWEBSEO</h1>
+                <?php 
+                $dark_logo = get_theme_mod('dark_logo');
+                if ( $dark_logo ) : ?>
+                    <img src="<?php echo esc_url($dark_logo); ?>" alt="<?php bloginfo('name'); ?>" class="h-8 w-auto object-contain">
+                <?php elseif ( has_custom_logo() ) : ?>
+                    <?php the_custom_logo(); ?>
+                <?php else : ?>
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-footer.svg" alt="<?php bloginfo('name'); ?>" class="h-8 w-auto">
                 <?php endif; ?>
             </a>
 

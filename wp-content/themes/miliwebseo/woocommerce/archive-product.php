@@ -88,15 +88,44 @@ get_header(); ?>
                         BỘ LỌC TÌM KIẾM
                     </h2>
 
+                    <!-- Filter by Subcategories (Series/Lines) -->
+                    <?php
+                    $queried_object = get_queried_object();
+                    if (is_tax('product_cat')) :
+                        $subcats = get_terms([
+                            'taxonomy' => 'product_cat',
+                            'parent'   => $queried_object->term_id,
+                            'hide_empty' => false
+                        ]);
+                        if (!empty($subcats)) :
+                    ?>
+                        <div class="mb-8">
+                            <h3 class="font-bold text-sm uppercase text-gray-400 mb-4 tracking-wider">Dòng sản phẩm</h3>
+                            <div class="space-y-2">
+                                <?php foreach ($subcats as $subcat) : ?>
+                                    <a href="<?php echo get_term_link($subcat); ?>" class="flex items-center justify-between group p-2 hover:bg-primary/5 rounded-lg transition-colors">
+                                        <span class="text-sm font-bold text-gray-600 group-hover:text-primary"><?php echo $subcat->name; ?></span>
+                                        <span class="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400 group-hover:bg-primary group-hover:text-black transition-colors font-black">
+                                            <?php echo $subcat->count; ?>
+                                        </span>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php 
+                        endif;
+                    endif; 
+                    ?>
+
                     <!-- Filter by Brand -->
-                    <div class="mb-8">
+                    <div class="mb-8" <?php if (is_tax('product_cat') && $queried_object->parent != 0) echo 'style="display:none;"'; ?>>
                         <h3 class="font-bold text-sm uppercase text-gray-400 mb-4 tracking-wider">Thương hiệu</h3>
                         <div class="grid grid-cols-2 gap-2">
                             <?php
                             $brands = get_terms(['taxonomy' => 'product_brand', 'hide_empty' => true]);
                             foreach ($brands as $brand) :
                             ?>
-                                <label class="flex items-center gap-2 p-2 border border-gray-100 rounded-lg cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-yellow-50">
+                                <label class="flex items-center gap-2 p-2 border border-gray-100 rounded-lg cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-green-50">
                                     <input type="checkbox" value="<?php echo $brand->slug; ?>" x-model="brands" @change="filterProducts()" class="rounded text-primary focus:ring-primary h-4 w-4">
                                     <span class="text-xs font-medium truncate"><?php echo $brand->name; ?></span>
                                 </label>
@@ -112,7 +141,7 @@ get_header(); ?>
                             $cpus = get_terms(['taxonomy' => 'cpu', 'hide_empty' => true]);
                             foreach ($cpus as $cpu) :
                             ?>
-                                <label class="flex items-center gap-2 p-2 border border-gray-100 rounded-lg cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-yellow-50">
+                                <label class="flex items-center gap-2 p-2 border border-gray-100 rounded-lg cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-green-50">
                                     <input type="checkbox" value="<?php echo $cpu->slug; ?>" x-model="cpus" @change="filterProducts()" class="rounded text-primary focus:ring-primary h-4 w-4">
                                     <span class="text-xs font-medium truncate"><?php echo $cpu->name; ?></span>
                                 </label>

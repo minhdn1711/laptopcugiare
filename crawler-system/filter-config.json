@@ -1,0 +1,26 @@
+{
+  "filters": [
+    {
+      "id": "brand",
+      "label": "Thương hiệu",
+      "taxonomy": "product_brand",
+      "type": "checkbox"
+    },
+    {
+      "id": "cpu",
+      "label": "CPU",
+      "taxonomy": "cpu",
+      "type": "checkbox"
+    },
+    {
+      "id": "price",
+      "label": "Mức giá",
+      "type": "range",
+      "options": [
+        {"label": "Dưới 10 triệu", "max": 10000000},
+        {"label": "10 - 20 triệu", "min": 10000000, "max": 20000000},
+        {"label": "Trên 20 triệu", "min": 20000000}
+      ]
+    }
+  ]
+}

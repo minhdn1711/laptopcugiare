@@ -1,0 +1,34 @@
+{
+  "mega_menu": [
+    {
+      "root_group": "it_devices",
+      "label": "Thiết bị Công nghệ",
+      "categories": [
+        {
+          "name": "Laptop",
+          "slug": "laptop",
+          "columns": [
+            {
+              "title": "Thương hiệu",
+              "items": ["Asus", "Dell", "HP", "Acer", "Lenovo", "MSI"]
+            },
+            {
+              "title": "Theo dòng máy",
+              "items": ["ROG", "XPS", "Nitro", "Legion", "Victus"]
+            }
+          ]
+        },
+        {
+          "name": "Apple",
+          "slug": "apple",
+          "columns": [
+            {
+              "title": "Sản phẩm",
+              "items": ["Macbook Air", "Macbook Pro", "iMac", "iPad"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

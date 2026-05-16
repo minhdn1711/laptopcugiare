@@ -2,9 +2,9 @@
 <footer class="bg-secondary text-gray-300 pt-12 pb-6 mt-12">
     <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
-            <h3 class="text-white font-bold text-lg mb-4">VỀ MILIWEBSEO</h3>
+            <h3 class="text-white font-bold text-lg mb-4">VỀ LAPTOP CŨ GIÁ RẺ</h3>
             <p class="text-sm leading-relaxed mb-4">
-                Hệ thống bán lẻ laptop uy tín hàng đầu. Chuyên cung cấp laptop gaming, văn phòng, đồ họa chính hãng và nhập khẩu.
+                Hệ thống bán lẻ laptop uy tín hàng đầu. Chuyên cung cấp laptop gaming, văn phòng, đồ họa chính hãng và nhập khẩu giá tốt nhất thị trường.
             </p>
             <div class="flex space-x-4">
                 <!-- Social Icons -->
@@ -57,7 +57,7 @@
         </div>
     </div>
     <div class="container mx-auto px-4 mt-12 pt-6 border-t border-gray-800 text-center text-xs">
-        <p>&copy; <?php echo date('Y'); ?> MILIWEBSEO. All rights reserved. Designed by Antigravity.</p>
+        <p>&copy; <?php echo date('Y'); ?> LAPTOP CŨ GIÁ RẺ. All rights reserved. Designed by Antigravity.</p>
     </div>
 </footer>
 

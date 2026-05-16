@@ -14,9 +14,9 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#ff9300', // Premium Orange
-          dark: '#e68500',
-          light: '#fff4e5',
+          DEFAULT: '#10B981', // New Brand Green
+          dark: '#059669',
+          light: '#F0FDF4',
         },
         secondary: '#1a1a1a', // Rich Black
         accent: '#3b82f6', // Professional Blue

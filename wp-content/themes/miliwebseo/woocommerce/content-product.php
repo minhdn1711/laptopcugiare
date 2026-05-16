@@ -33,8 +33,8 @@ if ( empty( $product ) || ! $product->is_visible() ) {
     <?php endif; ?>
     
     <!-- Product Image -->
-    <div class="relative mb-4 aspect-[4/3] overflow-hidden z-10">
-        <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' ) ); ?>
+    <div class="relative mb-4 aspect-square overflow-hidden z-10 bg-gray-50 rounded-lg">
+        <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-contain group-hover:scale-105 transition-transform duration-500' ) ); ?>
     </div>
 
     <!-- Product Info -->

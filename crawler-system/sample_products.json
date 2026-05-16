@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Laptop Dell XPS 13 9315 Core i7-1250U",
+    "sku": "L88-XPS9315",
+    "price": 24500000,
+    "taxonomies": {
+      "product_cat": "Laptop",
+      "product_brand": "Dell",
+      "product_series": "XPS"
+    },
+    "attributes": {
+      "cpu": "Core i7-1250U",
+      "ram": "16GB",
+      "vga": "Iris Xe"
+    }
+  },
+  {
+    "title": "Macbook Air M2 13 inch 2022",
+    "sku": "L88-MBA-M2",
+    "price": 26990000,
+    "taxonomies": {
+      "product_cat": "Apple",
+      "product_brand": "Apple",
+      "product_series": "Macbook Air"
+    },
+    "attributes": {
+      "cpu": "Apple M2",
+      "ram": "8GB",
+      "vga": "8-core GPU"
+    }
+  },
+  {
+    "title": "Màn hình Dell UltraSharp U2422H",
+    "sku": "L88-U2422H",
+    "price": 5850000,
+    "taxonomies": {
+      "product_cat": "Màn hình máy tính",
+      "product_brand": "Dell",
+      "product_series": "UltraSharp"
+    },
+    "attributes": {
+      "screen": "23.8 inch",
+      "resolution": "Full HD"
+    }
+  }
+]

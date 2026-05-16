@@ -78,8 +78,8 @@ function miliwebseo_filter_products() {
             'total'     => $query->max_num_pages,
             'current'   => $paged,
             'format'    => '?paged=%#%',
-            'prev_text' => '&larr; Trước',
-            'next_text' => 'Sau &rarr;',
+            'prev_text' => '‹',
+            'next_text' => '›',
             'type'      => 'list',
             'class'     => 'pagination-list'
         ));
