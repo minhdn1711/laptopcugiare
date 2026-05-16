@@ -40,7 +40,42 @@ class L88_Importer {
             if ($val) wp_set_object_terms($post_id, $val, $tax);
         }
 
+        // 6. Automatic Usage Needs Mapping
+        $this->map_usage_needs($post_id, $item['title']);
+
         return $post_id;
+    }
+
+    private function map_usage_needs($post_id, $title) {
+        $title_lc = strtolower($title);
+        $needs = [
+            'office'      => ['Laptop sinh viên - văn phòng', ['office', 'văn phòng', 'sinh viên']],
+            'gaming'      => ['Laptop Gaming', ['gaming', 'rog', 'legion', 'victus', 'nitro', 'predator', 'alienware', 'tuf']],
+            'workstation' => ['Laptop đồ họa', ['workstation', 'đồ họa', 'precision', 'proart', 'quadro', 'zbook']],
+            'ultrabook'   => ['Laptop mỏng nhẹ', ['air', 'thin', 'slim', 'gram', 'ultrabook', 'xps', 'zenbook']],
+            'ai-laptop'   => ['Laptop AI', ['ai', 'npu', 'ultra', 'meteor lake']]
+        ];
+
+        $assigned_ids = [];
+        foreach ($needs as $slug => $data) {
+            $found = false;
+            foreach ($data[1] as $keyword) {
+                if (strpos($title_lc, $keyword) !== false) {
+                    $found = true;
+                    break;
+                }
+            }
+            if ($found) {
+                $assigned_ids[] = $this->ensure_taxonomy($data[0], 'usage_needs', 0);
+            }
+        }
+
+        // Default to Office if nothing found
+        if (empty($assigned_ids)) {
+            $assigned_ids[] = $this->ensure_taxonomy($needs['office'][0], 'usage_needs', 0);
+        }
+
+        wp_set_object_terms($post_id, $assigned_ids, 'usage_needs');
     }
 
     private function ensure_taxonomy($name, $tax, $parent = 0) {

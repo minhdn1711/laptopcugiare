@@ -215,41 +215,116 @@
     </div>
 
     <!-- Bottom Header / Nav Bar (Desktop) -->
-    <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm h-[var(--menu-height)]">
-        <div class="container mx-auto px-4 flex items-center justify-between h-full">
+    <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm h-[var(--menu-height)] sticky top-[80px] z-40" 
+         x-init="console.log('Alpine Mega Menu Initialized')"
+         x-data="{ 
+            activeTab: null, 
+            hoverTimeout: null,
+            menuContent: {},
+            loading: false,
+            loadSubMenu(id) {
+                console.log('--- CALLING loadSubMenu for ID:', id);
+                this.activeTab = id; // Set immediately for testing
+                
+                if (this.menuContent[id]) return;
+
+                clearTimeout(this.hoverTimeout);
+                this.hoverTimeout = setTimeout(() => {
+                    this.loading = true;
+                    let formData = new FormData();
+                    formData.append('action', 'load_mega_menu');
+                    formData.append('parent_id', id);
+
+                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        console.log('AJAX SUCCESS for ID:', id, res);
+                        if (res.success) {
+                            this.menuContent[id] = res.data;
+                        }
+                        this.loading = false;
+                    })
+                    .catch(e => console.error('AJAX FAILED', e));
+                }, 50);
+            },
+            closeMenu() {
+                // Temporarily disabled for debugging
+                // this.activeTab = null;
+            }
+         }">
+        <div class="container mx-auto px-4 flex items-center justify-between h-full relative">
             <div class="flex items-center space-x-8 h-full">
-                <!-- Mega Menu Button -->
-                <div class="relative h-full" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                    <button class="bg-primary text-black w-[var(--logo-width)] h-full font-black text-xs flex items-center justify-center gap-3 hover:bg-yellow-400 transition-all uppercase tracking-wider">
+                <!-- Mega Menu Trigger Button -->
+                <div class="relative h-full flex items-center group">
+                    <div class="bg-primary text-black w-[var(--logo-width)] h-full font-black text-xs flex items-center justify-center gap-3 cursor-pointer uppercase tracking-wider"
+                         @click="loadSubMenu(365)"> <!-- Hardcoded Laptop ID for testing click -->
                         <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
-                        DANH MỤC SẢN PHẨM
-                        <div class="ml-auto" :class="open ? 'rotate-180' : ''" class="transition-transform duration-200">
-                            <?php echo miliwebseo_icon('chevron-down', 'h-4 w-4'); ?>
-                        </div>
-                    </button>
-                    <!-- Dropdown Content (Mega Menu) -->
-                    <div x-show="open" 
-                         x-cloak 
-                         x-transition:enter="transition ease-out duration-300"
-                         x-transition:enter-start="opacity-0 translate-y-2"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute top-full left-0 w-[950px] bg-white shadow-2xl rounded-b-xl border border-gray-100 z-[100] overflow-hidden">
-                        <?php miliwebseo_render_header_mega_menu(); ?>
+                        DANH MỤC SẢN PHẨM (Click Test)
+                    </div>
+
+                    <!-- Level 1 SSR Menu (Vertical List) -->
+                    <div class="absolute top-full left-0 w-[var(--logo-width)] bg-white shadow-xl border border-gray-100 z-[100] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <?php
+                        $l1_categories = get_terms([
+                            'taxonomy'   => 'product_cat',
+                            'parent'     => 0,
+                            'hide_empty' => false,
+                            'orderby'    => 'name',
+                            'order'      => 'ASC'
+                        ]);
+                        foreach ($l1_categories as $cat) :
+                        ?>
+                            <div class="relative" @mouseenter="loadSubMenu(<?php echo $cat->term_id; ?>)">
+                                <a href="<?php echo get_term_link($cat); ?>" 
+                                   class="flex items-center justify-between px-6 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-primary transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <img src="<?php echo get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg'; ?>" class="w-5 h-5 opacity-70">
+                                        <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
+                                    </div>
+                                    <?php echo miliwebseo_icon('chevron-right', 'h-4 w-4 opacity-30'); ?>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
-                <!-- Primary Menu -->
-                <nav class="flex items-center space-x-6 text-sm font-bold text-gray-700 uppercase tracking-tight">
+                <!-- Horizontal Navigation -->
+                <nav class="flex items-center space-x-10 h-full">
                     <?php miliwebseo_render_primary_menu(); ?>
                 </nav>
             </div>
-            
+
             <div class="flex items-center gap-4">
                  <span class="text-xs font-bold text-secondary flex items-center gap-2">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                     250+ Laptop đang sẵn hàng
                  </span>
             </div>
+
+            <!-- MEGA DROPDOWN PANEL (Full-width Content) -->
+            <div class="absolute top-full left-0 w-full z-[110] bg-white shadow-2xl border-4 border-red-500" 
+                 x-show="activeTab !== null" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 style="display: none; min-height: 200px;">
+                
+                <div x-show="loading" class="p-20 flex justify-center items-center">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+                </div>
+
+                <template x-if="activeTab && menuContent[activeTab]">
+                    <div x-html="menuContent[activeTab]"></div>
+                </template>
+            </div>
+        </div>
+    </div>
         </div>
     </div>
 
@@ -290,11 +365,32 @@
     </div>
 </header>
 
-<!-- Mobile Menu Drawer (Premium Redesign) -->
-<div x-show="mobileMenuOpen" x-cloak class="fixed inset-0 z-[100]" role="dialog" aria-modal="true">
-    <div x-show="mobileMenuOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="mobileMenuOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
-
-    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="fixed inset-y-0 left-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col overflow-hidden">
+<!-- Mobile Menu Drawer (Hybrid AJAX Redesign) -->
+<div x-show="mobileMenuOpen" 
+     x-cloak
+     class="fixed inset-0 z-[100] md:hidden" 
+     role="dialog" 
+     aria-modal="true">
+    <!-- Backdrop -->
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition-opacity ease-linear duration-300" 
+         x-transition:enter-start="opacity-0" 
+         x-transition:enter-end="opacity-100" 
+         x-transition:leave="transition-opacity ease-linear duration-300" 
+         x-transition:leave-start="opacity-100" 
+         x-transition:leave-end="opacity-0" 
+         @click="mobileMenuOpen = false" 
+         class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+    
+    <!-- Drawer Content -->
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition ease-in-out duration-300 transform" 
+         x-transition:enter-start="-translate-x-full" 
+         x-transition:enter-end="translate-x-0" 
+         x-transition:leave="transition ease-in-out duration-300 transform" 
+         x-transition:leave-start="translate-x-0" 
+         x-transition:leave-end="-translate-x-full" 
+         class="fixed inset-y-0 left-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col overflow-hidden">
         
         <!-- Drawer Header -->
         <div class="bg-secondary p-6 flex items-center justify-between text-white">
@@ -312,37 +408,76 @@
             </button>
         </div>
 
-        <div class="flex-grow overflow-y-auto p-6">
-            <nav class="space-y-6">
-                <!-- Main Links -->
+        <div class="flex-grow overflow-y-auto" x-data="{ 
+            openTab: null, 
+            menuContent: {}, 
+            loading: false,
+            toggleTab(id) {
+                this.openTab = this.openTab === id ? null : id;
+                if (this.openTab && !this.menuContent[id]) {
+                    this.loading = true;
+                    let formData = new FormData();
+                    formData.append('action', 'load_mega_menu');
+                    formData.append('parent_id', id);
+
+                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.success) {
+                            this.menuContent[id] = res.data;
+                        }
+                        this.loading = false;
+                    });
+                }
+            }
+        }">
+            <nav class="p-4 space-y-6">
+                <!-- Categories Section -->
                 <div class="space-y-3">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Khám phá</p>
-                    <?php miliwebseo_render_mobile_menu(); ?>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Danh mục sản phẩm</p>
+                    <ul class="space-y-1">
+                        <?php
+                        $l1_categories = get_terms(['taxonomy' => 'product_cat', 'parent' => 0, 'hide_empty' => false]);
+                        foreach ($l1_categories as $cat) :
+                        ?>
+                            <li class="border-b border-gray-50 last:border-0">
+                                <div class="flex items-center justify-between">
+                                    <a href="<?php echo get_term_link($cat); ?>" class="flex-grow py-3 px-2 text-sm font-bold text-gray-800 flex items-center gap-3">
+                                        <img src="<?php echo get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg'; ?>" class="w-5 h-5 opacity-60">
+                                        <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
+                                    </a>
+                                    <button @click="toggleTab(<?php echo $cat->term_id; ?>)" 
+                                            class="p-3 text-gray-400 hover:text-primary transition-colors"
+                                            :aria-expanded="openTab === <?php echo $cat->term_id; ?>">
+                                        <div :class="openTab === <?php echo $cat->term_id; ?> ? 'rotate-180' : ''" class="transition-transform duration-300">
+                                            <?php echo miliwebseo_icon('chevron-down', 'h-4 w-4'); ?>
+                                        </div>
+                                    </button>
+                                </div>
+                                
+                                <div x-show="openTab === <?php echo $cat->term_id; ?>" 
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 -translate-y-2"
+                                     x-transition:enter-end="opacity-100 translate-y-0"
+                                     class="bg-gray-50 rounded-lg mb-2 overflow-hidden">
+                                    
+                                    <div x-show="loading && openTab === <?php echo $cat->term_id; ?>" class="p-6 flex justify-center">
+                                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                                    </div>
+
+                                    <template x-if="menuContent[<?php echo $cat->term_id; ?>]">
+                                        <div class="p-2 mobile-mega-content" x-html="menuContent[<?php echo $cat->term_id; ?>]"></div>
+                                    </template>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
 
-                <!-- Categories -->
-                <div x-data="{ open: true }" class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Danh mục sản phẩm</p>
-                        <button @click="open = !open" class="text-xs text-primary font-bold" x-text="open ? 'Thu gọn' : 'Mở rộng'"></button>
-                    </div>
-                    <div x-show="open" x-transition class="grid grid-cols-2 gap-2">
-                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
-                            <p class="text-xs font-bold">Laptop Gaming</p>
-                        </a>
-                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
-                            <p class="text-xs font-bold">Laptop Văn phòng</p>
-                        </a>
-                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
-                            <p class="text-xs font-bold">Macbook</p>
-                        </a>
-                        <a href="#" class="p-3 border border-gray-100 rounded-xl text-center hover:border-primary transition-all">
-                            <p class="text-xs font-bold">Linh kiện</p>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Support -->
+                <!-- Support Section -->
                 <div class="space-y-3">
                     <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Hỗ trợ</p>
                     <div class="grid grid-cols-1 gap-2">
@@ -371,6 +506,19 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* CSS override for mobile mega content grid */
+    .mobile-mega-content .grid { display: block !important; padding: 0 !important; }
+    .mobile-mega-content .grid-cols-5 { grid-template-cols: 1fr !important; }
+    .mobile-mega-content .col-span-4 { grid-template-cols: 1fr !important; display: block !important; }
+    .mobile-mega-content .col-span-1 { display: none !important; }
+    .mobile-mega-content .grid-cols-4 { grid-template-cols: 1fr !important; display: block !important; }
+    .mobile-mega-content .space-y-4 { margin-bottom: 1rem; padding: 0.5rem; }
+    .mobile-mega-content a { font-size: 13px !important; color: #1f2937 !important; }
+    .mobile-mega-content ul { margin-top: 0.5rem !important; padding-left: 1rem !important; border-left: 1px solid #e5e7eb; }
+    .mobile-mega-content ul li a { color: #6b7280 !important; font-weight: 500 !important; }
+</style>
 
 <script>
     function searchComponent() {

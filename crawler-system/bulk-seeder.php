@@ -31,6 +31,27 @@ $master_cats = [
         'menu_title' => 'Máy tính để bàn',
         'featured' => 0,
         'order_index' => 3
+    ],
+    'Linh kiện PC - Máy tính' => [
+        'root_group' => 'components',
+        'icon' => 'ram-icon.svg',
+        'menu_title' => 'Linh kiện PC',
+        'featured' => 1,
+        'order_index' => 4
+    ],
+    'Màn hình máy tính' => [
+        'root_group' => 'monitors',
+        'icon' => 'monitor-icon.svg',
+        'menu_title' => 'Màn hình',
+        'featured' => 1,
+        'order_index' => 5
+    ],
+    'Phụ kiện máy tính' => [
+        'root_group' => 'accessories',
+        'icon' => 'mouse-icon.svg',
+        'menu_title' => 'Phụ kiện',
+        'featured' => 0,
+        'order_index' => 6
     ]
 ];
 
@@ -43,6 +64,20 @@ $brands = [
     'Apple' => [
         'Macbook' => ['Macbook Air', 'Macbook Pro'],
         'iPad' => ['iPad Pro', 'iPad Air']
+    ],
+    'Linh kiện PC - Máy tính' => [
+        'RAM' => ['DDR4', 'DDR5'],
+        'Ổ cứng' => ['SSD Samsung', 'SSD Kingston'],
+        'VGA' => ['RTX 40 Series', 'RTX 30 Series']
+    ],
+    'Màn hình máy tính' => [
+        'Màn hình Dell' => ['UltraSharp', 'Gaming Monitor'],
+        'Màn hình LG' => ['UltraGear', 'LG Gram +view']
+    ],
+    'Phụ kiện máy tính' => [
+        'Chuột' => ['Chuột Gaming', 'Chuột Văn phòng'],
+        'Bàn phím' => ['Bàn phím cơ', 'Bàn phím giả cơ'],
+        'Tai nghe' => ['Tai nghe Gaming', 'Tai nghe nhạc']
     ]
 ];
 

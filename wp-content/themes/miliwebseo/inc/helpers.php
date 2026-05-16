@@ -157,41 +157,33 @@ function miliwebseo_render_header_mega_menu() {
  * Original Vertical Menu (used in Sidebar)
  */
 function miliwebseo_render_vertical_menu() {
-    // Keep this for the front-page sidebar as a simpler list
-    $menu_name = 'vertical';
-    $locations = get_nav_menu_locations();
-    
-    if ( ! isset( $locations[ $menu_name ] ) ) {
-        $categories = get_terms( 'product_cat', array( 'hide_empty' => false, 'parent' => 0 ) );
-        if ( empty( $categories ) ) {
-            echo '<div class="p-4 text-xs text-gray-400 italic">Chưa có danh mục sản phẩm nào.</div>';
-            return false;
-        }
-        
-        echo '<ul class="divide-y divide-gray-100">';
-        foreach ( $categories as $cat ) {
-            echo '<li><a href="' . esc_url( get_term_link( $cat ) ) . '" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">';
-            echo '<span class="font-bold text-sm text-secondary">' . esc_html( $cat->name ) . '</span> <span class="text-gray-300 group-hover:text-primary">' . miliwebseo_icon('chevron-right', 'h-3 w-3') . '</span>';
-            echo '</a></li>';
-        }
-        echo '</ul>';
-        return true;
+    $categories = get_terms([
+        'taxonomy'   => 'product_cat',
+        'parent'     => 0,
+        'hide_empty' => false,
+        'orderby'    => 'meta_value_num',
+        'meta_key'   => 'order_index'
+    ]);
+
+    if (empty($categories)) {
+        echo '<div class="p-4 text-xs text-gray-400 italic">Chưa có danh mục sản phẩm nào.</div>';
+        return false;
     }
 
-    $menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
-    if ( ! $menu ) return false;
-
-    $menu_items = wp_get_nav_menu_items( $menu->term_id );
-    if ( empty( $menu_items ) ) return false;
-
     echo '<ul class="divide-y divide-gray-100">';
-    foreach ( $menu_items as $item ) {
-        if ( ! $item->menu_item_parent ) {
-            echo '<li><a href="' . esc_url( $item->url ) . '" class="block px-4 py-3 hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-between group">';
-            echo '<span class="font-bold text-sm text-secondary">' . esc_html( $item->title ) . '</span>';
-            echo '<span class="text-gray-300 group-hover:text-primary">' . miliwebseo_icon('chevron-right', 'h-3 w-3') . '</span>';
-            echo '</a></li>';
-        }
+    foreach ($categories as $cat) {
+        $icon = get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg';
+        $display_name = get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name;
+        
+        echo '<li>';
+        echo '<a href="' . esc_url(get_term_link($cat)) . '" class="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 hover:text-primary transition-all group">';
+        echo '<div class="flex items-center gap-3">';
+        echo '<img src="' . esc_url($icon) . '" class="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity">';
+        echo '<span class="font-bold text-[13px] text-secondary uppercase tracking-tight">' . esc_html($display_name) . '</span>';
+        echo '</div>';
+        echo miliwebseo_icon('chevron-right', 'h-3.5 w-3.5 text-gray-300 group-hover:text-primary transition-all');
+        echo '</a>';
+        echo '</li>';
     }
     echo '</ul>';
     return true;

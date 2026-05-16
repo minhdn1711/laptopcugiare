@@ -53,6 +53,7 @@ require MILIWEBSEO_DIR . '/inc/seo.php';
 require MILIWEBSEO_DIR . '/inc/ajax-cart.php';
 require MILIWEBSEO_DIR . '/inc/flash-sale.php';
 require MILIWEBSEO_DIR . '/inc/customizer.php';
+require MILIWEBSEO_DIR . '/inc/mega-menu.php';
 // require MILIWEBSEO_DIR . '/inc/optimization.php';
 // require MILIWEBSEO_DIR . '/inc/cache-helper.php';
 

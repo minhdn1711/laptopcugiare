@@ -27,6 +27,9 @@ function miliwebseo_scripts() {
     wp_enqueue_style( 'splide-css', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css', array(), '4.1.4' );
     wp_enqueue_script( 'splide-js', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js', array(), '4.1.4', true );
 
+    // Alpine.js
+    wp_enqueue_script( 'alpine-js', 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js', array(), '3.x.x', true );
+
     // Localize for Ajax
     wp_localize_script( 'miliwebseo-main', 'miliwebseo_data', array(
         'ajax_url' => admin_url( 'admin-ajax.php' ),
