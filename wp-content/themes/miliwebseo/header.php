@@ -220,76 +220,61 @@
 
     <!-- Bottom Header / Nav Bar (Desktop) -->
     <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm h-[var(--menu-height)] sticky top-[80px] z-40" 
-         @mouseleave="activeTab = null"
          x-init="console.log('Alpine Mega Menu Initialized')"
          x-data="{ 
             activeTab: null, 
-            hoverTimeout: null,
             menuContent: {},
             loading: false,
             loadSubMenu(id) {
-                console.log('--- CALLING loadSubMenu for ID:', id);
-                this.activeTab = id; // Set immediately for testing
-                
+                console.log('Hovering Category ID:', id);
+                this.activeTab = id;
                 if (this.menuContent[id]) return;
 
-                clearTimeout(this.hoverTimeout);
-                this.hoverTimeout = setTimeout(() => {
-                    this.loading = true;
-                    let formData = new FormData();
-                    formData.append('action', 'load_mega_menu');
-                    formData.append('parent_id', id);
+                this.loading = true;
+                let formData = new FormData();
+                formData.append('action', 'load_mega_menu');
+                formData.append('parent_id', id);
 
-                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(res => {
-                        console.log('AJAX SUCCESS for ID:', id, res);
-                        if (res.success) {
-                            this.menuContent[id] = res.data;
-                        }
-                        this.loading = false;
-                    })
-                    .catch(e => console.error('AJAX FAILED', e));
-                }, 50);
+                fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    console.log('AJAX Response:', res);
+                    if (res.success) {
+                        this.menuContent[id] = res.data;
+                    }
+                    this.loading = false;
+                });
             },
             closeMenu() {
-                // Temporarily disabled for debugging
-                // this.activeTab = null;
+                this.activeTab = null;
             }
-         }">
+         }" @mouseleave="closeMenu()">
         <div class="container mx-auto px-4 flex items-center justify-between h-full relative">
             <div class="flex items-center space-x-8 h-full">
                 <!-- Mega Menu Trigger Button -->
                 <div class="relative h-full flex items-center group">
-                    <div class="bg-primary text-black w-[var(--logo-width)] h-full font-black text-xs flex items-center justify-center gap-3 cursor-pointer uppercase tracking-wider"
-                         @click="loadSubMenu(365)"> <!-- Hardcoded Laptop ID for testing click -->
+                    <div class="bg-primary text-black w-[var(--logo-width)] h-full font-black text-xs flex items-center justify-center gap-3 cursor-pointer uppercase tracking-wider">
                         <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
-                        DANH MỤC SẢN PHẨM (Click Test)
+                        DANH MỤC SẢN PHẨM
                     </div>
 
-                    <!-- Level 1 SSR Menu (Vertical List) -->
-                    <div class="absolute top-full left-0 w-[var(--logo-width)] bg-white shadow-xl border border-gray-100 z-[100] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <!-- Level 1 SSR Menu -->
+                    <div class="absolute top-full left-0 w-[var(--logo-width)] bg-white shadow-2xl border border-gray-100 z-[100] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                         <?php
-                        $l1_categories = get_terms([
-                            'taxonomy'   => 'product_cat',
-                            'parent'     => 0,
-                            'hide_empty' => false,
-                            'orderby'    => 'name',
-                            'order'      => 'ASC'
-                        ]);
+                        $l1_categories = get_terms(['taxonomy' => 'product_cat', 'parent' => 0, 'hide_empty' => false]);
                         foreach ($l1_categories as $cat) :
                         ?>
                             <div class="relative" @mouseenter="loadSubMenu(<?php echo $cat->term_id; ?>)">
                                 <a href="<?php echo get_term_link($cat); ?>" 
-                                   class="flex items-center justify-between px-6 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-primary transition-all">
-                                    <div class="flex items-center gap-3">
-                                        <img src="<?php echo get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg'; ?>" class="w-5 h-5 opacity-70">
+                                   class="flex items-center justify-between px-6 py-3 text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:text-primary transition-all">
+                                    <span class="flex items-center gap-3 uppercase">
+                                        <img src="<?php echo get_term_meta($cat->term_id, 'icon', true); ?>" class="w-4 h-4 opacity-70">
                                         <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
-                                    </div>
-                                    <?php echo miliwebseo_icon('chevron-right', 'h-4 w-4 opacity-30'); ?>
+                                    </span>
+                                    <?php echo miliwebseo_icon('chevron-right', 'h-3.5 w-3.5 opacity-30'); ?>
                                 </a>
                             </div>
                         <?php endforeach; ?>
