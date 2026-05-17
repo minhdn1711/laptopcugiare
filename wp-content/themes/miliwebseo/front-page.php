@@ -3,25 +3,6 @@
 <main class="container mx-auto px-4 py-6">
     <!-- Hero Section -->
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
-        <!-- Sidebar Category Menu (Desktop) -->
-        <div class="hidden lg:block lg:col-span-1">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-[130px]">
-                <div class="bg-gray-50 text-secondary font-black px-5 py-4 flex items-center gap-3 border-b border-gray-100 text-sm uppercase tracking-tight">
-                    <?php echo miliwebseo_icon('menu', 'h-5 w-5 text-primary'); ?>
-                    DANH MỤC LAPTOP
-                </div>
-                <div class="vertical-menu-container">
-                    <?php miliwebseo_render_vertical_menu(); ?>
-                </div>
-                <!-- Banner Quảng cáo nhỏ ở Sidebar -->
-                <div class="p-4 bg-primary/5 border-t border-gray-100">
-                    <a href="#" class="block overflow-hidden rounded-lg group">
-                        <img src="https://placehold.co/200x120?text=Sửa+Chữa+Laptop" class="w-full h-auto group-hover:scale-110 transition-transform duration-500">
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <div class="lg:col-span-4 space-y-6">
             <!-- Slider -->
             <div id="hero-slider" class="splide bg-white rounded-2xl shadow-xl overflow-hidden h-[450px] border-4 border-white">

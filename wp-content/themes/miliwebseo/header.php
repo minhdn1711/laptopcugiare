@@ -220,6 +220,7 @@
 
     <!-- Bottom Header / Nav Bar (Desktop) -->
     <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm h-[var(--menu-height)] sticky top-[80px] z-40" 
+         @mouseleave="activeTab = null"
          x-init="console.log('Alpine Mega Menu Initialized')"
          x-data="{ 
             activeTab: null, 
@@ -311,24 +312,15 @@
             <!-- MEGA DROPDOWN PANEL (Full-width Content) -->
             <div class="absolute top-full left-0 w-full z-[110] bg-white shadow-2xl border-4 border-red-500" 
                  x-show="activeTab !== null" 
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 translate-y-2"
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 translate-y-2"
-                 style="display: none; min-height: 200px;">
+                 x-cloak
+                 style="min-height: 200px;">
                 
                 <div x-show="loading" class="p-20 flex justify-center items-center">
                     <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
                 </div>
 
-                <template x-if="activeTab && menuContent[activeTab]">
-                    <div x-html="menuContent[activeTab]"></div>
-                </template>
+                <div x-show="activeTab && menuContent[activeTab]" x-html="menuContent[activeTab]"></div>
             </div>
-        </div>
-    </div>
         </div>
     </div>
 
