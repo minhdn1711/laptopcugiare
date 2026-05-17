@@ -123,9 +123,6 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'bg-gray-100' ); ?> x-data="{ mobileMenuOpen: false }">
-    <div x-data="{ active: true }" x-show="active" class="bg-red-500 text-white text-[10px] py-1 text-center font-bold fixed top-0 left-0 w-full z-[9999]">
-        ALPINE JS ĐANG HOẠT ĐỘNG
-    </div>
     <?php wp_body_open(); ?>
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -219,93 +216,186 @@
     </div>
 
     <!-- Bottom Header / Nav Bar (Desktop) -->
-    <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm h-[var(--menu-height)] sticky top-[80px] z-40" 
-         x-init="console.log('Alpine Mega Menu Initialized')"
-         x-data="{ 
-            activeTab: null, 
-            menuContent: {},
-            loading: false,
-            loadSubMenu(id) {
-                console.log('Hovering Category ID:', id);
-                this.activeTab = id;
-                if (this.menuContent[id]) return;
+    <div class="hidden md:block bg-white border-b border-gray-100 shadow-sm sticky z-40" style="top: 80px; height: var(--menu-height);">
+        <div class="container mx-auto px-4 flex items-center h-full">
 
-                this.loading = true;
-                let formData = new FormData();
-                formData.append('action', 'load_mega_menu');
-                formData.append('parent_id', id);
-
-                fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(res => {
-                    console.log('AJAX Response:', res);
-                    if (res.success) {
-                        this.menuContent[id] = res.data;
-                    }
-                    this.loading = false;
-                });
-            },
-            closeMenu() {
-                this.activeTab = null;
+            <?php
+            /* ──────────────────────────────────────────────────────────
+             * PRE-LOAD: Lấy toàn bộ cây danh mục 1 lần để render SSR
+             * ─────────────────────────────────────────────────────── */
+            $mega_l1 = get_terms([
+                'taxonomy'   => 'product_cat',
+                'parent'     => 0,
+                'hide_empty' => false,
+                'meta_key'   => 'order_index',
+                'orderby'    => 'meta_value_num',
+                'order'      => 'ASC',
+                'meta_query' => [['key' => 'show_in_mega', 'value' => '1']],
+            ]);
+            // fallback nếu chưa set show_in_mega
+            if (is_wp_error($mega_l1) || empty($mega_l1)) {
+                $mega_l1 = get_terms([
+                    'taxonomy'   => 'product_cat',
+                    'parent'     => 0,
+                    'hide_empty' => false,
+                ]);
             }
-         }" @mouseleave="closeMenu()">
-        <div class="container mx-auto px-4 flex items-center justify-between h-full relative">
-            <div class="flex items-center space-x-8 h-full">
-                <!-- Mega Menu Trigger Button -->
-                <div class="relative h-full flex items-center group">
-                    <div class="bg-primary text-black w-[var(--logo-width)] h-full font-black text-xs flex items-center justify-center gap-3 cursor-pointer uppercase tracking-wider">
-                        <?php echo miliwebseo_icon('menu', 'h-5 w-5'); ?>
-                        DANH MỤC SẢN PHẨM
-                    </div>
+            // Loại bỏ "Uncategorized"
+            $mega_l1 = array_filter((array) $mega_l1, fn($c) => $c->slug !== 'uncategorized' && !is_wp_error($c));
+            $mega_l1 = array_values($mega_l1);
 
-                    <!-- Level 1 SSR Menu -->
-                    <div class="absolute top-full left-0 w-[var(--logo-width)] bg-white shadow-2xl border border-gray-100 z-[100] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <?php
-                        $l1_categories = get_terms(['taxonomy' => 'product_cat', 'parent' => 0, 'hide_empty' => false]);
-                        foreach ($l1_categories as $cat) :
+            // Pre-load L2 + L3 ngay tại đây (tất cả SSR, zero AJAX)
+            $mega_tree = [];
+            foreach ($mega_l1 as $cat1) {
+                $l2_list = get_terms(['taxonomy' => 'product_cat', 'parent' => $cat1->term_id, 'hide_empty' => false, 'orderby' => 'name']);
+                $l2_list = is_wp_error($l2_list) ? [] : $l2_list;
+                $brands_data = [];
+                foreach ($l2_list as $brand) {
+                    $l3_list = get_terms(['taxonomy' => 'product_cat', 'parent' => $brand->term_id, 'hide_empty' => false, 'orderby' => 'name']);
+                    $brands_data[] = [
+                        'brand'  => $brand,
+                        'series' => is_wp_error($l3_list) ? [] : $l3_list,
+                    ];
+                }
+                $mega_tree[] = ['cat' => $cat1, 'brands' => $brands_data];
+            }
+            ?>
+
+            <!-- ===== MEGA MENU WRAPPER ===== -->
+            <?php if (!empty($mega_tree)) : ?>
+            <div class="relative h-full flex-shrink-0"
+                 x-data="{ open: false, tab: 0 }"
+                 @mouseenter="open = true"
+                 @mouseleave="open = false">
+
+                <!-- Trigger Button -->
+                <div class="bg-primary text-black h-full font-black text-[11px] flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider select-none px-4"
+                     style="width: var(--logo-width);">
+                    <?php echo miliwebseo_icon('menu', 'h-4 w-4'); ?>
+                    DANH MỤC SẢN PHẨM
+                </div>
+
+                <!-- ── MEGA PANEL (full SSR, hiện ngay khi hover) ── -->
+                <div x-show="open"
+                     x-cloak
+                     x-transition:enter="transition-opacity ease-out duration-100"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition-opacity ease-in duration-75"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="absolute top-full left-0 z-[300] flex border border-gray-200 rounded-b-lg overflow-hidden"
+                     style="width: 980px; box-shadow: 0 8px 30px rgba(0,0,0,.12);">
+
+                    <!-- ── CỘT TRÁI: Danh mục cấp 1 ── -->
+                    <div class="bg-secondary flex-shrink-0 overflow-y-auto" style="width: 220px; max-height: 460px;">
+                        <?php foreach ($mega_tree as $idx => $node) :
+                            $cat1     = $node['cat'];
+                            $title    = get_term_meta($cat1->term_id, 'menu_title', true) ?: $cat1->name;
+                            $icon_val = get_term_meta($cat1->term_id, 'icon', true);
+                            // Build icon URL: nếu là filename thì prepend theme assets
+                            $icon_url = '';
+                            if ($icon_val) {
+                                $icon_url = (strpos($icon_val, 'http') === 0 ? $icon_val : get_template_directory_uri() . '/assets/images/' . $icon_val);
+                            }
                         ?>
-                            <div class="relative" @mouseenter="loadSubMenu(<?php echo $cat->term_id; ?>)">
-                                <a href="<?php echo get_term_link($cat); ?>" 
-                                   class="flex items-center justify-between px-6 py-3 text-[13px] font-bold text-gray-700 hover:bg-gray-50 hover:text-primary transition-all">
-                                    <span class="flex items-center gap-3 uppercase">
-                                        <img src="<?php echo get_term_meta($cat->term_id, 'icon', true); ?>" class="w-4 h-4 opacity-70">
-                                        <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
-                                    </span>
-                                    <?php echo miliwebseo_icon('chevron-right', 'h-3.5 w-3.5 opacity-30'); ?>
-                                </a>
-                            </div>
+                        <div @mouseenter="tab = <?php echo $idx; ?>"
+                             :class="tab === <?php echo $idx; ?> ? 'bg-primary' : 'hover:bg-white/10'"
+                             class="border-b border-white/[.08] transition-colors duration-100 cursor-pointer">
+                            <a href="<?php echo esc_url(get_term_link($cat1)); ?>"
+                               :class="tab === <?php echo $idx; ?> ? 'text-black' : 'text-white'"
+                               class="flex items-center justify-between px-4 py-[11px] text-[12px] font-bold gap-2 transition-colors"
+                               @click.stop>
+                                <span class="flex items-center gap-2.5 min-w-0 truncate">
+                                    <?php if ($icon_url) : ?>
+                                    <img src="<?php echo esc_url($icon_url); ?>" alt="" class="w-4 h-4 flex-shrink-0" onerror="this.remove()">
+                                    <?php else : ?>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                    <?php endif; ?>
+                                    <span class="truncate uppercase tracking-wide"><?php echo esc_html($title); ?></span>
+                                </span>
+                                <svg class="w-3 h-3 flex-shrink-0 opacity-40" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                            </a>
+                        </div>
                         <?php endforeach; ?>
                     </div>
+
+                    <!-- ── CỘT PHẢI: Brands + Series theo tab ── -->
+                    <div class="flex-1 bg-white overflow-y-auto" style="max-height: 460px;">
+                        <?php foreach ($mega_tree as $idx => $node) : ?>
+                        <div x-show="tab === <?php echo $idx; ?>"
+                             class="p-6">
+                            <?php if (empty($node['brands'])) : ?>
+                            <p class="text-gray-400 text-sm italic py-8 text-center">Đang cập nhật danh mục...</p>
+                            <?php else : ?>
+
+                            <?php
+                            // Tính số cột phù hợp: 4 brands → 4 cols, ít hơn thì bớt
+                            $brand_count = count($node['brands']);
+                            $cols = $brand_count >= 4 ? 4 : max(2, $brand_count);
+                            ?>
+                            <div class="grid gap-x-6 gap-y-5" style="grid-template-columns: repeat(<?php echo $cols; ?>, minmax(0,1fr));">
+                                <?php foreach ($node['brands'] as $item) :
+                                    $brand = $item['brand'];
+                                ?>
+                                <div>
+                                    <!-- Brand (L2) -->
+                                    <a href="<?php echo esc_url(get_term_link($brand)); ?>"
+                                       class="block font-extrabold text-secondary hover:text-primary text-[12px] uppercase tracking-wide pb-1.5 mb-2 border-b border-gray-100 transition-colors leading-tight">
+                                        <?php echo esc_html($brand->name); ?>
+                                        <span class="font-normal text-gray-400 text-[10px] normal-case">(<?php echo $brand->count; ?>)</span>
+                                    </a>
+                                    <!-- Series (L3) -->
+                                    <?php if (!empty($item['series'])) : ?>
+                                    <ul class="space-y-1.5">
+                                        <?php foreach ($item['series'] as $s) : ?>
+                                        <li>
+                                            <a href="<?php echo esc_url(get_term_link($s)); ?>"
+                                               class="flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-primary transition-colors group leading-tight">
+                                                <span class="w-[5px] h-[5px] rounded-full bg-gray-300 flex-shrink-0 group-hover:bg-primary transition-colors"></span>
+                                                <?php echo esc_html($s->name); ?>
+                                            </a>
+                                        </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <?php endif; ?>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+
+                            <!-- Xem tất cả link -->
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <a href="<?php echo esc_url(get_term_link($node['cat'])); ?>"
+                                   class="inline-flex items-center gap-1.5 text-[11px] font-bold text-primary hover:underline">
+                                    Xem tất cả <?php echo esc_html(get_term_meta($node['cat']->term_id, 'menu_title', true) ?: $node['cat']->name); ?>
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                            </div>
+
+                            <?php endif; ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+
                 </div>
+                <!-- ── END MEGA PANEL ── -->
 
-                <!-- Horizontal Navigation -->
-                <nav class="flex items-center space-x-10 h-full">
-                    <?php miliwebseo_render_primary_menu(); ?>
-                </nav>
+            </div>
+            <?php endif; ?>
+
+            <!-- Horizontal Navigation -->
+            <nav class="flex items-center h-full ml-8 space-x-8">
+                <?php miliwebseo_render_primary_menu(); ?>
+            </nav>
+
+            <!-- Right: badge -->
+            <div class="ml-auto flex items-center gap-4">
+                <span class="text-xs font-bold text-secondary flex items-center gap-1.5">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse inline-block"></span>
+                    250+ Laptop sẵn hàng
+                </span>
             </div>
 
-            <div class="flex items-center gap-4">
-                 <span class="text-xs font-bold text-secondary flex items-center gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    250+ Laptop đang sẵn hàng
-                 </span>
-            </div>
-
-            <!-- MEGA DROPDOWN PANEL (Full-width Content) -->
-            <div class="absolute top-full left-0 w-full z-[110] bg-white shadow-2xl border-4 border-red-500" 
-                 x-show="activeTab !== null" 
-                 x-cloak
-                 style="min-height: 200px;">
-                
-                <div x-show="loading" class="p-20 flex justify-center items-center">
-                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
-                </div>
-
-                <div x-show="activeTab && menuContent[activeTab]" x-html="menuContent[activeTab]"></div>
-            </div>
         </div>
     </div>
 

@@ -13,15 +13,12 @@ add_action('wp_ajax_nopriv_load_mega_menu', 'miliwebseo_ajax_load_mega_menu');
 function miliwebseo_ajax_load_mega_menu() {
     // Support both GET and POST requests for easy testing and debugging
     $parent_id = isset($_REQUEST['parent_id']) ? absint($_REQUEST['parent_id']) : 0;
-    error_log('Mega Menu AJAX called for ID: ' . $parent_id);
-    
+
     if (!$parent_id) wp_send_json_error('Invalid Parent ID');
 
-    // Allow bypassing cache via &nocache=1
     $nocache = isset($_REQUEST['nocache']) && $_REQUEST['nocache'] == 1;
     $transient_key = 'miliwebseo_mega_menu_' . $parent_id;
-    
-    // Clear transients if requested to force reload
+
     if ($nocache) {
         delete_transient($transient_key);
     }
@@ -29,18 +26,11 @@ function miliwebseo_ajax_load_mega_menu() {
     $html = get_transient($transient_key);
 
     if (false === $html) {
-        error_log('Mega Menu Cache Miss for ID: ' . $parent_id);
         ob_start();
         miliwebseo_render_mega_menu_content($parent_id);
         $html = ob_get_clean();
-        
-        if (empty($html)) {
-            error_log('Mega Menu Render EMPTY for ID: ' . $parent_id);
-        }
 
         set_transient($transient_key, $html, 24 * HOUR_IN_SECONDS);
-    } else {
-        error_log('Mega Menu Cache Hit for ID: ' . $parent_id);
     }
 
     wp_send_json_success($html);
