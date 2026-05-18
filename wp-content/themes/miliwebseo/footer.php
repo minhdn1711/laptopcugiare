@@ -4,7 +4,7 @@
         <div>
             <h3 class="text-white font-bold text-lg mb-4">VỀ LAPTOP CŨ GIÁ RẺ</h3>
             <p class="text-sm leading-relaxed mb-4">
-                Hệ thống bán lẻ laptop uy tín hàng đầu. Chuyên cung cấp laptop gaming, văn phòng, đồ họa chính hãng và nhập khẩu giá tốt nhất thị trường.
+                <?php echo get_theme_mod('footer_about', 'Hệ thống bán lẻ laptop uy tín hàng đầu.'); ?>
             </p>
             <div class="flex space-x-4">
                 <!-- Social Icons -->
@@ -21,39 +21,39 @@
         </div>
         <div>
             <h3 class="text-white font-bold text-lg mb-4">HỖ TRỢ KHÁCH HÀNG</h3>
-            <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-primary">Hướng dẫn mua hàng online</a></li>
-                <li><a href="#" class="hover:text-primary">Chính sách bảo hành</a></li>
-                <li><a href="#" class="hover:text-primary">Chính sách đổi trả</a></li>
-                <li><a href="#" class="hover:text-primary">Chính sách vận chuyển</a></li>
-                <li><a href="#" class="hover:text-primary">Hướng dẫn thanh toán</a></li>
-            </ul>
+            <?php echo get_theme_mod('footer_support_html', '<ul class="space-y-2 text-sm">
+<li><a href="#" class="hover:text-primary">Hướng dẫn mua hàng online</a></li>
+<li><a href="#" class="hover:text-primary">Chính sách bảo hành</a></li>
+<li><a href="#" class="hover:text-primary">Chính sách đổi trả</a></li>
+<li><a href="#" class="hover:text-primary">Chính sách vận chuyển</a></li>
+<li><a href="#" class="hover:text-primary">Hướng dẫn thanh toán</a></li>
+</ul>'); ?>
         </div>
         <div>
             <h3 class="text-white font-bold text-lg mb-4">DANH MỤC PHỔ BIẾN</h3>
-            <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-primary">Laptop Gaming</a></li>
-                <li><a href="#" class="hover:text-primary">Laptop Văn Phòng</a></li>
-                <li><a href="#" class="hover:text-primary">Macbook Air / Pro</a></li>
-                <li><a href="#" class="hover:text-primary">Laptop Cũ Giá Rẻ</a></li>
-            </ul>
+            <?php echo get_theme_mod('footer_categories_html', '<ul class="space-y-2 text-sm">
+<li><a href="#" class="hover:text-primary">Laptop Gaming</a></li>
+<li><a href="#" class="hover:text-primary">Laptop Văn Phòng</a></li>
+<li><a href="#" class="hover:text-primary">Macbook Air / Pro</a></li>
+<li><a href="#" class="hover:text-primary">Laptop Cũ Giá Rẻ</a></li>
+</ul>'); ?>
         </div>
         <div>
             <h3 class="text-white font-bold text-lg mb-4">LIÊN HỆ</h3>
-            <ul class="space-y-4 text-sm">
-                <li class="flex items-start gap-3">
-                    <span class="text-primary mt-0.5"><?php echo miliwebseo_icon('map-pin', 'h-4 w-4'); ?></span>
-                    <span>Địa chỉ: 123 Đường ABC, Quận XYZ, TP. HCM</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <span class="text-primary"><?php echo miliwebseo_icon('phone', 'h-4 w-4'); ?></span>
-                    <span>Hotline: 1900.xxxx</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <span class="text-primary"><?php echo miliwebseo_icon('mail', 'h-4 w-4'); ?></span>
-                    <span>Email: contact@miliweb.vn</span>
-                </li>
-            </ul>
+            <?php echo get_theme_mod('footer_contact_html', '<ul class="space-y-4 text-sm">
+<li class="flex items-start gap-3">
+<span class="text-primary mt-0.5">📍</span>
+<span>Địa chỉ: 123 Đường ABC, Quận XYZ, TP. HCM</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="text-primary">☎</span>
+<span>Hotline: 1900.xxxx</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="text-primary">✉</span>
+<span>Email: contact@miliweb.vn</span>
+</li>
+</ul>'); ?>
         </div>
     </div>
     <div class="container mx-auto px-4 mt-12 pt-6 border-t border-gray-800 text-center text-xs">

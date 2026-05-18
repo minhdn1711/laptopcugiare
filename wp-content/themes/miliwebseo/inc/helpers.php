@@ -6,6 +6,28 @@ function miliwebseo_get_svg( $icon ) {
     // Helper to load SVG icons
 }
 
+/**
+ * Sanitize HTML that allows SVG (for Customizer)
+ */
+function miliwebseo_sanitize_html_with_svg( $html ) {
+    $allowed = wp_kses_allowed_html( 'post' );
+
+    // Allow SVG and its children
+    $allowed['svg'] = [
+        'xmlns' => true, 'width' => true, 'height' => true, 'viewbox' => true,
+        'fill' => true, 'stroke' => true, 'stroke-width' => true,
+        'stroke-linecap' => true, 'stroke-linejoin' => true, 'class' => true,
+    ];
+    $allowed['path'] = [ 'd' => true, 'fill' => true, 'stroke' => true ];
+    $allowed['circle'] = [ 'cx' => true, 'cy' => true, 'r' => true, 'fill' => true ];
+    $allowed['rect'] = [ 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'fill' => true ];
+    $allowed['line'] = [ 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true ];
+    $allowed['polyline'] = [ 'points' => true, 'fill' => true, 'stroke' => true ];
+    $allowed['polygon'] = [ 'points' => true, 'fill' => true, 'stroke' => true ];
+
+    return wp_kses( $html, $allowed );
+}
+
 function miliwebseo_render_mega_menu() {
     $menu_name = 'mega_menu';
     $locations = get_nav_menu_locations();

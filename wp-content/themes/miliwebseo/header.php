@@ -130,13 +130,13 @@
     <div class="bg-gray-900 text-white text-[11px] py-1.5 hidden md:block">
         <div class="container mx-auto px-4 flex justify-between items-center opacity-80">
             <div class="flex space-x-6">
-                <span class="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors"><?php echo miliwebseo_icon('map-pin', 'h-3.5 w-3.5'); ?> Hệ thống 15 cửa hàng</span>
-                <span class="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors"><?php echo miliwebseo_icon('phone', 'h-3.5 w-3.5'); ?> Hotline: 1900.xxxx</span>
+                <span class="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors"><?php echo miliwebseo_icon('map-pin', 'h-3.5 w-3.5'); ?> <?php echo get_theme_mod('header_top_store', 'Hệ thống 15 cửa hàng'); ?></span>
+                <?php echo get_theme_mod('header_top_hotline', '<span class="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors">' . miliwebseo_icon('phone', 'h-3.5 w-3.5') . ' Hotline: 1900.xxxx</span>'); ?>
             </div>
-            <div class="flex space-x-6 font-medium">
-                <a href="#" class="hover:text-primary transition-colors">Góp ý / Khiếu nại</a>
-                <a href="#" class="hover:text-primary transition-colors">Tra cứu bảo hành</a>
-                <a href="#" class="hover:text-primary transition-colors">Tin công nghệ</a>
+            <div class="flex space-x-6 font-medium header-top-links">
+                <?php echo get_theme_mod('header_top_links_html', '<a href="#" class="hover:text-primary transition-colors">Góp ý / Khiếu nại</a>
+<a href="#" class="hover:text-primary transition-colors">Tra cứu bảo hành</a>
+<a href="#" class="hover:text-primary transition-colors">Tin công nghệ</a>'); ?>
             </div>
         </div>
     </div>
@@ -189,16 +189,6 @@
 
             <!-- Header Action Icons -->
             <div class="flex items-center space-x-5">
-                <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="flex items-center gap-2.5 hover:text-primary transition-all group">
-                    <div class="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary group-hover:text-black transition-all">
-                        <?php echo miliwebseo_icon('user', 'h-5 w-5'); ?>
-                    </div>
-                    <div class="hidden lg:block text-left leading-tight">
-                        <p class="text-[10px] text-white/50 uppercase font-bold">Tài khoản</p>
-                        <p class="text-xs font-black">Đăng nhập</p>
-                    </div>
-                </a>
-
                 <a href="<?php echo wc_get_cart_url(); ?>" class="relative group flex items-center gap-2.5">
                     <div class="p-2.5 bg-primary text-black rounded-xl hover:scale-105 transition-all shadow-lg shadow-primary/20">
                         <?php echo miliwebseo_icon('shopping-cart', 'h-5 w-5'); ?>
@@ -638,22 +628,12 @@
         <span class="absolute -top-1 -right-1 bg-primary text-black rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-bold cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
         <?php endif; ?>
     </a>
-    <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
-        <?php echo miliwebseo_icon('user', 'h-6 w-6'); ?>
-        <span class="text-[10px] mt-1 font-medium">Tài khoản</span>
-    </a>
     <?php else : ?>
     <a href="#" class="flex flex-col items-center text-gray-600">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
         <span class="text-[10px] mt-1 font-medium">Giỏ hàng</span>
-    </a>
-    <a href="#" class="flex flex-col items-center text-gray-600">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-        <span class="text-[10px] mt-1 font-medium">Tài khoản</span>
     </a>
     <?php endif; ?>
 </div>
