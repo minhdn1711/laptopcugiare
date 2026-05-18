@@ -86,7 +86,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
     </div>
 
     <!-- Hover Specs Overlay (Desktop - Full Height) -->
-    <div class="absolute inset-0 bg-black bg-opacity-80 text-white p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-xs flex flex-col justify-center z-20 hidden md:flex">
+    <div class="absolute inset-0 bg-black bg-opacity-85 text-white p-4 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 text-xs flex flex-col justify-start z-[60] hidden md:flex overflow-auto">
         <p class="font-bold mb-2 text-primary text-sm">Thông số kỹ thuật:</p>
         <ul class="space-y-1.5">
             <?php
