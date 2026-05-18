@@ -119,6 +119,136 @@
             --menu-height: <?php echo get_theme_mod('menu_height', '50'); ?>px;
             --header-padding: 10px;
         }
+
+        /* ========================================
+           WOOCOMMERCE CHECKOUT FORM - MODERN UI
+           ======================================== */
+        .woocommerce-checkout .form-row {
+            margin-bottom: 1.25rem !important;
+        }
+
+        .woocommerce-checkout input[type="text"],
+        .woocommerce-checkout input[type="email"],
+        .woocommerce-checkout input[type="tel"],
+        .woocommerce-checkout input[type="password"],
+        .woocommerce-checkout textarea,
+        .woocommerce-checkout select {
+            width: 100% !important;
+            padding: 14px 16px !important;
+            font-size: 15px !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 12px !important;
+            background: #fff !important;
+            color: #1f2937 !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        .woocommerce-checkout select {
+            appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            padding-right: 42px !important;
+        }
+
+        .woocommerce-checkout input:focus,
+        .woocommerce-checkout textarea:focus,
+        .woocommerce-checkout select:focus {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12) !important;
+            outline: none !important;
+        }
+
+        .woocommerce-checkout .form-row.woocommerce-invalid input,
+        .woocommerce-checkout .form-row.woocommerce-invalid select,
+        .woocommerce-checkout .form-row.woocommerce-invalid textarea {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .woocommerce-checkout label {
+            font-weight: 600 !important;
+            color: #374151 !important;
+            margin-bottom: 6px !important;
+            display: block !important;
+            font-size: 14px !important;
+        }
+
+        .woocommerce-checkout .woocommerce-input-wrapper {
+            width: 100% !important;
+        }
+
+        .woocommerce-checkout .select2-selection {
+            border-radius: 12px !important;
+            border-color: #e5e7eb !important;
+            padding: 10px 14px !important;
+            height: auto !important;
+        }
+
+        /* Checkout button styles */
+        .woocommerce .woocommerce-notice--success,
+        .woocommerce .woocommerce-error {
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+        }
+
+        .woocommerce button.button.alt {
+            background: #10b981 !important;
+            color: white !important;
+            padding: 14px 28px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            border: none !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .woocommerce button.button.alt:hover {
+            background: #059669 !important;
+        }
+
+        .woocommerce form .form-row-wide {
+            width: 100% !important;
+        }
+
+        .woocommerce-checkout-review-order table {
+            width: 100% !important;
+        }
+
+        /* Footer on Checkout - Fix width */
+        .woocommerce-checkout footer {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-top: 0 !important;
+            clear: both !important;
+        }
+
+        .woocommerce-checkout .container {
+            max-width: 1280px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        /* Strong global fix for horizontal overflow */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        img, video, iframe, svg, object, embed {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container, .woocommerce-checkout .container {
+            max-width: 1280px !important;
+            width: 100% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
     </style>
     <?php wp_head(); ?>
 </head>
@@ -653,5 +783,3 @@
         }
     });
 </script>
-
-<main class="container min-h-[70vh] pb-12">

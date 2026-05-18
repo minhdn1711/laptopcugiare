@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-
+<main class="container min-h-[70vh] pb-12">
 <!-- Hero Slider - Full Width -->
 <div class="container relative mb-8">
     <div id="hero-slider" class="splide bg-white overflow-hidden h-[450px]">
@@ -38,41 +38,46 @@
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
         <div class="lg:col-span-4 space-y-6">
             <!-- UX Builder Info Boxes -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <?php $cols = get_theme_mod('info_boxes_columns', '4'); ?>
+            <div class="grid grid-cols-2 md:grid-cols-<?php echo esc_attr($cols); ?> gap-4">
+                <!-- Box 1 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <?php echo miliwebseo_icon('truck', 'h-6 w-6'); ?>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-secondary">Miễn phí giao hàng</p>
-                        <p class="text-[10px] text-gray-500 font-medium">Đơn hàng từ 10 Triệu</p>
+                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_1_title', 'Miễn phí giao hàng'); ?></p>
+                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_1_desc', 'Đơn hàng từ 10 Triệu'); ?></p>
                     </div>
                 </div>
+                <!-- Box 2 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-all">
                         <?php echo miliwebseo_icon('shield-check', 'h-6 w-6'); ?>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-secondary">Bảo hành 12 tháng</p>
-                        <p class="text-[10px] text-gray-500 font-medium">Lỗi là đổi mới ngay</p>
+                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_2_title', 'Bảo hành 12 tháng'); ?></p>
+                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_2_desc', 'Lỗi là đổi mới ngay'); ?></p>
                     </div>
                 </div>
+                <!-- Box 3 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-all">
                         <?php echo miliwebseo_icon('refresh-cw', 'h-6 w-6'); ?>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-secondary">7 Ngày đổi trả</p>
-                        <p class="text-[10px] text-gray-500 font-medium">Hoàn tiền 100%</p>
+                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_3_title', '7 Ngày đổi trả'); ?></p>
+                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_3_desc', 'Hoàn tiền 100%'); ?></p>
                     </div>
                 </div>
+                <!-- Box 4 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-all">
                         <?php echo miliwebseo_icon('headphones', 'h-6 w-6'); ?>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-secondary">Hỗ trợ 24/7</p>
-                        <p class="text-[10px] text-gray-500 font-medium">Zalo / Facebook</p>
+                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_4_title', 'Hỗ trợ 24/7'); ?></p>
+                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_4_desc', 'Zalo / Facebook'); ?></p>
                     </div>
                 </div>
             </div>
@@ -81,26 +86,39 @@
 
     <!-- Banner Quảng cáo giữa trang (UX Builder Style) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-        <div class="relative overflow-hidden rounded-2xl group h-48 md:h-64 shadow-lg border-4 border-white">
-            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1932&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+        <?php
+        $banner1_img  = get_theme_mod('middle_banner_1_image', 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1932&auto=format&fit=crop');
+        $banner1_link = get_theme_mod('middle_banner_1_link', '#');
+        $banner1_sub  = get_theme_mod('middle_banner_1_subtitle', 'Dành cho sinh viên');
+        $banner1_title = get_theme_mod('middle_banner_1_title', 'MÁY VĂN PHÒNG <br>GIÁ SIÊU RẺ');
+        ?>
+        <a href="<?php echo esc_url($banner1_link); ?>" class="relative overflow-hidden rounded-2xl group h-48 md:h-64 shadow-lg border-4 border-white block">
+            <img src="<?php echo esc_url($banner1_img); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
             <div class="absolute inset-0 bg-black/40 flex flex-col justify-center p-8 text-white">
-                <p class="text-xs font-black text-primary uppercase tracking-widest mb-1">Dành cho sinh viên</p>
-                <h3 class="text-3xl font-black mb-4 italic leading-tight">MÁY VĂN PHÒNG <br>GIÁ SIÊU RẺ</h3>
+                <p class="text-xs font-black text-primary uppercase tracking-widest mb-1"><?php echo esc_html($banner1_sub); ?></p>
+                <h3 class="text-3xl font-black mb-4 italic leading-tight"><?php echo wp_kses_post($banner1_title); ?></h3>
                 <div>
-                    <a href="#" class="inline-block bg-white text-black px-6 py-2 rounded-full text-xs font-black hover:bg-primary transition-all">XEM NGAY</a>
+                    <span class="inline-block bg-white text-black px-6 py-2 rounded-full text-xs font-black hover:bg-primary transition-all">XEM NGAY</span>
                 </div>
             </div>
-        </div>
-        <div class="relative overflow-hidden rounded-2xl group h-48 md:h-64 shadow-lg border-4 border-white">
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+        </a>
+
+        <?php
+        $banner2_img  = get_theme_mod('middle_banner_2_image', 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop');
+        $banner2_link = get_theme_mod('middle_banner_2_link', '#');
+        $banner2_sub  = get_theme_mod('middle_banner_2_subtitle', 'Cấu hình khủng');
+        $banner2_title = get_theme_mod('middle_banner_2_title', 'WORKSTATION <br>CHUYÊN NGHIỆP');
+        ?>
+        <a href="<?php echo esc_url($banner2_link); ?>" class="relative overflow-hidden rounded-2xl group h-48 md:h-64 shadow-lg border-4 border-white block">
+            <img src="<?php echo esc_url($banner2_img); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
             <div class="absolute inset-0 bg-gradient-to-r from-red-600/80 to-transparent flex flex-col justify-center p-8 text-white">
-                <p class="text-xs font-black text-yellow-400 uppercase tracking-widest mb-1">Cấu hình khủng</p>
-                <h3 class="text-3xl font-black mb-4 italic leading-tight">WORKSTATION <br>CHUYÊN NGHIỆP</h3>
+                <p class="text-xs font-black text-yellow-400 uppercase tracking-widest mb-1"><?php echo esc_html($banner2_sub); ?></p>
+                <h3 class="text-3xl font-black mb-4 italic leading-tight"><?php echo wp_kses_post($banner2_title); ?></h3>
                 <div>
-                    <a href="#" class="inline-block border-2 border-white text-white px-6 py-2 rounded-full text-xs font-black hover:bg-white hover:text-red-600 transition-all uppercase">Khám phá</a>
+                    <span class="inline-block border-2 border-white text-white px-6 py-2 rounded-full text-xs font-black hover:bg-white hover:text-red-600 transition-all uppercase">Khám phá</span>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Flash Sale Section (Refined) -->

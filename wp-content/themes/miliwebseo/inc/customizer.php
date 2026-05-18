@@ -152,5 +152,92 @@ function miliwebseo_customize_register( $wp_customize ) {
         'type'        => 'textarea',
         'section'     => 'miliwebseo_footer',
     ]);
+
+    // ===== UX BUILDER INFO BOXES =====
+    $wp_customize->add_section( 'miliwebseo_info_boxes', [
+        'title'    => 'Info Boxes (UX Builder)',
+        'priority' => 35,
+    ]);
+
+    $wp_customize->add_setting( 'info_boxes_columns', [
+        'default'           => '4',
+        'sanitize_callback' => 'absint',
+    ]);
+    $wp_customize->add_control( 'info_boxes_columns', [
+        'label'   => 'Số cột',
+        'section' => 'miliwebseo_info_boxes',
+        'type'    => 'select',
+        'choices' => [
+            '2' => '2 cột',
+            '3' => '3 cột',
+            '4' => '4 cột',
+        ],
+    ]);
+
+    // Box 1
+    $wp_customize->add_setting( 'info_box_1_title', [ 'default' => 'Miễn phí giao hàng', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_1_title', [ 'label' => 'Box 1 - Tiêu đề', 'section' => 'miliwebseo_info_boxes' ] );
+
+    $wp_customize->add_setting( 'info_box_1_desc', [ 'default' => 'Đơn hàng từ 10 Triệu', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_1_desc', [ 'label' => 'Box 1 - Mô tả', 'section' => 'miliwebseo_info_boxes' ] );
+
+    // Box 2
+    $wp_customize->add_setting( 'info_box_2_title', [ 'default' => 'Bảo hành 12 tháng', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_2_title', [ 'label' => 'Box 2 - Tiêu đề', 'section' => 'miliwebseo_info_boxes' ] );
+
+    $wp_customize->add_setting( 'info_box_2_desc', [ 'default' => 'Lỗi là đổi mới ngay', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_2_desc', [ 'label' => 'Box 2 - Mô tả', 'section' => 'miliwebseo_info_boxes' ] );
+
+    // Box 3
+    $wp_customize->add_setting( 'info_box_3_title', [ 'default' => '7 Ngày đổi trả', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_3_title', [ 'label' => 'Box 3 - Tiêu đề', 'section' => 'miliwebseo_info_boxes' ] );
+
+    $wp_customize->add_setting( 'info_box_3_desc', [ 'default' => 'Hoàn tiền 100%', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_3_desc', [ 'label' => 'Box 3 - Mô tả', 'section' => 'miliwebseo_info_boxes' ] );
+
+    // Box 4
+    $wp_customize->add_setting( 'info_box_4_title', [ 'default' => 'Hỗ trợ 24/7', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_4_title', [ 'label' => 'Box 4 - Tiêu đề', 'section' => 'miliwebseo_info_boxes' ] );
+
+    $wp_customize->add_setting( 'info_box_4_desc', [ 'default' => 'Zalo / Facebook', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'info_box_4_desc', [ 'label' => 'Box 4 - Mô tả', 'section' => 'miliwebseo_info_boxes' ] );
+
+    // ===== MIDDLE BANNERS =====
+    $wp_customize->add_section( 'miliwebseo_middle_banners', [
+        'title'    => 'Banner Quảng cáo giữa trang',
+        'priority' => 36,
+    ]);
+
+    // Banner 1
+    $wp_customize->add_setting( 'middle_banner_1_image', [ 'default' => '', 'transport' => 'refresh' ] );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'middle_banner_1_image', [
+        'label'    => 'Banner 1 - Ảnh',
+        'section'  => 'miliwebseo_middle_banners',
+    ]));
+
+    $wp_customize->add_setting( 'middle_banner_1_link', [ 'default' => '#', 'sanitize_callback' => 'esc_url_raw' ] );
+    $wp_customize->add_control( 'middle_banner_1_link', [ 'label' => 'Banner 1 - Link', 'section' => 'miliwebseo_middle_banners' ] );
+
+    $wp_customize->add_setting( 'middle_banner_1_title', [ 'default' => 'MÁY VĂN PHÒNG GIÁ SIÊU RẺ', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'middle_banner_1_title', [ 'label' => 'Banner 1 - Tiêu đề', 'section' => 'miliwebseo_middle_banners' ] );
+
+    $wp_customize->add_setting( 'middle_banner_1_subtitle', [ 'default' => 'Dành cho sinh viên', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'middle_banner_1_subtitle', [ 'label' => 'Banner 1 - Phụ đề', 'section' => 'miliwebseo_middle_banners' ] );
+
+    // Banner 2
+    $wp_customize->add_setting( 'middle_banner_2_image', [ 'default' => '', 'transport' => 'refresh' ] );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'middle_banner_2_image', [
+        'label'    => 'Banner 2 - Ảnh',
+        'section'  => 'miliwebseo_middle_banners',
+    ]));
+
+    $wp_customize->add_setting( 'middle_banner_2_link', [ 'default' => '#', 'sanitize_callback' => 'esc_url_raw' ] );
+    $wp_customize->add_control( 'middle_banner_2_link', [ 'label' => 'Banner 2 - Link', 'section' => 'miliwebseo_middle_banners' ] );
+
+    $wp_customize->add_setting( 'middle_banner_2_title', [ 'default' => 'WORKSTATION CHUYÊN NGHIỆP', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'middle_banner_2_title', [ 'label' => 'Banner 2 - Tiêu đề', 'section' => 'miliwebseo_middle_banners' ] );
+
+    $wp_customize->add_setting( 'middle_banner_2_subtitle', [ 'default' => 'Cấu hình khủng', 'sanitize_callback' => 'sanitize_text_field' ] );
+    $wp_customize->add_control( 'middle_banner_2_subtitle', [ 'label' => 'Banner 2 - Phụ đề', 'section' => 'miliwebseo_middle_banners' ] );
 }
 add_action( 'customize_register', 'miliwebseo_customize_register' );

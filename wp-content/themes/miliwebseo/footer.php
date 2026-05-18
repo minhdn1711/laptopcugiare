@@ -1,4 +1,8 @@
-</main>
+<?php
+// Close main tag for all pages
+?>
+</main><!-- #main or #primary -->
+
 <footer class="bg-secondary text-gray-300 pt-12 pb-6 mt-12">
     <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
@@ -57,19 +61,19 @@
         </div>
     </div>
     <div class="container mx-auto px-4 mt-12 pt-6 border-t border-gray-800 text-center text-xs">
-        <p>&copy; <?php echo date('Y'); ?> LAPTOP CŨ GIÁ RẺ. All rights reserved. Designed by Antigravity.</p>
+        <p>&copy; <?php echo date('Y'); ?> LAPTOP CŨ GIÁ RẺ. All rights reserved</p>
     </div>
 </footer>
 
 <!-- Global Toast Notification System -->
-<div x-data="{ 
-    show: false, 
-    message: '', 
+<div x-data="{
+    show: false,
+    message: '',
     type: 'success',
     init() {
-        <?php 
+        <?php
         $notices = wc_get_notices('success');
-        if ( !empty($notices) ) : 
+        if ( !empty($notices) ) :
             $message = reset($notices)['notice'];
         ?>
             this.showToast('<?php echo $message; ?>', 'success');
@@ -82,9 +86,9 @@
         this.show = true;
         setTimeout(() => { this.show = false; }, 5000);
     }
-}" 
+}"
 @show-toast.window="showToast($event.detail.message, $event.detail.type)"
-x-show="show" 
+x-show="show"
 x-cloak
 x-transition:enter="transition ease-out duration-300"
 x-transition:enter-start="translate-x-full opacity-0"
@@ -93,7 +97,7 @@ x-transition:leave="transition ease-in duration-300"
 x-transition:leave-start="translate-x-0 opacity-100"
 x-transition:leave-end="translate-x-full opacity-0"
 class="fixed top-24 right-4 z-[200] max-w-sm w-full">
-    <div :class="type === 'success' ? 'bg-green-600' : 'bg-red-600'" 
+    <div :class="type === 'success' ? 'bg-green-600' : 'bg-red-600'"
          class="text-white p-4 rounded-xl shadow-2xl flex items-center gap-4 border border-white/20 backdrop-blur-md bg-opacity-90">
         <div class="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
             <template x-if="type === 'success'">
