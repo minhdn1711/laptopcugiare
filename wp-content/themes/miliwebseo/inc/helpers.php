@@ -9,7 +9,7 @@ function miliwebseo_get_svg( $icon ) {
 function miliwebseo_render_mega_menu() {
     $menu_name = 'mega_menu';
     $locations = get_nav_menu_locations();
-    
+
     if ( ! isset( $locations[ $menu_name ] ) ) {
         return false;
     }
@@ -57,7 +57,7 @@ function miliwebseo_render_mega_menu() {
 function miliwebseo_render_header_mega_menu() {
     $menu_name = 'vertical';
     $locations = get_nav_menu_locations();
-    
+
     if ( ! isset( $locations[ $menu_name ] ) ) {
         // Simple fallback to categories if no menu is assigned
         $categories = get_terms( 'product_cat', array( 'hide_empty' => false, 'parent' => 0 ) );
@@ -99,7 +99,7 @@ function miliwebseo_render_header_mega_menu() {
 
     // Render HTML with Alpine logic for side-flyout
     echo '<div class="flex bg-white min-h-[450px]" x-data="{ activeCategory: ' . ($menu_tree ? $menu_tree[0]->ID : 0) . ' }">';
-    
+
     // Left Sidebar (Level 1)
     echo '<div class="w-[260px] border-r border-gray-100 py-1 bg-white flex-shrink-0">';
     echo '<ul class="flex flex-col h-full">';
@@ -149,7 +149,7 @@ function miliwebseo_render_header_mega_menu() {
     // Decorative background icon
     echo '<div class="absolute bottom-[-20px] right-[-20px] opacity-[0.03] rotate-12 pointer-events-none">' . miliwebseo_icon('cpu', 'h-64 w-64') . '</div>';
     echo '</div>';
-    
+
     echo '</div>';
 }
 
@@ -174,7 +174,7 @@ function miliwebseo_render_vertical_menu() {
     foreach ($categories as $cat) {
         $icon = get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg';
         $display_name = get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name;
-        
+
         echo '<li>';
         echo '<a href="' . esc_url(get_term_link($cat)) . '" class="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 hover:text-primary transition-all group">';
         echo '<div class="flex items-center gap-3">';
@@ -194,15 +194,14 @@ function miliwebseo_render_vertical_menu() {
 function miliwebseo_render_primary_menu() {
     $menu_name = 'primary';
     $locations = get_nav_menu_locations();
-    
+
     if ( ! isset( $locations[ $menu_name ] ) ) {
         // Fallback to hardcoded menu if no menu assigned
         ?>
         <a href="<?php echo home_url(); ?>" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('home', 'h-4 w-4 text-primary'); ?> Trang chủ</a>
-        <a href="#" class="hover:text-primary transition-colors">Sản phẩm mới</a>
-        <a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><?php echo miliwebseo_icon('flame', 'h-4 w-4 text-orange-500'); ?> Khuyến mãi</a>
-        <a href="#" class="hover:text-primary transition-colors">Tin tức</a>
-        <a href="#" class="hover:text-primary transition-colors">Liên hệ</a>
+        <a href="cua-hang" class="hover:text-primary transition-colors">Sản phẩm mới</a>
+        <a href="tin-tuc" class="hover:text-primary transition-colors">Tin tức</a>
+        <a href="lien-he" class="hover:text-primary transition-colors">Liên hệ</a>
         <?php
         return;
     }
@@ -243,7 +242,7 @@ function miliwebseo_render_primary_menu() {
 function miliwebseo_render_mobile_menu() {
     $menu_name = 'mobile';
     $locations = get_nav_menu_locations();
-    
+
     if ( ! isset( $locations[ $menu_name ] ) ) {
         // Fallback to hardcoded menu if no menu assigned
         ?>

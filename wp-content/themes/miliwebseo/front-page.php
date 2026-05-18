@@ -1,40 +1,42 @@
 <?php get_header(); ?>
 
+<!-- Hero Slider - Full Width -->
+<div class="container relative mb-8">
+    <div id="hero-slider" class="splide bg-white overflow-hidden h-[450px]">
+        <div class="splide__track h-full">
+            <ul class="splide__list h-full">
+                <?php
+                $banners = miliwebseo_get_hero_banners();
+                if ( ! empty( $banners ) ) :
+                    foreach ( $banners as $banner ) : ?>
+                        <li class="splide__slide h-full">
+                            <a href="<?php echo esc_url( $banner['link'] ); ?>" class="block h-full">
+                                <img src="<?php echo esc_url( $banner['image'] ); ?>" class="w-full h-full object-cover">
+                            </a>
+                        </li>
+                    <?php endforeach;
+                else : ?>
+                    <li class="splide__slide h-full relative group">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center p-12">
+                            <div class="max-w-md text-white space-y-4">
+                                <span class="bg-primary text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">Khuyến mãi cực hời</span>
+                                <h2 class="text-5xl font-black leading-tight italic">LAPTOP GAMING <br>THẾ HỆ MỚI</h2>
+                                <p class="text-lg opacity-90 font-medium">Giảm giá lên đến 30% cho tất cả dòng máy gaming cao cấp.</p>
+                                <a href="#" class="inline-block bg-white text-black px-8 py-3 rounded-full font-black hover:bg-primary transition-all">MUA NGAY</a>
+                            </div>
+                        </div>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <main class="container mx-auto px-4 py-6">
     <!-- Hero Section -->
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
         <div class="lg:col-span-4 space-y-6">
-            <!-- Slider -->
-            <div id="hero-slider" class="splide bg-white rounded-2xl shadow-xl overflow-hidden h-[450px] border-4 border-white">
-                <div class="splide__track h-full">
-                    <ul class="splide__list h-full">
-                        <?php 
-                        $banners = miliwebseo_get_hero_banners();
-                        if ( ! empty( $banners ) ) :
-                            foreach ( $banners as $banner ) : ?>
-                                <li class="splide__slide h-full">
-                                    <a href="<?php echo esc_url( $banner['link'] ); ?>" class="block h-full">
-                                        <img src="<?php echo esc_url( $banner['image'] ); ?>" class="w-full h-full object-cover">
-                                    </a>
-                                </li>
-                            <?php endforeach;
-                        else : ?>
-                            <li class="splide__slide h-full relative group">
-                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center p-12">
-                                    <div class="max-w-md text-white space-y-4">
-                                        <span class="bg-primary text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">Khuyến mãi cực hời</span>
-                                        <h2 class="text-5xl font-black leading-tight italic">LAPTOP GAMING <br>THẾ HỆ MỚI</h2>
-                                        <p class="text-lg opacity-90 font-medium">Giảm giá lên đến 30% cho tất cả dòng máy gaming cao cấp.</p>
-                                        <a href="#" class="inline-block bg-white text-black px-8 py-3 rounded-full font-black hover:bg-primary transition-all">MUA NGAY</a>
-                                    </div>
-                                </div>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-            </div>
-
             <!-- UX Builder Info Boxes -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
@@ -114,7 +116,7 @@
                     <p class="text-xs text-red-600 font-bold uppercase tracking-widest">Giờ vàng giá sốc</p>
                 </div>
             </div>
-            
+
             <div class="flex flex-col items-center md:items-end gap-2">
                 <div class="flex items-center gap-3">
                     <span class="text-xs font-black uppercase tracking-wider text-gray-400">Kết thúc sau:</span>
@@ -156,7 +158,7 @@
     // Get all terms from usage_needs taxonomy
     $usage_terms = get_terms([
         'taxonomy' => 'usage_needs',
-        'hide_empty' => false, 
+        'hide_empty' => false,
     ]);
 
     if (!empty($usage_terms) && !is_wp_error($usage_terms)):
@@ -279,7 +281,7 @@
                                 <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
                             </p>
                             <a href="<?php the_permalink(); ?>" class="text-[10px] font-black uppercase tracking-widest text-secondary flex items-center gap-2 group/btn">
-                                Đọc tiếp 
+                                Đọc tiếp
                                 <span class="group-hover/btn:translate-x-1 transition-transform"><?php echo miliwebseo_icon('arrow-right', 'h-3 w-3'); ?></span>
                             </a>
                         </div>

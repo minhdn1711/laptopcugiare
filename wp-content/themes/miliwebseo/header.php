@@ -24,7 +24,7 @@
             font-weight: 900;
         }
         /* Premium WooCommerce Pagination Reset */
-        .woocommerce nav.woocommerce-pagination ul, 
+        .woocommerce nav.woocommerce-pagination ul,
         nav.woocommerce-pagination ul, .pagination-list, .page-numbers {
             display: flex !important;
             gap: 1rem !important;
@@ -43,7 +43,7 @@
             background: none !important;
         }
         nav.woocommerce-pagination ul li a, nav.woocommerce-pagination ul li span,
-        .pagination-list li a, .pagination-list li span, 
+        .pagination-list li a, .pagination-list li span,
         .page-numbers li a, .page-numbers li span.page-numbers {
             display: flex !important;
             align-items: center !important;
@@ -61,8 +61,8 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
             text-decoration: none !important;
         }
-        nav.woocommerce-pagination ul li span.current, 
-        .pagination-list li span.current, 
+        nav.woocommerce-pagination ul li span.current,
+        .pagination-list li span.current,
         .page-numbers li span.current {
             background: #10B981 !important;
             color: white !important;
@@ -71,7 +71,7 @@
             transform: translateY(-2px) !important;
         }
         nav.woocommerce-pagination ul li a:hover,
-        .pagination-list li a:hover, 
+        .pagination-list li a:hover,
         .page-numbers li a:hover {
             border-color: #10B981 !important;
             color: #10B981 !important;
@@ -146,7 +146,7 @@
         <div class="container mx-auto px-4 flex items-center justify-between gap-8">
             <!-- Logo Area (Fixed Width from Customizer) -->
             <div class="flex-shrink-0 w-[var(--logo-width)] flex items-center">
-                <?php 
+                <?php
                 $dark_logo = get_theme_mod('dark_logo');
                 if ( $dark_logo ) : ?>
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center">
@@ -164,7 +164,7 @@
             <!-- Search Center -->
             <div class="flex-grow max-w-2xl relative" x-data="searchComponent()" @click.away="results = []">
                 <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative group">
-                    <input type="text" name="s" x-model="query" @input.debounce.300ms="search()" placeholder="Tìm kiếm sản phẩm..." 
+                    <input type="text" name="s" x-model="query" @input.debounce.300ms="search()" placeholder="Tìm kiếm sản phẩm..."
                            class="w-full py-2.5 px-6 rounded-full bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white focus:text-black transition-all">
                     <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-black rounded-full hover:bg-yellow-400 transition-all shadow-lg">
                         <div x-show="!loading"><?php echo miliwebseo_icon('search', 'h-4 w-4'); ?></div>
@@ -198,7 +198,7 @@
                         <p class="text-xs font-black">Đăng nhập</p>
                     </div>
                 </a>
-                
+
                 <a href="<?php echo wc_get_cart_url(); ?>" class="relative group flex items-center gap-2.5">
                     <div class="p-2.5 bg-primary text-black rounded-xl hover:scale-105 transition-all shadow-lg shadow-primary/20">
                         <?php echo miliwebseo_icon('shopping-cart', 'h-5 w-5'); ?>
@@ -264,9 +264,9 @@
             <!-- ===== MEGA MENU WRAPPER ===== -->
             <?php if (!empty($mega_tree)) : ?>
             <div class="relative h-full flex-shrink-0"
-                 x-data="{ open: false, tab: 0 }"
+                 x-data="{ open: false, tab: null }"
                  @mouseenter="open = true"
-                 @mouseleave="open = false">
+                 @mouseleave="open = false; tab = null">
 
                 <!-- Trigger Button -->
                 <div class="bg-primary text-black h-full font-black text-[11px] flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider select-none px-4"
@@ -321,61 +321,60 @@
                     </div>
 
                     <!-- ── CỘT PHẢI: Brands + Series theo tab ── -->
-                    <div class="flex-1 bg-white overflow-y-auto" style="max-height: 460px;">
-                        <?php foreach ($mega_tree as $idx => $node) : ?>
-                        <div x-show="tab === <?php echo $idx; ?>"
-                             class="p-6">
-                            <?php if (empty($node['brands'])) : ?>
-                            <p class="text-gray-400 text-sm italic py-8 text-center">Đang cập nhật danh mục...</p>
-                            <?php else : ?>
+                    <?php foreach ($mega_tree as $idx => $node) : ?>
+                    <div x-show="tab === <?php echo $idx; ?>"
+                         class="flex-1 bg-white overflow-y-auto p-6"
+                         style="max-height: 460px;">
+                        <?php if (empty($node['brands'])) : ?>
+                        <p class="text-gray-400 text-sm italic py-8 text-center">Đang cập nhật danh mục...</p>
+                        <?php else : ?>
 
-                            <?php
-                            // Tính số cột phù hợp: 4 brands → 4 cols, ít hơn thì bớt
-                            $brand_count = count($node['brands']);
-                            $cols = $brand_count >= 4 ? 4 : max(2, $brand_count);
+                        <?php
+                        // Tính số cột phù hợp: 4 brands → 4 cols, ít hơn thì bớt
+                        $brand_count = count($node['brands']);
+                        $cols = $brand_count >= 4 ? 4 : max(2, $brand_count);
+                        ?>
+                        <div class="grid gap-x-6 gap-y-5" style="grid-template-columns: repeat(<?php echo $cols; ?>, minmax(0,1fr));">
+                            <?php foreach ($node['brands'] as $item) :
+                                $brand = $item['brand'];
                             ?>
-                            <div class="grid gap-x-6 gap-y-5" style="grid-template-columns: repeat(<?php echo $cols; ?>, minmax(0,1fr));">
-                                <?php foreach ($node['brands'] as $item) :
-                                    $brand = $item['brand'];
-                                ?>
-                                <div>
-                                    <!-- Brand (L2) -->
-                                    <a href="<?php echo esc_url(get_term_link($brand)); ?>"
-                                       class="block font-extrabold text-secondary hover:text-primary text-[12px] uppercase tracking-wide pb-1.5 mb-2 border-b border-gray-100 transition-colors leading-tight">
-                                        <?php echo esc_html($brand->name); ?>
-                                        <span class="font-normal text-gray-400 text-[10px] normal-case">(<?php echo $brand->count; ?>)</span>
-                                    </a>
-                                    <!-- Series (L3) -->
-                                    <?php if (!empty($item['series'])) : ?>
-                                    <ul class="space-y-1.5">
-                                        <?php foreach ($item['series'] as $s) : ?>
-                                        <li>
-                                            <a href="<?php echo esc_url(get_term_link($s)); ?>"
-                                               class="flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-primary transition-colors group leading-tight">
-                                                <span class="w-[5px] h-[5px] rounded-full bg-gray-300 flex-shrink-0 group-hover:bg-primary transition-colors"></span>
-                                                <?php echo esc_html($s->name); ?>
-                                            </a>
-                                        </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                    <?php endif; ?>
-                                </div>
-                                <?php endforeach; ?>
-                            </div>
-
-                            <!-- Xem tất cả link -->
-                            <div class="mt-4 pt-3 border-t border-gray-100">
-                                <a href="<?php echo esc_url(get_term_link($node['cat'])); ?>"
-                                   class="inline-flex items-center gap-1.5 text-[11px] font-bold text-primary hover:underline">
-                                    Xem tất cả <?php echo esc_html(get_term_meta($node['cat']->term_id, 'menu_title', true) ?: $node['cat']->name); ?>
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <div>
+                                <!-- Brand (L2) -->
+                                <a href="<?php echo esc_url(get_term_link($brand)); ?>"
+                                   class="block font-extrabold text-secondary hover:text-primary text-[12px] uppercase tracking-wide pb-1.5 mb-2 border-b border-gray-100 transition-colors leading-tight">
+                                    <?php echo esc_html($brand->name); ?>
+                                    <span class="font-normal text-gray-400 text-[10px] normal-case">(<?php echo $brand->count; ?>)</span>
                                 </a>
+                                <!-- Series (L3) -->
+                                <?php if (!empty($item['series'])) : ?>
+                                <ul class="space-y-1.5">
+                                    <?php foreach ($item['series'] as $s) : ?>
+                                    <li>
+                                        <a href="<?php echo esc_url(get_term_link($s)); ?>"
+                                           class="flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-primary transition-colors group leading-tight">
+                                            <span class="w-[5px] h-[5px] rounded-full bg-gray-300 flex-shrink-0 group-hover:bg-primary transition-colors"></span>
+                                            <?php echo esc_html($s->name); ?>
+                                        </a>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <?php endif; ?>
                             </div>
-
-                            <?php endif; ?>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
+
+                        <!-- Xem tất cả link -->
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <a href="<?php echo esc_url(get_term_link($node['cat'])); ?>"
+                               class="inline-flex items-center gap-1.5 text-[11px] font-bold text-primary hover:underline">
+                                Xem tất cả <?php echo esc_html(get_term_meta($node['cat']->term_id, 'menu_title', true) ?: $node['cat']->name); ?>
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+
+                        <?php endif; ?>
                     </div>
+                    <?php endforeach; ?>
 
                 </div>
                 <!-- ── END MEGA PANEL ── -->
@@ -407,7 +406,7 @@
             </button>
 
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex-grow flex justify-center">
-                <?php 
+                <?php
                 $dark_logo = get_theme_mod('dark_logo');
                 if ( $dark_logo ) : ?>
                     <img src="<?php echo esc_url($dark_logo); ?>" alt="<?php bloginfo('name'); ?>" class="h-8 w-auto object-contain">
@@ -423,12 +422,12 @@
                 <span class="absolute -top-1 -right-1 bg-red-600 text-white rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-bold"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
             </a>
         </div>
-        
+
         <!-- Mobile Search -->
         <div class="container mx-auto px-4 pb-3" x-data="searchComponent()" @click.away="results = []">
             <div class="relative">
                 <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
-                    <input type="text" name="s" x-model="query" @input.debounce.300ms="search()" placeholder="Bạn tìm gì hôm nay?..." 
+                    <input type="text" name="s" x-model="query" @input.debounce.300ms="search()" placeholder="Bạn tìm gì hôm nay?..."
                            class="w-full py-2.5 px-5 rounded-full bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary text-sm">
                 </form>
             </div>
@@ -437,32 +436,32 @@
 </header>
 
 <!-- Mobile Menu Drawer (Hybrid AJAX Redesign) -->
-<div x-show="mobileMenuOpen" 
+<div x-show="mobileMenuOpen"
      x-cloak
-     class="fixed inset-0 z-[100] md:hidden" 
-     role="dialog" 
+     class="fixed inset-0 z-[100] md:hidden"
+     role="dialog"
      aria-modal="true">
     <!-- Backdrop -->
-    <div x-show="mobileMenuOpen" 
-         x-transition:enter="transition-opacity ease-linear duration-300" 
-         x-transition:enter-start="opacity-0" 
-         x-transition:enter-end="opacity-100" 
-         x-transition:leave="transition-opacity ease-linear duration-300" 
-         x-transition:leave-start="opacity-100" 
-         x-transition:leave-end="opacity-0" 
-         @click="mobileMenuOpen = false" 
+    <div x-show="mobileMenuOpen"
+         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="mobileMenuOpen = false"
          class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
-    
+
     <!-- Drawer Content -->
-    <div x-show="mobileMenuOpen" 
-         x-transition:enter="transition ease-in-out duration-300 transform" 
-         x-transition:enter-start="-translate-x-full" 
-         x-transition:enter-end="translate-x-0" 
-         x-transition:leave="transition ease-in-out duration-300 transform" 
-         x-transition:leave-start="translate-x-0" 
-         x-transition:leave-end="-translate-x-full" 
+    <div x-show="mobileMenuOpen"
+         x-transition:enter="transition ease-in-out duration-300 transform"
+         x-transition:enter-start="-translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in-out duration-300 transform"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="-translate-x-full"
          class="fixed inset-y-0 left-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col overflow-hidden">
-        
+
         <!-- Drawer Header -->
         <div class="bg-secondary p-6 flex items-center justify-between text-white">
             <div class="flex items-center gap-3">
@@ -479,9 +478,9 @@
             </button>
         </div>
 
-        <div class="flex-grow overflow-y-auto" x-data="{ 
-            openTab: null, 
-            menuContent: {}, 
+        <div class="flex-grow overflow-y-auto" x-data="{
+            openTab: null,
+            menuContent: {},
             loading: false,
             toggleTab(id) {
                 this.openTab = this.openTab === id ? null : id;
@@ -520,7 +519,7 @@
                                         <img src="<?php echo get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg'; ?>" class="w-5 h-5 opacity-60">
                                         <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
                                     </a>
-                                    <button @click="toggleTab(<?php echo $cat->term_id; ?>)" 
+                                    <button @click="toggleTab(<?php echo $cat->term_id; ?>)"
                                             class="p-3 text-gray-400 hover:text-primary transition-colors"
                                             :aria-expanded="openTab === <?php echo $cat->term_id; ?>">
                                         <div :class="openTab === <?php echo $cat->term_id; ?> ? 'rotate-180' : ''" class="transition-transform duration-300">
@@ -528,13 +527,13 @@
                                         </div>
                                     </button>
                                 </div>
-                                
-                                <div x-show="openTab === <?php echo $cat->term_id; ?>" 
+
+                                <div x-show="openTab === <?php echo $cat->term_id; ?>"
                                      x-transition:enter="transition ease-out duration-200"
                                      x-transition:enter-start="opacity-0 -translate-y-2"
                                      x-transition:enter-end="opacity-100 translate-y-0"
                                      class="bg-gray-50 rounded-lg mb-2 overflow-hidden">
-                                    
+
                                     <div x-show="loading && openTab === <?php echo $cat->term_id; ?>" class="p-6 flex justify-center">
                                         <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                                     </div>
@@ -562,7 +561,7 @@
                 </div>
             </nav>
         </div>
-        
+
         <!-- Drawer Footer -->
         <div class="p-6 border-t border-gray-100 bg-gray-50">
             <div class="flex items-center gap-4">
@@ -675,4 +674,4 @@
     });
 </script>
 
-<main class="min-h-[70vh] pb-12">
+<main class="container min-h-[70vh] pb-12">
