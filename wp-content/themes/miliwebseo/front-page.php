@@ -35,52 +35,61 @@
 
 <main class="container mx-auto px-4 py-6">
     <!-- Hero Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
-        <div class="lg:col-span-4 space-y-6">
-            <!-- UX Builder Info Boxes -->
-            <?php $cols = get_theme_mod('info_boxes_columns', '4'); ?>
-            <div class="grid grid-cols-2 md:grid-cols-<?php echo esc_attr($cols); ?> gap-4">
-                <!-- Box 1 -->
+    <div class="mb-8">
+        <!-- UX Builder Info Boxes -->
+        <?php 
+        $cols = intval(get_theme_mod('info_boxes_columns', '4')); 
+        $defaults = [
+            1 => [
+                'title'    => 'Miễn phí giao hàng',
+                'desc'     => 'Đơn hàng từ 10 Triệu',
+                'icon'     => 'truck',
+                'bg_class' => 'bg-blue-50 text-blue-600 group-hover:bg-blue-600'
+            ],
+            2 => [
+                'title'    => 'Bảo hành 12 tháng',
+                'desc'     => 'Lỗi là đổi mới ngay',
+                'icon'     => 'shield-check',
+                'bg_class' => 'bg-green-50 text-green-600 group-hover:bg-green-600'
+            ],
+            3 => [
+                'title'    => '7 Ngày đổi trả',
+                'desc'     => 'Hoàn tiền 100%',
+                'icon'     => 'refresh-cw',
+                'bg_class' => 'bg-orange-50 text-orange-600 group-hover:bg-orange-600'
+            ],
+            4 => [
+                'title'    => 'Hỗ trợ 24/7',
+                'desc'     => 'Zalo / Facebook',
+                'icon'     => 'headphones',
+                'bg_class' => 'bg-purple-50 text-purple-600 group-hover:bg-purple-600'
+            ]
+        ];
+        ?>
+        <div class="grid grid-cols-2 md:grid-cols-<?php echo esc_attr($cols); ?> gap-4">
+            <?php 
+            for ($i = 1; $i <= $cols; $i++) : 
+                $title = get_theme_mod("info_box_{$i}_title", $defaults[$i]['title']);
+                if ( empty( $title ) ) {
+                    $title = $defaults[$i]['title'];
+                }
+                $desc  = get_theme_mod("info_box_{$i}_desc", $defaults[$i]['desc']);
+                if ( empty( $desc ) ) {
+                    $desc = $defaults[$i]['desc'];
+                }
+                $icon  = $defaults[$i]['icon'];
+                $bg    = $defaults[$i]['bg_class'];
+            ?>
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <?php echo miliwebseo_icon('truck', 'h-6 w-6'); ?>
+                    <div class="w-12 h-12 <?php echo esc_attr($bg); ?> rounded-full flex items-center justify-center group-hover:text-white transition-all">
+                        <?php echo miliwebseo_icon($icon, 'h-6 w-6'); ?>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_1_title', 'Miễn phí giao hàng'); ?></p>
-                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_1_desc', 'Đơn hàng từ 10 Triệu'); ?></p>
+                        <p class="text-sm font-black text-secondary"><?php echo esc_html($title); ?></p>
+                        <p class="text-[10px] text-gray-500 font-medium"><?php echo esc_html($desc); ?></p>
                     </div>
                 </div>
-                <!-- Box 2 -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-all">
-                        <?php echo miliwebseo_icon('shield-check', 'h-6 w-6'); ?>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_2_title', 'Bảo hành 12 tháng'); ?></p>
-                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_2_desc', 'Lỗi là đổi mới ngay'); ?></p>
-                    </div>
-                </div>
-                <!-- Box 3 -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-all">
-                        <?php echo miliwebseo_icon('refresh-cw', 'h-6 w-6'); ?>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_3_title', '7 Ngày đổi trả'); ?></p>
-                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_3_desc', 'Hoàn tiền 100%'); ?></p>
-                    </div>
-                </div>
-                <!-- Box 4 -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-all">
-                        <?php echo miliwebseo_icon('headphones', 'h-6 w-6'); ?>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-secondary"><?php echo get_theme_mod('info_box_4_title', 'Hỗ trợ 24/7'); ?></p>
-                        <p class="text-[10px] text-gray-500 font-medium"><?php echo get_theme_mod('info_box_4_desc', 'Zalo / Facebook'); ?></p>
-                    </div>
-                </div>
-            </div>
+            <?php endfor; ?>
         </div>
     </div>
 
