@@ -203,8 +203,8 @@
                      x-transition:leave="transition-opacity ease-in duration-75"
                      x-transition:leave-start="opacity-100"
                      x-transition:leave-end="opacity-0"
-                     class="absolute top-full left-0 z-[300] flex border border-gray-200 rounded-b-lg overflow-hidden"
-                     style="width: 980px; box-shadow: 0 8px 30px rgba(0,0,0,.12);">
+                     class="absolute top-full left-0 z-[300] flex bg-white border border-gray-200 rounded-b-lg overflow-hidden transition-all duration-300"
+                     style="box-shadow: 0 8px 30px rgba(0,0,0,.12);">
 
                     <!-- ── CỘT TRÁI: Danh mục cấp 1 ── -->
                     <div class="bg-secondary flex-shrink-0 overflow-y-auto" style="width: 220px; max-height: 460px;">
@@ -242,8 +242,8 @@
                     <!-- ── CỘT PHẢI: Brands + Series theo tab ── -->
                     <?php foreach ($mega_tree as $idx => $node) : ?>
                     <div x-show="tab === <?php echo $idx; ?>"
-                         class="flex-1 bg-white overflow-y-auto p-6"
-                         style="max-height: 460px;">
+                         class="bg-white overflow-y-auto p-6"
+                         style="width: 760px; max-height: 460px;">
                         <?php if (empty($node['brands'])) : ?>
                         <p class="text-gray-400 text-sm italic py-8 text-center">Đang cập nhật danh mục...</p>
                         <?php else : ?>

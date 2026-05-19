@@ -15,6 +15,20 @@ get_header(); ?>
     .product-actions-wrapper .single_add_to_cart_button {
         display: none !important;
     }
+    /* Force product gallery images to obey height 100% and override WooCommerce default auto-height rules */
+    .woocommerce .sticky img, 
+    .woocommerce-page .sticky img {
+        height: 100% !important;
+        width: 100% !important;
+    }
+    .woocommerce .sticky img.object-cover,
+    .woocommerce-page .sticky img.object-cover {
+        object-fit: cover !important;
+    }
+    .woocommerce .sticky img.object-contain,
+    .woocommerce-page .sticky img.object-contain {
+        object-fit: contain !important;
+    }
 </style>
 
 <div class="bg-white">
@@ -98,7 +112,177 @@ get_header(); ?>
             <!-- Left: Gallery -->
             <div class="lg:col-span-5">
                 <div class="sticky top-24">
-                    <?php woocommerce_show_product_images(); ?>
+                    <?php 
+                    global $product;
+                    
+                    // Main image
+                    $post_thumbnail_id = $product->get_image_id();
+                    $main_image_url    = $post_thumbnail_id ? wp_get_attachment_image_url( $post_thumbnail_id, 'large' ) : wc_placeholder_img_src( 'large' );
+                    
+                    // Gallery image IDs
+                    $attachment_ids = $product->get_gallery_image_ids();
+                    
+                    // Combine them into a single array of images for the slider
+                    $gallery_images = [];
+                    if ( $post_thumbnail_id ) {
+                        $gallery_images[] = [
+                            'url'  => $main_image_url,
+                            'thumb'=> wp_get_attachment_image_url( $post_thumbnail_id, 'thumbnail' )
+                        ];
+                    } else {
+                        $gallery_images[] = [
+                            'url'  => wc_placeholder_img_src( 'large' ),
+                            'thumb'=> wc_placeholder_img_src( 'thumbnail' )
+                        ];
+                    }
+                    
+                    foreach ( $attachment_ids as $attachment_id ) {
+                        $url   = wp_get_attachment_image_url( $attachment_id, 'large' );
+                        $thumb = wp_get_attachment_image_url( $attachment_id, 'thumbnail' );
+                        if ( $url ) {
+                            $gallery_images[] = [
+                                'url'   => $url,
+                                'thumb' => $thumb
+                            ];
+                        }
+                    }
+                    ?>
+                    <div x-data="{ 
+                        activeIndex: 0, 
+                        images: <?php echo esc_attr( wp_json_encode( $gallery_images ) ); ?>,
+                        zoom: false,
+                        zoomX: 0,
+                        zoomY: 0,
+                        modalOpen: false,
+                        modalIndex: 0,
+                        zoomMove(e) {
+                            let rect = e.currentTarget.getBoundingClientRect();
+                            let x = e.clientX - rect.left;
+                            let y = e.clientY - rect.top;
+                            this.zoomX = Math.round((x / rect.width) * 100);
+                            this.zoomY = Math.round((y / rect.height) * 100);
+                        },
+                        openModal() {
+                            this.modalIndex = this.activeIndex;
+                            this.modalOpen = true;
+                        },
+                        closeModal() {
+                            this.modalOpen = false;
+                        },
+                        prevModal() {
+                            this.modalIndex = (this.modalIndex - 1 + this.images.length) % this.images.length;
+                        },
+                        nextModal() {
+                            this.modalIndex = (this.modalIndex + 1) % this.images.length;
+                        }
+                    }" class="flex flex-col gap-4">
+                        <!-- Main Image Box -->
+                        <div class="relative bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm aspect-square select-none group">
+                            
+                            <!-- Sale Badge -->
+                            <?php if ( $product->is_on_sale() ) : ?>
+                                <span class="absolute top-4 left-4 z-10 bg-red-600 text-white text-xs font-black px-3 py-1.5 rounded-full uppercase tracking-wider shadow">
+                                    SALE!
+                                </span>
+                            <?php endif; ?>
+
+                            <!-- Active Image with Hover Zoom & Click Modal -->
+                            <div class="w-full h-full cursor-zoom-in relative overflow-hidden"
+                                 @mouseenter="zoom = true"
+                                 @mouseleave="zoom = false"
+                                 @mousemove="zoomMove($event)"
+                                 @click="openModal()">
+                                
+                                <!-- Standard Image -->
+                                <img :src="images[activeIndex].url" 
+                                     class="w-full h-full object-cover transition-opacity duration-300"
+                                     :class="zoom ? 'opacity-0' : 'opacity-100'">
+                                
+                                <!-- Zoomed Image Container -->
+                                <div x-show="zoom" 
+                                     class="absolute inset-0 bg-no-repeat transition-all duration-75"
+                                     :style="`background-image: url('${images[activeIndex].url}'); background-position: ${zoomX}% ${zoomY}%; background-size: 250%;`"
+                                     style="display: none;">
+                                </div>
+                            </div>
+
+                            <!-- Navigation Arrows (Flatsome Style) -->
+                            <button x-show="images.length > 1"
+                                    @click.stop="activeIndex = (activeIndex - 1 + images.length) % images.length"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-primary hover:text-black text-secondary rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100 z-10">
+                                <?php echo miliwebseo_icon('arrow-left', 'h-5 w-5 stroke-[2.5]'); ?>
+                            </button>
+                            <button x-show="images.length > 1"
+                                    @click.stop="activeIndex = (activeIndex + 1) % images.length"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-primary hover:text-black text-secondary rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover:opacity-100 z-10">
+                                <?php echo miliwebseo_icon('arrow-right', 'h-5 w-5 stroke-[2.5]'); ?>
+                            </button>
+
+                            <!-- Image Indicator Counter -->
+                            <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold font-mono">
+                                <span x-text="activeIndex + 1"></span>/<span x-text="images.length"></span>
+                            </div>
+                        </div>
+
+                        <!-- Thumbnails (Flatsome Style) -->
+                        <div class="flex gap-2 overflow-x-auto py-1 scrollbar-thin select-none" x-show="images.length > 1">
+                            <template x-for="(img, index) in images" :key="index">
+                                <button @click="activeIndex = index"
+                                        class="w-20 h-20 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 bg-gray-50 hover:opacity-100 focus:outline-none"
+                                        :class="activeIndex === index ? 'border-primary opacity-100 ring-2 ring-primary/20 shadow-sm' : 'border-gray-200 opacity-60 hover:opacity-100 hover:border-gray-300'">
+                                    <img :src="img.thumb" class="w-full h-full object-cover">
+                                </button>
+                            </template>
+                        </div>
+
+                        <!-- Lightbox Modal (Flatsome Style) - Teleported to Body to bypass parent stacking context limitations -->
+                        <template x-teleport="body">
+                            <div x-show="modalOpen" 
+                                 x-transition:enter="transition ease-out duration-300"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-200"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 class="fixed inset-0 z-[99999] flex flex-col items-center justify-center p-4 bg-black/95 backdrop-blur-md"
+                                 @click.self="closeModal()"
+                                 @keydown.escape.window="closeModal()"
+                                 style="display: none;">
+                                
+                                <!-- Close Button -->
+                                <button @click="closeModal()" 
+                                        class="absolute top-6 right-6 text-white/80 hover:text-white hover:scale-110 transition-all z-50 p-2 bg-white/10 rounded-full">
+                                    <?php echo miliwebseo_icon('x', 'h-8 w-8'); ?>
+                                </button>
+
+                                <!-- Prev Arrow -->
+                                <button x-show="images.length > 1"
+                                        @click="prevModal()"
+                                        class="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-primary hover:text-black text-white rounded-full flex items-center justify-center shadow-lg transition-all z-50">
+                                    <?php echo miliwebseo_icon('arrow-left', 'h-6 w-6 stroke-[2.5]'); ?>
+                                </button>
+
+                                <!-- Next Arrow -->
+                                <button x-show="images.length > 1"
+                                        @click="nextModal()"
+                                        class="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-primary hover:text-black text-white rounded-full flex items-center justify-center shadow-lg transition-all z-50">
+                                    <?php echo miliwebseo_icon('arrow-right', 'h-6 w-6 stroke-[2.5]'); ?>
+                                </button>
+
+                                <!-- Modal Content Container -->
+                                <div class="max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center relative">
+                                    
+                                    <img :src="images[modalIndex].url" 
+                                         class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-all duration-300">
+                                    
+                                    <!-- Counter inside Modal -->
+                                    <div class="mt-4 text-white/80 text-sm font-bold font-mono">
+                                        <span x-text="modalIndex + 1"></span> / <span x-text="images.length"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
 
