@@ -212,11 +212,7 @@
                             $cat1     = $node['cat'];
                             $title    = get_term_meta($cat1->term_id, 'menu_title', true) ?: $cat1->name;
                             $icon_val = get_term_meta($cat1->term_id, 'icon', true);
-                            // Build icon URL: nếu là filename thì prepend theme assets
-                            $icon_url = '';
-                            if ($icon_val) {
-                                $icon_url = (strpos($icon_val, 'http') === 0 ? $icon_val : get_template_directory_uri() . '/assets/images/' . $icon_val);
-                            }
+                            $icon_url = $icon_val ? (strpos($icon_val, 'http') === 0 ? $icon_val : get_template_directory_uri() . '/assets/images/' . $icon_val) : '';
                         ?>
                         <div @mouseenter="tab = <?php echo $idx; ?>"
                              :class="tab === <?php echo $idx; ?> ? 'bg-primary' : 'hover:bg-white/10'"
@@ -225,14 +221,12 @@
                                :class="tab === <?php echo $idx; ?> ? 'text-black' : 'text-white'"
                                class="flex items-center justify-between px-4 py-[11px] text-[12px] font-bold gap-2 transition-colors"
                                @click.stop>
-                                <span class="flex items-center gap-2.5 min-w-0 truncate">
-                                    <?php if ($icon_url) : ?>
-                                    <img src="<?php echo esc_url($icon_url); ?>" alt="" class="w-4 h-4 flex-shrink-0" onerror="this.remove()">
-                                    <?php else : ?>
-                                    <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
-                                    <?php endif; ?>
-                                    <span class="truncate uppercase tracking-wide"><?php echo esc_html($title); ?></span>
-                                </span>
+                                 <span class="flex items-center gap-2.5 min-w-0 truncate">
+                                     <?php if ($icon_url) : ?>
+                                     <img src="<?php echo esc_url($icon_url); ?>" alt="" class="w-4 h-4 flex-shrink-0" onerror="this.remove()">
+                                     <?php endif; ?>
+                                     <span class="truncate uppercase tracking-wide"><?php echo esc_html($title); ?></span>
+                                 </span>
                                 <svg class="w-3 h-3 flex-shrink-0 opacity-40" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
                             </a>
                         </div>
@@ -435,8 +429,14 @@
                             <li class="border-b border-gray-50 last:border-0">
                                 <div class="flex items-center justify-between">
                                     <a href="<?php echo get_term_link($cat); ?>" class="flex-grow py-3 px-2 text-sm font-bold text-gray-800 flex items-center gap-3">
-                                        <img src="<?php echo get_term_meta($cat->term_id, 'icon', true) ?: get_template_directory_uri() . '/assets/images/cat-default.svg'; ?>" class="w-5 h-5 opacity-60">
-                                        <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
+                                         <?php 
+                                         $icon = get_term_meta($cat->term_id, 'icon', true);
+                                         if ($icon) : 
+                                             $icon_url = (strpos($icon, 'http') === 0 ? $icon : get_template_directory_uri() . '/assets/images/' . $icon);
+                                         ?>
+                                         <img src="<?php echo esc_url($icon_url); ?>" class="w-5 h-5 opacity-60" onerror="this.remove()">
+                                         <?php endif; ?>
+                                         <?php echo get_term_meta($cat->term_id, 'menu_title', true) ?: $cat->name; ?>
                                     </a>
                                     <button @click="toggleTab(<?php echo $cat->term_id; ?>)"
                                             class="p-3 text-gray-400 hover:text-primary transition-colors"
@@ -507,6 +507,35 @@
     .mobile-mega-content a { font-size: 13px !important; color: #1f2937 !important; }
     .mobile-mega-content ul { margin-top: 0.5rem !important; padding-left: 1rem !important; border-left: 1px solid #e5e7eb; }
     .mobile-mega-content ul li a { color: #6b7280 !important; font-weight: 500 !important; }
+
+    /* === Mobile Pagination - Better UX/UI === */
+    @media (max-width: 640px) {
+        nav.woocommerce-pagination ul,
+        .pagination-list,
+        .page-numbers {
+            gap: 8px !important;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav.woocommerce-pagination ul li a,
+        nav.woocommerce-pagination ul li span,
+        .page-numbers li a,
+        .page-numbers li span {
+            min-width: 42px !important;
+            height: 42px !important;
+            font-size: 15px !important;
+            padding: 0 12px !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+        }
+
+        .page-numbers .prev,
+        .page-numbers .next {
+            font-size: 16px !important;
+            background: #f3f4f6 !important;
+        }
+    }
 </style>
 
 <script>
