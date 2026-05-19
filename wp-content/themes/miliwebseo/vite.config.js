@@ -4,15 +4,18 @@ import path from 'path';
 export default defineConfig({
   build: {
     outDir: 'dist',
+    // Use esbuild (default minifier, faster than terser)
+    minify: 'esbuild',
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'src/main.js'),
         style: path.resolve(__dirname, 'src/main.css'),
       },
       output: {
-        assetFileNames: 'assets/[name].[ext]',
-        chunkFileNames: 'assets/[name].js',
-        entryFileNames: 'assets/[name].js',
+        // Remove query strings for better caching
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       },
     },
   },
