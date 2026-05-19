@@ -64,3 +64,23 @@ function miliwebseo_remove_wp_ver_css_js($src) {
 }
 add_filter('style_loader_src', 'miliwebseo_remove_wp_ver_css_js', 9999);
 add_filter('script_loader_src', 'miliwebseo_remove_wp_ver_css_js', 9999);
+
+/**
+ * Dequeue Gutenberg block library CSS and WooCommerce Block styles on non-blog pages, and Dashicons for guests
+ */
+function miliwebseo_optimize_assets_dequeue() {
+    if ( ! is_admin() && ! is_single() && ! is_home() && ! is_archive() ) {
+        wp_dequeue_style( 'wp-block-library' );
+        wp_dequeue_style( 'wp-block-library-theme' );
+        wp_dequeue_style( 'wc-block-style' );
+        wp_dequeue_style( 'wc-blocks-style' );
+        wp_dequeue_style( 'wc-blocks-packages-style' );
+        wp_dequeue_style( 'wc-block-editor-style' );
+    }
+
+    if ( ! is_admin() && ! is_user_logged_in() ) {
+        wp_dequeue_style( 'dashicons' );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'miliwebseo_optimize_assets_dequeue', 9999 );
+

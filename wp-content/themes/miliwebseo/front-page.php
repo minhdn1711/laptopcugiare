@@ -8,16 +8,22 @@
                 <?php
                 $banners = miliwebseo_get_hero_banners();
                 if ( ! empty( $banners ) ) :
-                    foreach ( $banners as $banner ) : ?>
+                    $banner_idx = 0;
+                    foreach ( $banners as $banner ) : 
+                        $loading_attr = ( $banner_idx === 0 ) ? 'eager' : 'lazy';
+                        $priority_attr = ( $banner_idx === 0 ) ? 'fetchpriority="high"' : '';
+                        ?>
                         <li class="splide__slide h-full">
                             <a href="<?php echo esc_url( $banner['link'] ); ?>" class="block h-full">
-                                <img src="<?php echo esc_url( $banner['image'] ); ?>" class="w-full h-full object-cover">
+                                <img src="<?php echo esc_url( $banner['image'] ); ?>" class="w-full h-full object-cover" width="1230" height="450" loading="<?php echo $loading_attr; ?>" <?php echo $priority_attr; ?>>
                             </a>
                         </li>
-                    <?php endforeach;
+                    <?php 
+                        $banner_idx++;
+                    endforeach;
                 else : ?>
                     <li class="splide__slide h-full relative group">
-                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover" width="1230" height="450" loading="eager" fetchpriority="high">
                         <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center p-12">
                             <div class="max-w-md text-white space-y-4">
                                 <span class="bg-primary text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">Khuyến mãi cực hời</span>
@@ -36,99 +42,12 @@
 <div class="py-6">
     <!-- Hero Section -->
     <div class="mb-8">
-        <!-- UX Builder Info Boxes -->
-        <?php 
-        $cols = intval(get_theme_mod('info_boxes_columns', '4')); 
-        $defaults = [
-            1 => [
-                'title'    => 'Miễn phí giao hàng',
-                'desc'     => 'Đơn hàng từ 10 Triệu',
-                'icon'     => 'truck',
-                'bg_class' => 'bg-blue-50 text-blue-600 group-hover:bg-blue-600'
-            ],
-            2 => [
-                'title'    => 'Bảo hành 12 tháng',
-                'desc'     => 'Lỗi là đổi mới ngay',
-                'icon'     => 'shield-check',
-                'bg_class' => 'bg-green-50 text-green-600 group-hover:bg-green-600'
-            ],
-            3 => [
-                'title'    => '7 Ngày đổi trả',
-                'desc'     => 'Hoàn tiền 100%',
-                'icon'     => 'refresh-cw',
-                'bg_class' => 'bg-orange-50 text-orange-600 group-hover:bg-orange-600'
-            ],
-            4 => [
-                'title'    => 'Hỗ trợ 24/7',
-                'desc'     => 'Zalo / Facebook',
-                'icon'     => 'headphones',
-                'bg_class' => 'bg-purple-50 text-purple-600 group-hover:bg-purple-600'
-            ]
-        ];
-        ?>
-        <div class="grid grid-cols-2 md:grid-cols-<?php echo esc_attr($cols); ?> gap-4">
-            <?php 
-            for ($i = 1; $i <= $cols; $i++) : 
-                $title = get_theme_mod("info_box_{$i}_title", $defaults[$i]['title']);
-                if ( empty( $title ) ) {
-                    $title = $defaults[$i]['title'];
-                }
-                $desc  = get_theme_mod("info_box_{$i}_desc", $defaults[$i]['desc']);
-                if ( empty( $desc ) ) {
-                    $desc = $defaults[$i]['desc'];
-                }
-                $icon  = $defaults[$i]['icon'];
-                $bg    = $defaults[$i]['bg_class'];
-            ?>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 group hover:shadow-md transition-all">
-                    <div class="w-12 h-12 <?php echo esc_attr($bg); ?> rounded-full flex items-center justify-center group-hover:text-white transition-all">
-                        <?php echo miliwebseo_icon($icon, 'h-6 w-6'); ?>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-secondary"><?php echo esc_html($title); ?></p>
-                        <p class="text-[10px] text-gray-500 font-medium"><?php echo esc_html($desc); ?></p>
-                    </div>
-                </div>
-            <?php endfor; ?>
-        </div>
+        <!-- Info Boxes (from HTML Block / UX Builder) -->
+        <?php echo do_shortcode('[block id="homepage-info-boxes"]'); ?>
     </div>
 
-    <!-- Banner Quảng cáo giữa trang (UX Builder Style) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-        <?php
-        $banner1_img  = get_theme_mod('middle_banner_1_image', 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1932&auto=format&fit=crop');
-        $banner1_link = get_theme_mod('middle_banner_1_link', '#');
-        $banner1_sub  = get_theme_mod('middle_banner_1_subtitle', 'Dành cho sinh viên');
-        $banner1_title = get_theme_mod('middle_banner_1_title', 'MÁY VĂN PHÒNG <br>GIÁ SIÊU RẺ');
-        ?>
-        <a href="<?php echo esc_url($banner1_link); ?>" class="relative overflow-hidden rounded-2xl group h-48 md:h-64 shadow-lg border-4 border-white block">
-            <img src="<?php echo esc_url($banner1_img); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-black/40 flex flex-col justify-center p-8 text-white">
-                <p class="text-xs font-black text-primary uppercase tracking-widest mb-1"><?php echo esc_html($banner1_sub); ?></p>
-                <h3 class="text-3xl font-black mb-4 italic leading-tight"><?php echo wp_kses_post($banner1_title); ?></h3>
-                <div>
-                    <span class="inline-block bg-white text-black px-6 py-2 rounded-full text-xs font-black hover:bg-primary transition-all">XEM NGAY</span>
-                </div>
-            </div>
-        </a>
-
-        <?php
-        $banner2_img  = get_theme_mod('middle_banner_2_image', 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop');
-        $banner2_link = get_theme_mod('middle_banner_2_link', '#');
-        $banner2_sub  = get_theme_mod('middle_banner_2_subtitle', 'Cấu hình khủng');
-        $banner2_title = get_theme_mod('middle_banner_2_title', 'WORKSTATION <br>CHUYÊN NGHIỆP');
-        ?>
-        <a href="<?php echo esc_url($banner2_link); ?>" class="relative overflow-hidden rounded-2xl group h-48 md:h-64 shadow-lg border-4 border-white block">
-            <img src="<?php echo esc_url($banner2_img); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-gradient-to-r from-red-600/80 to-transparent flex flex-col justify-center p-8 text-white">
-                <p class="text-xs font-black text-yellow-400 uppercase tracking-widest mb-1"><?php echo esc_html($banner2_sub); ?></p>
-                <h3 class="text-3xl font-black mb-4 italic leading-tight"><?php echo wp_kses_post($banner2_title); ?></h3>
-                <div>
-                    <span class="inline-block border-2 border-white text-white px-6 py-2 rounded-full text-xs font-black hover:bg-white hover:text-red-600 transition-all uppercase">Khám phá</span>
-                </div>
-            </div>
-        </a>
-    </div>
+    <!-- Banner Quảng cáo giữa trang (from HTML Block / UX Builder) -->
+    <?php echo do_shortcode('[block id="homepage-middle-banners"]'); ?>
 
     <!-- Flash Sale Section (Refined) -->
     <section class="mb-12 bg-white rounded-3xl p-8 shadow-xl overflow-hidden relative border border-gray-100">

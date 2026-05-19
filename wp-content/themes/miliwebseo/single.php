@@ -160,10 +160,10 @@ get_header();
         <!-- Right Column: Sidebar -->
         <aside class="w-full lg:w-1/4 space-y-8">
             <!-- Search Widget -->
-            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md">
                 <h3 class="text-xs font-black text-secondary uppercase tracking-widest mb-4 pb-2 border-b border-gray-100">Tìm kiếm</h3>
                 <form role="search" method="get" class="relative" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-                    <input type="search" class="w-full py-2.5 pl-4 pr-10 rounded-xl bg-gray-50 border border-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder-gray-400" placeholder="Tìm kiếm bài viết..." value="<?php echo get_search_query(); ?>" name="s" />
+                    <input type="search" class="w-full py-2.5 pl-4 pr-10 rounded-xl bg-gray-50 border border-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all placeholder-gray-400" placeholder="Tìm kiếm bài viết..." value="<?php echo get_search_query(); ?>" name="s" />
                     <input type="hidden" name="post_type" value="post" />
                     <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -174,18 +174,21 @@ get_header();
             </div>
 
             <!-- Categories Widget -->
-            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md">
                 <h3 class="text-xs font-black text-secondary uppercase tracking-widest mb-4 pb-2 border-b border-gray-100">Chuyên mục</h3>
                 <ul class="space-y-3">
                     <?php
                     $cats = get_categories( array( 'orderby' => 'name', 'order' => 'ASC' ) );
                     foreach( $cats as $cat ) :
                         ?>
-                        <li class="flex justify-between items-center text-sm">
-                            <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>" class="text-gray-600 hover:text-primary transition-colors font-semibold">
+                        <li class="flex justify-between items-center text-sm group/item">
+                            <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>" class="text-gray-600 group-hover/item:text-primary transition-colors font-semibold flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-300 group-hover/item:text-primary transition-colors transform group-hover/item:translate-x-0.5 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                </svg>
                                 <?php echo esc_html( $cat->name ); ?>
                             </a>
-                            <span class="text-[10px] font-bold bg-gray-50 text-gray-400 px-2 py-0.5 rounded-full border border-gray-100">
+                            <span class="text-[10px] font-bold bg-gray-50 text-gray-400 group-hover/item:bg-primary/10 group-hover/item:text-primary group-hover/item:border-primary/10 px-2.5 py-0.5 rounded-full border border-gray-100 transition-all duration-300">
                                 <?php echo esc_html( $cat->count ); ?>
                             </span>
                         </li>
@@ -194,7 +197,7 @@ get_header();
             </div>
 
             <!-- Recent Posts Widget -->
-            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md">
                 <h3 class="text-xs font-black text-secondary uppercase tracking-widest mb-4 pb-2 border-b border-gray-100">Bài viết mới</h3>
                 <div class="space-y-4">
                     <?php
@@ -207,7 +210,7 @@ get_header();
                                     <?php if ( has_post_thumbnail() ) : ?>
                                         <?php the_post_thumbnail( 'thumbnail', array( 'class' => 'w-full h-full object-cover group-hover:scale-105 transition-all duration-300' ) ); ?>
                                     <?php else : ?>
-                                        <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300">
+                                        <div class="w-full h-full bg-gradient-to-br from-emerald-500/10 to-transparent flex items-center justify-center text-primary/30">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>

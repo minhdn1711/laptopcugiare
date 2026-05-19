@@ -117,6 +117,82 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
     </div>
 </div>
 
+<!-- Floating Contact Buttons & Back to Top -->
+<div x-data="{ 
+    showBackToTop: false,
+    init() {
+        window.addEventListener('scroll', () => {
+            this.showBackToTop = window.scrollY > 300;
+        });
+    },
+    scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}" class="fixed bottom-6 right-6 z-[150] flex flex-col gap-3">
+    
+    <!-- Hotline Button (Phone) -->
+    <?php 
+    $float_phone = get_theme_mod('floating_phone', '0393970681'); 
+    if ( !empty($float_phone) ) : ?>
+        <a href="tel:<?php echo esc_attr(preg_replace('/\s+/', '', $float_phone)); ?>" 
+           class="w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group animate-pulse">
+            <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+                Hotline: <?php echo esc_html($float_phone); ?>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+        </a>
+    <?php endif; ?>
+
+    <!-- Zalo Button -->
+    <?php 
+    $float_zalo = get_theme_mod('floating_zalo', 'https://zalo.me/0393970681'); 
+    if ( !empty($float_zalo) ) : ?>
+        <a href="<?php echo esc_url($float_zalo); ?>" target="_blank" rel="noopener"
+           class="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group">
+            <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+                Chat Zalo
+            </span>
+            <span class="font-black text-[13px] italic tracking-tight">Zalo</span>
+        </a>
+    <?php endif; ?>
+
+    <!-- Messenger Button -->
+    <?php 
+    $float_fb = get_theme_mod('floating_messenger', 'https://m.me/yourusername'); 
+    if ( !empty($float_fb) ) : ?>
+        <a href="<?php echo esc_url($float_fb); ?>" target="_blank" rel="noopener"
+           class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-pink-500 hover:opacity-90 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group">
+            <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+                Messenger
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.913 1.448 5.514 3.738 7.197.195.143.308.368.303.606l-.082 2.213c-.015.426.435.733.82.55l2.478-1.18c.18-.086.389-.092.573-.017A9.873 9.873 0 0 0 12 20.486c5.523 0 10-4.146 10-9.243S17.523 2 12 2zm1.03 11.89-2.39-2.548-4.662 2.548 5.125-5.442 2.454 2.548 4.598-2.548-5.125 5.442z"/>
+            </svg>
+        </a>
+    <?php endif; ?>
+
+    <!-- Back to Top Button -->
+    <button x-show="showBackToTop" @click="scrollToTop"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 translate-y-2 scale-90"
+            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+            x-transition:leave-end="opacity-0 translate-y-2 scale-90"
+            class="w-12 h-12 rounded-full bg-white hover:bg-gray-100 text-secondary border border-gray-100 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group focus:outline-none"
+            style="display: none;">
+        <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+            Cuộn lên đầu
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:-translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>

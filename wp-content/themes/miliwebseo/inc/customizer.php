@@ -239,5 +239,47 @@ function miliwebseo_customize_register( $wp_customize ) {
 
     $wp_customize->add_setting( 'middle_banner_2_subtitle', [ 'default' => 'Cấu hình khủng', 'sanitize_callback' => 'sanitize_text_field' ] );
     $wp_customize->add_control( 'middle_banner_2_subtitle', [ 'label' => 'Banner 2 - Phụ đề', 'section' => 'miliwebseo_middle_banners' ] );
+
+    // ===== FLOATING CONTACT BUTTONS & BACK TO TOP =====
+    $wp_customize->add_section( 'miliwebseo_floating_buttons', [
+        'title'    => 'Nút liên hệ & Cuộn lên đầu',
+        'priority' => 45,
+    ]);
+
+    // Enable Hotline button
+    $wp_customize->add_setting( 'floating_phone', [
+        'default'           => '0393970681',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control( 'floating_phone', [
+        'label'       => 'Số Hotline gọi nhanh',
+        'section'     => 'miliwebseo_floating_buttons',
+        'type'        => 'text',
+        'description' => 'Nhập số điện thoại (để trống để ẩn nút gọi)',
+    ]);
+
+    // Zalo link
+    $wp_customize->add_setting( 'floating_zalo', [
+        'default'           => 'https://zalo.me/0393970681',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control( 'floating_zalo', [
+        'label'       => 'Link Zalo',
+        'section'     => 'miliwebseo_floating_buttons',
+        'type'        => 'url',
+        'description' => 'Nhập link chat Zalo (để trống để ẩn)',
+    ]);
+
+    // Messenger link
+    $wp_customize->add_setting( 'floating_messenger', [
+        'default'           => 'https://m.me/yourusername',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control( 'floating_messenger', [
+        'label'       => 'Link Facebook Messenger',
+        'section'     => 'miliwebseo_floating_buttons',
+        'type'        => 'url',
+        'description' => 'Nhập link chat Facebook Messenger (để trống để ẩn)',
+    ]);
 }
 add_action( 'customize_register', 'miliwebseo_customize_register' );
