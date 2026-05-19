@@ -86,8 +86,21 @@ function miliwebseo_render_html_block_shortcode( $atts ) {
         return '';
     }
 
-    // Return the content parsed through filters
-    return apply_filters( 'the_content', $post->post_content );
+    $content = $post->post_content;
+
+    // Temporarily disable wpautop to prevent layout breaking by wrapping divs in p tags
+    $has_wpautop = has_filter( 'the_content', 'wpautop' );
+    if ( $has_wpautop ) {
+        remove_filter( 'the_content', 'wpautop' );
+    }
+
+    $content = apply_filters( 'the_content', $content );
+
+    if ( $has_wpautop ) {
+        add_filter( 'the_content', 'wpautop' );
+    }
+
+    return $content;
 }
 add_shortcode( 'block', 'miliwebseo_render_html_block_shortcode' );
 add_shortcode( 'html_block', 'miliwebseo_render_html_block_shortcode' );
