@@ -117,18 +117,8 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
     </div>
 </div>
 
-<!-- Floating Contact Buttons & Back to Top -->
-<div x-data="{ 
-    showBackToTop: false,
-    init() {
-        window.addEventListener('scroll', () => {
-            this.showBackToTop = window.scrollY > 300;
-        });
-    },
-    scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}" class="fixed bottom-6 left-6 z-[150] flex flex-col gap-3">
+<!-- Floating Contact Buttons -->
+<div class="fixed bottom-28 left-6 z-[150] flex flex-col gap-3">
     
     <!-- Hotline Button (Phone) -->
     <?php 
@@ -173,7 +163,20 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
         </a>
     <?php endif; ?>
 
-    <!-- Back to Top Button -->
+</div>
+
+<!-- Back to Top Button -->
+<div x-data="{ 
+    showBackToTop: false,
+    init() {
+        window.addEventListener('scroll', () => {
+            this.showBackToTop = window.scrollY > 300;
+        });
+    },
+    scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}" class="fixed bottom-6 right-6 z-[150]">
     <button x-show="showBackToTop" @click="scrollToTop"
             x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 translate-y-2 scale-90"
@@ -183,14 +186,13 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
             x-transition:leave-end="opacity-0 translate-y-2 scale-90"
             class="w-12 h-12 rounded-full bg-white hover:bg-gray-100 text-secondary border border-gray-100 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group focus:outline-none"
             style="display: none;">
-        <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+        <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
             Cuộn lên đầu
         </span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:-translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
         </svg>
     </button>
-
 </div>
 
 <?php wp_footer(); ?>
