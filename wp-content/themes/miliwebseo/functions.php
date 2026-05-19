@@ -150,3 +150,12 @@ add_action('init', function() {
 
     update_option('miliwebseo_full_seeded_v3', true);
 });
+
+/**
+ * Allow SVG uploads
+ */
+function miliwebseo_mime_types($mimes) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter('upload_mimes', 'miliwebseo_mime_types');
