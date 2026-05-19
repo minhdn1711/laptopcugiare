@@ -9,7 +9,7 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php body_class( 'mb-8 bg-white p-6 rounded-lg shadow' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'mb-8 bg-white p-6 rounded-lg shadow' ); ?>>
 	<header class="entry-header mb-4">
 		<?php
 		if ( is_singular() ) :

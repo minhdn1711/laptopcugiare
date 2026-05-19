@@ -71,7 +71,7 @@
     </div>
 
     <!-- Main Header (Desktop) -->
-    <div class="hidden md:block bg-secondary text-white border-b border-white/5" style="padding: var(--header-padding) 0;">
+    <div class="hidden md:block bg-secondary text-white border-b border-white/5 transition-all duration-300" style="padding: var(--header-padding) 0;">
         <div class="container mx-auto px-4 flex items-center justify-between gap-8">
             <!-- Logo Area (Fixed Width from Customizer) -->
             <div class="flex-shrink-0 w-[var(--logo-width)] flex items-center">
@@ -204,10 +204,10 @@
                      x-transition:leave-start="opacity-100"
                      x-transition:leave-end="opacity-0"
                      class="absolute top-full left-0 z-[300] flex bg-white border border-gray-200 rounded-b-lg overflow-hidden transition-all duration-300"
-                     style="box-shadow: 0 8px 30px rgba(0,0,0,.12);">
+                     style="box-shadow: 0 8px 30px rgba(0,0,0,.12); background-color: #ffffff !important; opacity: 1 !important; z-index: 99999 !important;">
 
                     <!-- ── CỘT TRÁI: Danh mục cấp 1 ── -->
-                    <div class="bg-secondary flex-shrink-0 overflow-y-auto" style="width: 220px; max-height: 460px;">
+                    <div class="bg-secondary flex-shrink-0 overflow-y-auto" style="width: 220px; max-height: 460px; background-color: #1a1a1a !important; position: relative; z-index: 999999 !important;">
                         <?php foreach ($mega_tree as $idx => $node) :
                             $cat1     = $node['cat'];
                             $title    = get_term_meta($cat1->term_id, 'menu_title', true) ?: $cat1->name;
@@ -237,7 +237,7 @@
                     <?php foreach ($mega_tree as $idx => $node) : ?>
                     <div x-show="tab === <?php echo $idx; ?>"
                          class="bg-white overflow-y-auto p-6"
-                         style="width: 760px; max-height: 460px;">
+                         style="width: 760px; max-height: 460px; background-color: #ffffff !important; position: relative; z-index: 999999 !important;">
                         <?php if (empty($node['brands'])) : ?>
                         <p class="text-gray-400 text-sm italic py-8 text-center">Đang cập nhật danh mục...</p>
                         <?php else : ?>
@@ -536,6 +536,41 @@
             background: #f3f4f6 !important;
         }
     }
+
+    /* === Force Checkout Page Width Fix === */
+    .woocommerce-checkout {
+        overflow-x: hidden !important;
+    }
+    .woocommerce-checkout,
+    .woocommerce-checkout .container,
+    .woocommerce-checkout .bg-gray-50 {
+        width: 100% !important;
+    }
+
+    /* Hide default WordPress page header on checkout & cart */
+    .woocommerce-checkout .entry-header,
+    .woocommerce-checkout article > header.entry-header,
+    .woocommerce-cart .entry-header,
+    .woocommerce-cart article > header.entry-header {
+        display: none !important;
+    }
+
+    /* Remove padding from article on checkout & cart */
+    .woocommerce-checkout article,
+    .woocommerce-cart article {
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+
+    /* Pull breadcrumb outside article on checkout & cart */
+    .woocommerce-checkout .entry-content > .woocommerce > .bg-gray-50:first-child,
+    .woocommerce-cart .entry-content > .woocommerce > .bg-gray-50:first-child {
+        margin-top: -70px;
+        position: relative;
+        z-index: 20;
+    }
 </style>
 
 <script>
@@ -602,12 +637,10 @@
         const header = document.querySelector('header');
         if (window.scrollY > 100) {
             header.classList.add('shadow-xl');
-            header.style.paddingTop = '5px';
-            header.style.paddingBottom = '5px';
+            document.documentElement.style.setProperty('--header-padding', '5px');
         } else {
             header.classList.remove('shadow-xl');
-            header.style.paddingTop = '';
-            header.style.paddingBottom = '';
+            document.documentElement.style.setProperty('--header-padding', '10px');
         }
     });
 </script>

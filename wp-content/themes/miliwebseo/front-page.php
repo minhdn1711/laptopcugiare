@@ -1,7 +1,7 @@
 <?php get_header(); ?>
-<main class="container min-h-[70vh] pb-12">
+<main class="container mx-auto px-4 min-h-[70vh] pb-12 pt-6">
 <!-- Hero Slider - Full Width -->
-<div class="container relative mb-8">
+<div class="relative mb-8">
     <div id="hero-slider" class="splide bg-white overflow-hidden h-[450px]">
         <div class="splide__track h-full">
             <ul class="splide__list h-full">
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<main class="container mx-auto px-4 py-6">
+<div class="py-6">
     <!-- Hero Section -->
     <div class="mb-8">
         <!-- UX Builder Info Boxes -->
@@ -343,8 +343,7 @@
             endif; ?>
         </div>
     </section>
-</main>
-
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Hero Slider

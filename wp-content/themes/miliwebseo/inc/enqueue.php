@@ -11,8 +11,8 @@ add_action('wp_head', function() {
     echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
     echo '<link rel="dns-prefetch" href="https://fonts.googleapis.com">' . "\n";
     
-    // Preload critical font (Outfit)
-    echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;900&display=swap" as="style">' . "\n";
+    // Preload critical font (Inter)
+    echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" as="style">' . "\n";
     
     // Preload Alpine.js (critical for interactivity)
     echo '<link rel="preload" href="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js" as="script">' . "\n";
