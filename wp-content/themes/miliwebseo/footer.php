@@ -128,7 +128,7 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
     scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-}" class="fixed bottom-6 right-6 z-[150] flex flex-col gap-3">
+}" class="fixed bottom-6 left-6 z-[150] flex flex-col gap-3">
     
     <!-- Hotline Button (Phone) -->
     <?php 
@@ -136,7 +136,7 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
     if ( !empty($float_phone) ) : ?>
         <a href="tel:<?php echo esc_attr(preg_replace('/\s+/', '', $float_phone)); ?>" 
            class="w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group animate-pulse">
-            <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+            <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
                 Hotline: <?php echo esc_html($float_phone); ?>
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -151,7 +151,7 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
     if ( !empty($float_zalo) ) : ?>
         <a href="<?php echo esc_url($float_zalo); ?>" target="_blank" rel="noopener"
            class="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group">
-            <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+            <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
                 Chat Zalo
             </span>
             <span class="font-black text-[13px] italic tracking-tight">Zalo</span>
@@ -164,7 +164,7 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
     if ( !empty($float_fb) ) : ?>
         <a href="<?php echo esc_url($float_fb); ?>" target="_blank" rel="noopener"
            class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-pink-500 hover:opacity-90 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group">
-            <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+            <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
                 Messenger
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
@@ -183,7 +183,7 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
             x-transition:leave-end="opacity-0 translate-y-2 scale-90"
             class="w-12 h-12 rounded-full bg-white hover:bg-gray-100 text-secondary border border-gray-100 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 relative group focus:outline-none"
             style="display: none;">
-        <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
+        <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
             Cuộn lên đầu
         </span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:-translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">

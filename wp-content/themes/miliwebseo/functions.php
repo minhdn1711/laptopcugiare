@@ -5,38 +5,39 @@
  * @package Miliwebseo
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
 }
 
 // Define theme constants
-define( 'MILIWEBSEO_VERSION', '1.0.0' );
-define( 'MILIWEBSEO_DIR', get_template_directory() );
-define( 'MILIWEBSEO_URI', get_template_directory_uri() );
-define( 'MILIWEBSEO_DEV', false );
+define('MILIWEBSEO_VERSION', '1.0.0');
+define('MILIWEBSEO_DIR', get_template_directory());
+define('MILIWEBSEO_URI', get_template_directory_uri());
+define('MILIWEBSEO_DEV', false);
 
 /**
  * Setup Theme
  */
-function miliwebseo_setup() {
-	add_theme_support( 'title-tag' );
-	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'woocommerce' );
-	add_theme_support( 'wc-product-gallery-zoom' );
-	add_theme_support( 'wc-product-gallery-lightbox' );
-	add_theme_support( 'wc-product-gallery-slider' );
-	add_theme_support( 'custom-logo' );
-	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
+function miliwebseo_setup()
+{
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_theme_support('woocommerce');
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
+    add_theme_support('custom-logo');
+    add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script'));
 
-	register_nav_menus( array(
-		'primary'   => __( 'Primary Menu', 'miliwebseo' ),
-		'footer'    => __( 'Footer Menu', 'miliwebseo' ),
-		'mobile'    => __( 'Mobile Menu', 'miliwebseo' ),
-		'mega_menu' => __( 'Mega Menu', 'miliwebseo' ),
-		'vertical'  => __( 'Vertical Menu', 'miliwebseo' ),
-	) );
+    register_nav_menus(array(
+        'primary' => __('Primary Menu', 'miliwebseo'),
+        'footer' => __('Footer Menu', 'miliwebseo'),
+        'mobile' => __('Mobile Menu', 'miliwebseo'),
+        'mega_menu' => __('Mega Menu', 'miliwebseo'),
+        'vertical' => __('Vertical Menu', 'miliwebseo'),
+    ));
 }
-add_action( 'after_setup_theme', 'miliwebseo_setup' );
+add_action('after_setup_theme', 'miliwebseo_setup');
 
 /**
  * Include Core Logic
@@ -61,7 +62,7 @@ require MILIWEBSEO_DIR . '/inc/cache-helper.php';
 /**
  * Enable Guest Checkout
  */
-add_action('init', function() {
+add_action('init', function () {
     update_option('woocommerce_enable_guest_checkout', 'yes');
     update_option('woocommerce_enable_checkout_login_reminder', 'no');
     update_option('woocommerce_require_login_to_checkout', 'no');
@@ -72,27 +73,64 @@ add_action('init', function() {
 /**
  * Temporary Seeder for Product Categories
  */
-add_action('init', function() {
-    if (get_option('miliwebseo_full_seeded_v3')) return;
+add_action('init', function () {
+    if (get_option('miliwebseo_full_seeded_v3'))
+        return;
 
     $categories = [
         'Laptop' => [
-            'Laptop văn phòng', 'Laptop gaming', 'Laptop đồ họa', 'Laptop mỏng nhẹ', 'Laptop AI', 'Laptop sinh viên', 'Laptop doanh nhân'
+            'Laptop văn phòng',
+            'Laptop gaming',
+            'Laptop đồ họa',
+            'Laptop mỏng nhẹ',
+            'Laptop AI',
+            'Laptop sinh viên',
+            'Laptop doanh nhân'
         ],
         'Macbook' => [
-            'Macbook Air', 'Macbook Pro', 'Phụ kiện Macbook'
+            'Macbook Air',
+            'Macbook Pro',
+            'Phụ kiện Macbook'
         ],
         'PC' => [
-            'PC gaming', 'PC văn phòng', 'PC đồ họa', 'PC AI', 'Build PC'
+            'PC gaming',
+            'PC văn phòng',
+            'PC đồ họa',
+            'PC AI',
+            'Build PC'
         ],
         'Linh kiện' => [
-            'CPU', 'VGA', 'RAM', 'SSD', 'HDD', 'Mainboard', 'PSU', 'Case', 'Tản nhiệt', 'Card mạng/Wifi'
+            'CPU',
+            'VGA',
+            'RAM',
+            'SSD',
+            'HDD',
+            'Mainboard',
+            'PSU',
+            'Case',
+            'Tản nhiệt',
+            'Card mạng/Wifi'
         ],
         'Màn hình' => [
-            'Màn hình gaming', 'Màn hình văn phòng', 'Màn hình đồ họa', 'Màn hình cong', 'Màn hình 2K', 'Màn hình 4K', 'Màn hình cũ'
+            'Màn hình gaming',
+            'Màn hình văn phòng',
+            'Màn hình đồ họa',
+            'Màn hình cong',
+            'Màn hình 2K',
+            'Màn hình 4K',
+            'Màn hình cũ'
         ],
         'Phụ kiện' => [
-            'Chuột', 'Bàn phím', 'Tai nghe', 'Webcam', 'Loa', 'Balo laptop', 'Hub chuyển đổi', 'Đế tản nhiệt', 'Ghế gaming', 'Phần mềm bản quyền'
+            'Chuột',
+            'Bàn phím',
+            'Tai nghe',
+            'Webcam',
+            'Loa',
+            'Balo laptop',
+            'Hub chuyển đổi',
+            'Đế tản nhiệt',
+            'Ghế gaming',
+            'Phần mềm bản quyền'
         ],
         'Máy cũ' => [],
         'Khuyến mãi' => []
@@ -140,7 +178,7 @@ add_action('init', function() {
                 // Insert Series
                 $series = wp_insert_term($series_name, 'product_series');
                 $series_id = is_wp_error($series) ? ($series->get_error_code() === 'term_exists' ? $series->get_error_data() : 0) : $series['term_id'];
-                
+
                 if ($series_id) {
                     // Link Series to Brand using term meta
                     update_term_meta($series_id, 'brand_id', $brand_id);
@@ -155,8 +193,35 @@ add_action('init', function() {
 /**
  * Allow SVG uploads
  */
-function miliwebseo_mime_types($mimes) {
+function miliwebseo_mime_types($mimes)
+{
     $mimes['svg'] = 'image/svg+xml';
     return $mimes;
 }
 add_filter('upload_mimes', 'miliwebseo_mime_types');
+
+/**
+ * Integrate Tawk.to Chat
+ */
+function custom_tawkto_chat()
+{
+    ?>
+
+    <!-- Tawk.to -->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6a0c3f231fe6691c3c16d0fb/1jovtd9gn';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+    <?php
+}
+add_action('wp_footer', 'custom_tawkto_chat');
