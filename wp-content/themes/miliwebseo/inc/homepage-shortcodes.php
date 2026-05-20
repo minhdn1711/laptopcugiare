@@ -23,10 +23,29 @@ add_shortcode('miliwebseo_hero_slider', function() {
                             $loading_attr = ($banner_idx === 0) ? 'eager' : 'lazy';
                             $priority_attr = ($banner_idx === 0) ? 'fetchpriority="high"' : '';
                             ?>
-                            <li class="splide__slide h-full">
+                            <li class="splide__slide h-full relative">
                                 <a href="<?php echo esc_url($banner['link']); ?>" class="block h-full">
                                     <img src="<?php echo esc_url($banner['image']); ?>" class="w-full h-full object-cover" width="1230" height="450" loading="<?php echo $loading_attr; ?>" <?php echo $priority_attr; ?>>
                                 </a>
+
+                                <?php if (!empty($banner['title']) || !empty($banner['subtitle'])): ?>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center p-12">
+                                        <div class="max-w-md text-white space-y-4">
+                                            <?php if (!empty($banner['title'])): ?>
+                                                <h2 class="text-4xl md:text-5xl font-black leading-tight italic"><?php echo esc_html($banner['title']); ?></h2>
+                                            <?php endif; ?>
+                                            <?php if (!empty($banner['subtitle'])): ?>
+                                                <p class="text-lg opacity-90 font-medium"><?php echo esc_html($banner['subtitle']); ?></p>
+                                            <?php endif; ?>
+                                            <?php if (!empty($banner['btn_text'])): ?>
+                                                <a href="<?php echo esc_url($banner['link']); ?>" 
+                                                   class="inline-block bg-white text-black px-8 py-3 rounded-full font-black hover:bg-primary transition-all">
+                                                    <?php echo esc_html($banner['btn_text']); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </li>
                             <?php
                             $banner_idx++;

@@ -46,27 +46,60 @@ add_action( 'customize_register', function( $wp_customize ) {
         'priority' => 20,
     ) );
 
-    for ( $i = 1; $i <= 3; $i++ ) {
+    for ( $i = 1; $i <= 5; $i++ ) {
         // Image
-        $wp_customize->add_setting( "hero_banner_{$i}", array(
+        $wp_customize->add_setting( "hero_banner_{$i}", [
             'default'   => '',
             'transport' => 'refresh',
-        ) );
-        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "hero_banner_{$i}", array(
-            'label'    => __( "Banner {$i}", 'miliwebseo' ),
+        ]);
+        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "hero_banner_{$i}", [
+            'label'    => __( "Banner {$i} - Ảnh", 'miliwebseo' ),
             'section'  => 'miliwebseo_hero_banners',
-        ) ) );
+        ]));
+
+        // Title
+        $wp_customize->add_setting( "hero_banner_title_{$i}", [
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control( "hero_banner_title_{$i}", [
+            'label'   => __( "Banner {$i} - Tiêu đề", 'miliwebseo' ),
+            'section' => 'miliwebseo_hero_banners',
+            'type'    => 'text',
+        ]);
+
+        // Subtitle
+        $wp_customize->add_setting( "hero_banner_subtitle_{$i}", [
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control( "hero_banner_subtitle_{$i}", [
+            'label'   => __( "Banner {$i} - Phụ đề", 'miliwebseo' ),
+            'section' => 'miliwebseo_hero_banners',
+            'type'    => 'text',
+        ]);
+
+        // Button text
+        $wp_customize->add_setting( "hero_banner_btn_text_{$i}", [
+            'default' => 'MUA NGAY',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control( "hero_banner_btn_text_{$i}", [
+            'label'   => __( "Banner {$i} - Text nút", 'miliwebseo' ),
+            'section' => 'miliwebseo_hero_banners',
+            'type'    => 'text',
+        ]);
 
         // Link
-        $wp_customize->add_setting( "hero_banner_link_{$i}", array(
+        $wp_customize->add_setting( "hero_banner_link_{$i}", [
             'default'   => '#',
             'transport' => 'refresh',
-        ) );
-        $wp_customize->add_control( "hero_banner_link_{$i}", array(
-            'label'    => __( "Link Banner {$i}", 'miliwebseo' ),
+        ]);
+        $wp_customize->add_control( "hero_banner_link_{$i}", [
+            'label'    => __( "Banner {$i} - Link", 'miliwebseo' ),
             'section'  => 'miliwebseo_hero_banners',
-            'type'     => 'text',
-        ) );
+            'type'     => 'url',
+        ]);
     }
 } );
 
@@ -81,14 +114,17 @@ function miliwebseo_get_flash_sale_time() {
  * Get Hero Banners
  */
 function miliwebseo_get_hero_banners() {
-    $banners = array();
-    for ( $i = 1; $i <= 3; $i++ ) {
+    $banners = [];
+    for ( $i = 1; $i <= 5; $i++ ) {
         $img = get_theme_mod( "hero_banner_{$i}" );
         if ( $img ) {
-            $banners[] = array(
-                'image' => $img,
-                'link'  => get_theme_mod( "hero_banner_link_{$i}", '#' )
-            );
+            $banners[] = [
+                'image'     => $img,
+                'title'     => get_theme_mod( "hero_banner_title_{$i}", '' ),
+                'subtitle'  => get_theme_mod( "hero_banner_subtitle_{$i}", '' ),
+                'btn_text'  => get_theme_mod( "hero_banner_btn_text_{$i}", 'MUA NGAY' ),
+                'link'      => get_theme_mod( "hero_banner_link_{$i}", '#' ),
+            ];
         }
     }
     return $banners;

@@ -281,5 +281,76 @@ function miliwebseo_customize_register( $wp_customize ) {
         'type'        => 'url',
         'description' => 'Nhập link chat Facebook Messenger (để trống để ẩn)',
     ]);
+
+    // Custom icons for floating buttons
+    $wp_customize->add_setting( 'floating_phone_icon', [ 'sanitize_callback' => 'absint' ] );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'floating_phone_icon', [
+        'label'       => 'Icon Hotline (ảnh)',
+        'section'     => 'miliwebseo_floating_buttons',
+        'description' => 'Upload icon thay thế cho nút Hotline (khuyến nghị 48x48px)',
+    ]));
+
+    $wp_customize->add_setting( 'floating_zalo_icon', [ 'sanitize_callback' => 'absint' ] );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'floating_zalo_icon', [
+        'label'       => 'Icon Zalo (ảnh)',
+        'section'     => 'miliwebseo_floating_buttons',
+    ]));
+
+    $wp_customize->add_setting( 'floating_messenger_icon', [ 'sanitize_callback' => 'absint' ] );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'floating_messenger_icon', [
+        'label'       => 'Icon Messenger (ảnh)',
+        'section'     => 'miliwebseo_floating_buttons',
+    ]));
+
+    // ===== POPUP CONFIGURATION =====
+    $wp_customize->add_section( 'miliwebseo_popup_settings', [
+        'title'    => 'Cấu hình Popup',
+        'priority' => 50,
+    ]);
+
+    // Enable/Disable Popup
+    $wp_customize->add_setting( 'popup_enable', [
+        'default'           => false,
+        'sanitize_callback' => 'miliwebseo_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control( 'popup_enable', [
+        'label'    => 'Bật hiển thị Popup',
+        'section'  => 'miliwebseo_popup_settings',
+        'type'     => 'checkbox',
+    ]);
+
+    // Popup Image
+    $wp_customize->add_setting( 'popup_image', [
+        'default'   => '',
+        'transport' => 'refresh',
+    ]);
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'popup_image', [
+        'label'       => 'Ảnh Popup',
+        'section'     => 'miliwebseo_popup_settings',
+        'description' => 'Chọn hoặc tải lên ảnh cho popup.',
+    ]));
+
+    // Popup Link
+    $wp_customize->add_setting( 'popup_link', [
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control( 'popup_link', [
+        'label'       => 'Link liên kết của Popup',
+        'section'     => 'miliwebseo_popup_settings',
+        'type'        => 'url',
+        'description' => 'Đường dẫn khi click vào ảnh popup (ví dụ: link sản phẩm, khuyến mãi). Để trống nếu không cần link.',
+    ]);
 }
 add_action( 'customize_register', 'miliwebseo_customize_register' );
+
+/**
+ * Sanitize checkbox values.
+ */
+if ( ! function_exists( 'miliwebseo_sanitize_checkbox' ) ) {
+    function miliwebseo_sanitize_checkbox( $checked ) {
+        return ( ( isset( $checked ) && true == $checked ) ? true : false );
+    }
+}

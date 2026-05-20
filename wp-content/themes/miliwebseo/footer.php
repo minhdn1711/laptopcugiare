@@ -129,9 +129,15 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
             <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
                 Hotline: <?php echo esc_html($float_phone); ?>
             </span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
+            <?php 
+            $phone_icon = get_theme_mod('floating_phone_icon');
+            if ($phone_icon) {
+                echo wp_get_attachment_image($phone_icon, [32, 32], false, ['class' => 'w-6 h-6 object-contain']);
+            } else { ?>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+            <?php } ?>
         </a>
     <?php endif; ?>
 
@@ -144,7 +150,13 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
             <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
                 Chat Zalo
             </span>
-            <span class="font-black text-[13px] italic tracking-tight">Zalo</span>
+            <?php 
+            $zalo_icon = get_theme_mod('floating_zalo_icon');
+            if ($zalo_icon) {
+                echo wp_get_attachment_image($zalo_icon, [32, 32], false, ['class' => 'w-6 h-6 object-contain']);
+            } else { ?>
+                <span class="font-black text-[13px] italic tracking-tight">Zalo</span>
+            <?php } ?>
         </a>
     <?php endif; ?>
 
@@ -157,9 +169,15 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
             <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold py-1 px-3.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap">
                 Messenger
             </span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.913 1.448 5.514 3.738 7.197.195.143.308.368.303.606l-.082 2.213c-.015.426.435.733.82.55l2.478-1.18c.18-.086.389-.092.573-.017A9.873 9.873 0 0 0 12 20.486c5.523 0 10-4.146 10-9.243S17.523 2 12 2zm1.03 11.89-2.39-2.548-4.662 2.548 5.125-5.442 2.454 2.548 4.598-2.548-5.125 5.442z"/>
-            </svg>
+            <?php 
+            $messenger_icon = get_theme_mod('floating_messenger_icon');
+            if ($messenger_icon) {
+                echo wp_get_attachment_image($messenger_icon, [32, 32], false, ['class' => 'w-6 h-6 object-contain']);
+            } else { ?>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.913 1.448 5.514 3.738 7.197.195.143.308.368.303.606l-.082 2.213c-.015.426.435.733.82.55l2.478-1.18c.18-.086.389-.092.573-.017A9.873 9.873 0 0 0 12 20.486c5.523 0 10-4.146 10-9.243S17.523 2 12 2zm1.03 11.89-2.39-2.548-4.662 2.548 5.125-5.442 2.454 2.548 4.598-2.548-5.125 5.442z"/>
+                </svg>
+            <?php } ?>
         </a>
     <?php endif; ?>
 
@@ -194,6 +212,76 @@ class="fixed top-24 right-4 z-[200] max-w-sm w-full">
         </svg>
     </button>
 </div>
+
+<?php
+// Home page popup implementation
+$popup_enable = get_theme_mod('popup_enable', false);
+$popup_image = get_theme_mod('popup_image');
+$popup_link = get_theme_mod('popup_link');
+
+if ( (is_front_page() || is_home()) && $popup_enable && !empty($popup_image) ) :
+?>
+<!-- Web Visit Popup Modal -->
+<div x-data="{ 
+    showPopup: false,
+    init() {
+        // Show after a short delay (1s) to make it feel premium and natural,
+        // and only if they haven't seen/dismissed it in the current session
+        if (!sessionStorage.getItem('miliwebseo_popup_shown')) {
+            setTimeout(() => {
+                this.showPopup = true;
+            }, 1000);
+        }
+    },
+    closePopup() {
+        this.showPopup = false;
+        sessionStorage.setItem('miliwebseo_popup_shown', 'true');
+    }
+}" 
+x-show="showPopup"
+x-cloak
+class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+x-transition:enter="transition ease-out duration-300"
+x-transition:enter-start="opacity-0"
+x-transition:enter-end="opacity-100"
+x-transition:leave="transition ease-in duration-200"
+x-transition:leave-start="opacity-100"
+x-transition:leave-end="opacity-0"
+@keydown.escape.window="closePopup()"
+style="display: none;">
+
+    <!-- Modal Content Panel -->
+    <div @click.away="closePopup()" 
+         class="relative max-w-lg w-full bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all border border-white/10"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 scale-90 translate-y-4"
+         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+         x-transition:leave-end="opacity-0 scale-90 translate-y-4">
+        
+        <!-- Close Button (Premium Floating Circle) -->
+        <button @click="closePopup()" 
+                class="absolute top-4 right-4 z-50 w-9 h-9 flex items-center justify-center bg-black/60 hover:bg-black text-white hover:text-primary rounded-full transition-all duration-300 shadow-md border border-white/20 focus:outline-none"
+                aria-label="Đóng popup">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Popup Image & Link Body -->
+        <div class="relative overflow-hidden">
+            <?php if (!empty($popup_link)) : ?>
+                <a href="<?php echo esc_url($popup_link); ?>" class="block group" @click="closePopup()">
+                    <img src="<?php echo esc_url($popup_image); ?>" alt="Popup khuyến mãi" class="w-full h-auto object-cover max-h-[75vh] group-hover:scale-[1.02] transition-transform duration-500">
+                </a>
+            <?php else : ?>
+                <img src="<?php echo esc_url($popup_image); ?>" alt="Popup khuyến mãi" class="w-full h-auto object-cover max-h-[75vh]">
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 
 <?php wp_footer(); ?>
 </body>
