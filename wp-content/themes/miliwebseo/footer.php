@@ -251,8 +251,8 @@ x-transition:leave-end="opacity-0"
 style="display: none;">
 
     <!-- Modal Content Panel -->
-    <div @click.away="closePopup()" 
-         class="relative max-w-lg w-full bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all border border-white/10"
+<div @click.away="closePopup()" 
+          class="relative max-w-lg w-full overflow-hidden transform transition-all"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 scale-90 translate-y-4"
          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -262,7 +262,7 @@ style="display: none;">
         
         <!-- Close Button (Premium Floating Circle) -->
         <button @click="closePopup()" 
-                class="absolute top-4 right-4 z-50 w-9 h-9 flex items-center justify-center bg-black/60 hover:bg-black text-white hover:text-primary rounded-full transition-all duration-300 shadow-md border border-white/20 focus:outline-none"
+                class="absolute top-4 right-4 z-50 w-9 h-9 flex items-center justify-center text-white hover:text-primary transition-all duration-300 focus:outline-none"
                 aria-label="Đóng popup">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
