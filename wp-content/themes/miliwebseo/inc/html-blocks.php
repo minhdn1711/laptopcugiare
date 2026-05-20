@@ -110,7 +110,7 @@ add_shortcode( 'html_block', 'miliwebseo_render_html_block_shortcode' );
  */
 add_action( 'init', function() {
     // Only run once
-    if ( get_option( 'miliwebseo_html_seeded_v1' ) ) {
+    if ( get_option( 'miliwebseo_html_seeded_v3' ) ) {
         return;
     }
 
@@ -422,5 +422,34 @@ add_action( 'init', function() {
         ] );
     }
 
-    update_option( 'miliwebseo_html_seeded_v1', true );
+    // 5. Update the "Trang chủ" page to contain ALL the homepage blocks and shortcodes
+    $front_page_content = '[miliwebseo_hero_slider]
+[block id="homepage-info-boxes"]
+[block id="homepage-middle-banners"]
+[miliwebseo_flash_sale]
+[miliwebseo_usage_needs]
+[miliwebseo_news]';
+
+    $front_page_id = get_option( 'page_on_front' );
+    if ( $front_page_id ) {
+        wp_update_post( [
+            'ID'           => $front_page_id,
+            'post_content' => $front_page_content
+        ] );
+    } else {
+        // Fallback: try to find a page named "trang-chu"
+        $home_pages = get_posts( [
+            'post_type'      => 'page',
+            'name'           => 'trang-chu',
+            'posts_per_page' => 1
+        ] );
+        if ( ! empty( $home_pages ) ) {
+            wp_update_post( [
+                'ID'           => $home_pages[0]->ID,
+                'post_content' => $front_page_content
+            ] );
+        }
+    }
+
+    update_option( 'miliwebseo_html_seeded_v3', true );
 } );
