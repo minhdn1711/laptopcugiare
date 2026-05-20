@@ -49,6 +49,9 @@
     <!-- PERFORMANCE: Reduce inline CSS, move non-critical to main.css -->
     <!-- Pagination, forms, checkout styles moved to dist/assets/style.css -->
     
+    <?php if (is_front_page()): ?>
+    <meta name="description" content="Laptop cũ giá rẻ uy tín - Mua laptop cũ, laptop gaming, workstation chất lượng cao tại Laptop Cũ Giá Rẻ. Giao hàng toàn quốc, bảo hành 12 tháng.">
+    <?php endif; ?>
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'bg-gray-100' ); ?> x-data="{ mobileMenuOpen: false }">
