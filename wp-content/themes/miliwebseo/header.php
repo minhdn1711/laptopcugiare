@@ -57,7 +57,7 @@
 <body <?php body_class( 'bg-gray-100' ); ?> x-data="{ mobileMenuOpen: false }">
     <?php wp_body_open(); ?>
 
-<header class="sticky top-0 z-50 bg-white shadow-sm">
+<header class="sticky top-0 z-[9999] bg-white shadow-sm">
     <!-- Top Bar -->
     <div class="bg-gray-900 text-white text-[11px] py-1.5 hidden md:block">
         <div class="container mx-auto px-4 flex justify-between items-center opacity-80">
