@@ -46,6 +46,58 @@ function miliwebseo_customize_register( $wp_customize ) {
         'description' => 'Upload phiên bản logo màu trắng hoặc sáng màu.',
     ]));
 
+    // ===== THANH CHI NHÁNH CỬA HÀNG =====
+    $wp_customize->add_section( 'miliwebseo_store_branches', [
+        'title'    => 'Thanh Chi Nhánh Cửa Hàng',
+        'priority' => 12,
+    ]);
+
+    $wp_customize->add_setting( 'store_branches_enable', [
+        'default'           => true,
+        'sanitize_callback' => 'miliwebseo_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control( 'store_branches_enable', [
+        'label'   => 'Hiển thị thanh chi nhánh',
+        'section' => 'miliwebseo_store_branches',
+        'type'    => 'checkbox',
+    ]);
+
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $wp_customize->add_setting( "store_branch_{$i}_address", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control( "store_branch_{$i}_address", [
+            'label'       => "Chi nhánh {$i} - Địa chỉ",
+            'section'     => 'miliwebseo_store_branches',
+            'type'        => 'text',
+            'description' => 'Ví dụ: 125 Trần Đại Nghĩa',
+        ]);
+
+        $wp_customize->add_setting( "store_branch_{$i}_phone", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control( "store_branch_{$i}_phone", [
+            'label'       => "Chi nhánh {$i} - Số điện thoại",
+            'section'     => 'miliwebseo_store_branches',
+            'type'        => 'text',
+            'description' => 'Ví dụ: 0904.583.588',
+        ]);
+
+        $wp_customize->add_setting( "store_branch_{$i}_link", [
+            'default'           => '#',
+            'sanitize_callback' => 'esc_url_raw',
+        ]);
+        $wp_customize->add_control( "store_branch_{$i}_link", [
+            'label'       => "Chi nhánh {$i} - Link Zalo",
+            'section'     => 'miliwebseo_store_branches',
+            'type'        => 'url',
+            'description' => 'Link Zalo chat: https://zalo.me/09xxxxxxxx',
+        ]);
+    }
+
     // ===== HEADER TOP BAR =====
     $wp_customize->add_section( 'miliwebseo_header_top', [
         'title'    => 'Header Top Bar',

@@ -206,6 +206,9 @@ add_filter('upload_mimes', 'miliwebseo_mime_types');
  */
 function custom_tawkto_chat()
 {
+    if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false) {
+        return; // Tắt Tawk.to trên localhost để Lighthouse chạy mượt
+    }
     ?>
 
     <!-- Tawk.to -->

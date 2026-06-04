@@ -314,6 +314,56 @@
         </div>
     </div>
 
+    <!-- Store Branches Bar (Desktop Only) -->
+    <?php
+    $branches_enable = get_theme_mod( 'store_branches_enable', true );
+    if ( $branches_enable ) :
+        $branches = [];
+        for ( $i = 1; $i <= 4; $i++ ) {
+            $addr  = get_theme_mod( "store_branch_{$i}_address", '' );
+            $phone = get_theme_mod( "store_branch_{$i}_phone", '' );
+            if ( $addr && $phone ) {
+                $branches[] = [
+                    'address' => $addr,
+                    'phone'   => $phone,
+                    'link'    => get_theme_mod( "store_branch_{$i}_link", '#' ),
+                ];
+            }
+        }
+        // Fallback demo nếu chưa cấu hình
+        if ( empty( $branches ) ) {
+            $branches = [
+                [ 'address' => '125 Trần Đại Nghĩa', 'phone' => '0904.583.588', 'link' => 'https://zalo.me/0904583588' ],
+                [ 'address' => '87 Nguyễn Văn Lộc',  'phone' => '0904.666.488', 'link' => 'https://zalo.me/0904666488' ],
+                [ 'address' => '34 Hồ Tùng Mậu',     'phone' => '0911.042.665', 'link' => 'https://zalo.me/0911042665' ],
+                [ 'address' => '63 Thái Hà',          'phone' => '0906.299.288', 'link' => 'https://zalo.me/0906299288' ],
+            ];
+        }
+    ?>
+    <div class="hidden md:block bg-amber-50 border-b border-amber-100">
+        <div class="container mx-auto px-4 py-1.5">
+            <div class="flex items-center justify-center gap-2 flex-wrap">
+                <?php foreach ( $branches as $idx => $branch ) : ?>
+                    <?php if ( $idx > 0 ) : ?>
+                        <span class="text-amber-200 select-none">|</span>
+                    <?php endif; ?>
+                    <a href="<?php echo esc_url( $branch['link'] ); ?>"
+                       target="_blank" rel="noopener noreferrer"
+                       class="flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-amber-200 hover:border-blue-400 hover:shadow-sm transition-all group">
+                        <!-- Zalo icon -->
+                        <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+                            <rect width="48" height="48" rx="9" fill="#0068FF"/>
+                            <text x="24" y="31" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="Arial,sans-serif">Za</text>
+                        </svg>
+                        <span class="text-xs font-semibold text-gray-600 group-hover:text-blue-600 transition-colors whitespace-nowrap"><?php echo esc_html( $branch['address'] ); ?></span>
+                        <span class="text-xs font-black text-blue-700 whitespace-nowrap"><?php echo esc_html( $branch['phone'] ); ?></span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <!-- Mobile Header Redesign -->
     <div class="md:hidden bg-secondary text-white">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
@@ -502,10 +552,10 @@
 <style>
     /* CSS override for mobile mega content grid */
     .mobile-mega-content .grid { display: block !important; padding: 0 !important; }
-    .mobile-mega-content .grid-cols-5 { grid-template-cols: 1fr !important; }
-    .mobile-mega-content .col-span-4 { grid-template-cols: 1fr !important; display: block !important; }
+    .mobile-mega-content .grid-cols-5 { grid-template-columns: 1fr !important; }
+    .mobile-mega-content .col-span-4 { grid-template-columns: 1fr !important; display: block !important; }
     .mobile-mega-content .col-span-1 { display: none !important; }
-    .mobile-mega-content .grid-cols-4 { grid-template-cols: 1fr !important; display: block !important; }
+    .mobile-mega-content .grid-cols-4 { grid-template-columns: 1fr !important; display: block !important; }
     .mobile-mega-content .space-y-4 { margin-bottom: 1rem; padding: 0.5rem; }
     .mobile-mega-content a { font-size: 13px !important; color: #1f2937 !important; }
     .mobile-mega-content ul { margin-top: 0.5rem !important; padding-left: 1rem !important; border-left: 1px solid #e5e7eb; }
